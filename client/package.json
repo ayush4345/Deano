@@ -9,6 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^1.1.1",
+    "classnames": "^2.3.2",
+    "dotenv": "^16.3.1",
+    "viem": "^1.16.2",
+    "wagmi": "^1.4.3",
+    "web3.storage": "^4.5.5"
+  },
+  "devDependencies": {
     "autoprefixer": "^10.4.16",
     "next": "^13.5.4",
     "postcss": "^8.4.31",
