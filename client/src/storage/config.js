@@ -3,8 +3,8 @@ import { Web3Storage } from 'web3.storage'
 function getAccessToken() {
     // If you're just testing, you can paste in a token
     // and uncomment the following line:
-    // console.log(process.env.NEXT_WEB3STORAGE_TOKEN)
-    return process.env.NEXT_WEB3STORAGE_TOKEN
+    // console.log(process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN)
+    return process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN
 
     // In a real app, it's better to read an access token from an
     // environement variable or other configuration that's kept outside of
