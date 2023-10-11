@@ -49,7 +49,7 @@ export default function Navbar() {
                                     <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div>
                                     <div className="h-6 w-2 bg-primary"></div>
                                 </div>
-                                <span className="text-2xl font-bold text-gray-900 dark:text-white">IPOwiseAI</span>
+                                <span className="text-2xl font-bold text-gray-900 dark:text-white">Deano</span>
                             </Link>
 
                             <div className="relative flex items-center lg:hidden max-h-10">
