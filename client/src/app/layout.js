@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { Providers } from './providers'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,6 +15,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
+          <main className="flex flex-col items-center justify-between p-24">
+            <ConnectButton />
+          </main>
           {children}
         </Providers>
       </body>
