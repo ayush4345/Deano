@@ -5,7 +5,7 @@ import CustomFileSelector from "./CustomFileSelector";
 import ImagePreview from "./ImagePreview";
 import classNames from "classnames";
 
-const FileUploadForm = () => {
+const FileUploadForm = ({setCid, setUploadedFiles}) => {
     const [images, setImages] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -37,7 +37,12 @@ const FileUploadForm = () => {
             // handle the error
             if (!res.ok) throw new Error(await res.text());
             setUploading(false);
-
+            setImages([]);
+            console.log("Uploaded Successfully");
+            setUploadedFiles(true);
+            const json = await res.json();
+            console.log(json);
+            setCid(json.cid);
         }
         catch (e) {
             // Handle errors here
@@ -49,20 +54,21 @@ const FileUploadForm = () => {
 
 
     return (
-        <form className="w-full" onSubmit={handleSubmit}>
+        <form className="w-full" >
             <div className="flex justify-between">
                 <CustomFileSelector
                     accept="image/png, image/jpeg"
                     onChange={handleFileSelected}
                 />
                 <button
-                    type="submit"
+                    type="button"
                     className={classNames({
                         "bg-violet-50 text-violet-500 hover:bg-violet-100 px-4 py-2 rounded-md":
                             true,
                         "disabled pointer-events-none opacity-40": uploading,
                     })}
                     disabled={uploading}
+                    onClick={handleSubmit}
                 >
                     Upload
                 </button>
