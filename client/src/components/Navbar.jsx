@@ -72,9 +72,14 @@ export default function Navbar() {
                                             <span>Features</span>
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link href="/dashboard" className="block md:px-4 transition hover:text-primary">
                                             <span>Dashboard</span>
+                                        </Link>
+                                    </li> */}
+                                    <li>
+                                        <Link href="/vendor" className="block md:px-4 transition hover:text-primary">
+                                            <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
                                     {/* <li>
