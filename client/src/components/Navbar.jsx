@@ -1,6 +1,6 @@
 import Link from "next/link"
 // import { useSelector, useDispatch } from 'react-redux'
-// import { useEffect } from 'react'
+import { useEffect } from 'react'
 // import { setUserData } from '/src/utils/userSlice'
 // import { supabase } from '/src/utils/supabase'
 import {
@@ -11,31 +11,24 @@ import {
 import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function Navbar() {
 
-    // const dispatch = useDispatch()
-    // const router = useRouter()
-
-    // const getUserData = async () => {
-    //     const { data: { user } } = await supabase.auth.getUser()
-    //     dispatch(setUserData(user))
-    // }
-
-    // useEffect(() => {
-    //     getUserData()
-    // }, [])
-
-    // const user = useSelector((state) => state.user.userData)
-
-    // const logoutHandler = async () => {
-    //     const { error } = await supabase.auth.signOut()
-    //     if (!error) {
-    //         router.push("/")
-    //     }
-    // }
+    const dispatch = useDispatch()
+    const userType = useSelector((state) => state.user.userType)
 
     const { address } = useAccount()
+
+    console.log(address == null)
+
+    useEffect(() => {
+
+        if (address != null){
+
+        }
+
+    },[address])
 
     return (
         <header>
@@ -61,7 +54,7 @@ export default function Navbar() {
                         </div>
                         <div aria-hidden="true" className="fixed z-10 inset-0 h-screen w-screen bg-white/70 backdrop-blur-2xl origin-bottom scale-y-0 transition duration-500 peer-checked:origin-top peer-checked:scale-y-100 lg:hidden dark:bg-gray-900/70"></div>
                         <div className="z-20 flex-wrap gap-6 p-8 rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 justify-end w-full invisible opacity-0 translate-y-1  absolute top-full left-0 transition-all duration-300 scale-95 origin-top 
-                                lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:w-7/12 lg:gap-0 lg:p-0 lg:bg-transparent lg:visible lg:opacity-100 lg:border-none
+                                lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:w-9/12 lg:gap-0 lg:p-0 lg:bg-transparent lg:visible lg:opacity-100 lg:border-none
                                 peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none 
                                 dark:shadow-none dark:bg-gray-800 dark:border-gray-700">
 
@@ -95,8 +88,9 @@ export default function Navbar() {
                                 </ul>
                             </div>
 
-                            <div className="mt-12 lg:mt-0">
-                                {/* {address
+                            <div className="mt-12 lg:mt-0 flex gap-4">
+                                <ConnectButton />
+                                {address
                                     ? <HoverCard>
                                         <HoverCardTrigger asChild>
                                             <img
@@ -107,13 +101,12 @@ export default function Navbar() {
                                         </HoverCardTrigger>
                                         <HoverCardContent className=" w-fit p-2 rounded-lg">
                                             <button onClick={() => logoutHandler()} className="hover:bg-slate-200 p-3 rounded-lg">
-                                                Log out
+                                                Profile
                                             </button>
                                         </HoverCardContent>
                                     </HoverCard>
-                                    : <ConnectButton />
-                                } */}
-                                <ConnectButton />
+                                    : <></>
+                                }
                             </div>
                         </div>
                     </div>
