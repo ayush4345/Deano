@@ -13,6 +13,11 @@ export default function VendorPage() {
 
                 <h3 className="text-xl">
                     Tokens available: 0
+                    <Link href={"/faucet"}>
+                        <button>
+                            Get tokens
+                        </button>
+                    </Link>
                 </h3>
             </div>
             <h2 className="text-2xl">Jobs</h2>
