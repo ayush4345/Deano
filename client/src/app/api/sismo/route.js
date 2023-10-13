@@ -1,27 +1,24 @@
 import { NextResponse } from 'next/server'
-import data from './data.json'
+import {readData} from '../../../tableland/connect.js'
+// import data from './data.json'
 export async function GET(request) {
 
-    let followers = data;
-    console.log(followers);
+    let annotators = await readData();   
 
-    //construct a json response with this format
-    // {
-    //     "name" : "id"
-    // }
-
-    followers = data.map((follower) => {
+    annotators = annotators.map((annotator) => {
         return {
-            name: follower.login,
-            id: follower.id
+            name: annotator.name,
+            id: annotator.id
         }
     })
 
     const result = {}
 
-    followers.forEach((follower) => {
-        result[follower.name] = follower.id
+    annotators.forEach((annotator) => {
+        result[annotator.name] = annotator.id.toString()
     })
+
+    console.log(result)
 
     return NextResponse.json(result)
 }
