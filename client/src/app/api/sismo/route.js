@@ -3,22 +3,22 @@ import { NextResponse } from 'next/server'
 import data from './data.json'
 export async function GET(request) {
 
-    let annotators = await readData();   
+    // let annotators = await readData();   
 
-    annotators = annotators.map((annotator) => {
-        return {
-            name: annotator.name,
-            id: annotator.id
-        }
-    })
+    // annotators = annotators.map((annotator) => {
+    //     return {
+    //         name: annotator.name,
+    //         id: annotator.id
+    //     }
+    // })
 
-    const result = {}
+    // const result = {}
 
-    annotators.forEach((annotator) => {
-        result[annotator.name] = annotator.id.toString()
-    })
+    // annotators.forEach((annotator) => {
+    //     result[annotator.name] = annotator.id.toString()
+    // })
 
-    console.log(result)
+    // console.log(result)
 
     return NextResponse.json(data)
 
