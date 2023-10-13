@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import {readData} from '../../../tableland/connect.js'
-// import data from './data.json'
+// import {readData} from '../../../tableland/connect.js'
+import data from './data.json'
 export async function GET(request) {
 
     let annotators = await readData();   
@@ -20,5 +20,7 @@ export async function GET(request) {
 
     console.log(result)
 
-    return NextResponse.json(result)
+    return NextResponse.json(data)
+
+    // return NextResponse.json(result)
 }
