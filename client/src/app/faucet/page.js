@@ -1,11 +1,11 @@
 'use client'
-import { db , healthCheck } from '../../tableland/connect.js'
+// import { db , healthCheck } from '../../tableland/connect.js'
 
 export default function Faucet() {
     
     return (
         <h2>
-            <button onClick={healthCheck}>
+            <button>
                 Connect to Tableland
             </button>
         </h2>
