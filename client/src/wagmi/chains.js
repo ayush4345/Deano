@@ -12,16 +12,13 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-      ? [
-          chain.arbitrumGoerli,
-          chain.sepolia,
-          chain.polygonMumbai,
-          chain.optimismGoerli,
-          chain.filecoinCalibration,
-          chain.hardhat,
-        ]
-      : []),
+
+    chain.arbitrumGoerli,
+    chain.sepolia,
+    chain.polygonMumbai,
+    chain.optimismGoerli,
+    chain.filecoinCalibration,
+    chain.hardhat,
   ],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? "" }), // Set up an Alchemy account: https://www.alchemy.com/

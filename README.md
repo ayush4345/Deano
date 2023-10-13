@@ -1,3 +1,3 @@
-# Deano
+# Deano - A decentralised annotation platform
 
-![Alt text](<System Design of Deano.png>)
+![Alt text](<Deano.png>)
