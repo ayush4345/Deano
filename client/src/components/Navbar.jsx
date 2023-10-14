@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
-import XMTPChat from "./XMTPChat"
+import XMTPChat from "./XMTP/XMTPChat"
 
 export default function Navbar() {
 
