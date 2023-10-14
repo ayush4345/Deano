@@ -11,7 +11,7 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
-import XMTPChat from "./XMTPChat"
+import XMTPChat from "./XMTP/XMTPChat"
 
 export default function Navbar() {
 
