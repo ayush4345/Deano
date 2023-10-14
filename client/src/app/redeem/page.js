@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import {
@@ -33,12 +32,13 @@ import { errorsABI, formatError, fundMyAccountOnLocalFork, signMessage } from "@
 import { mumbaiFork } from "../../wagmi/chains";
 import {
   SismoConnectButton, // the Sismo Connect React button displayed below
-//   SismoConnectConfig, // the Sismo Connect config with your appId
+  //   SismoConnectConfig, // the Sismo Connect config with your appId
   AuthType, // the authType enum, we will choose 'VAULT' in this tutorial
-//   ClaimType, // the claimType enum, we will choose 'GTE' in this tutorial, to check that the user has a value greater than a given threshold
+  //   ClaimType, // the claimType enum, we will choose 'GTE' in this tutorial, to check that the user has a value greater than a given threshold
 } from "@sismo-core/sismo-connect-react";
 // import { transactions } from "../../broadcast/Airdrop.s.sol/5151111";
 import { transactions } from "../../broadcast/Airdrop.s.sol/80001/run-latest.json";
+import { useRouter } from "next/navigation";
 
 /* ***********************  Sismo Connect Config *************************** */
 
@@ -76,6 +76,7 @@ export default function Home() {
   // const SISMO_FACTORY_USERS_GROUP_ID = "0x05629c9a54e30d8c8aea911a48cd9e30";
   const DEANO_ANNOTATORS_GROUP_ID = "0x5ebd62b3c756b552b6d3602fc7f996d1";
 
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [amountClaimed, setAmountClaimed] = useState("");
@@ -85,9 +86,7 @@ export default function Home() {
   const { connect, connectors, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
-  const { isConnected, address } = useAccount({
-    onConnect: async ({ address }) => address && (await fundMyAccountOnLocalFork(address)),
-  });
+  const { isConnected, address } = useAccount();
   const { switchNetworkAsync, switchNetwork } = useSwitchNetwork();
 
   /* *************  Wagmi hooks for contract interaction ******************* */
@@ -133,7 +132,7 @@ export default function Home() {
           data: txReceipt.logs[0]?.data,
           topics: txReceipt.logs[0]?.topics,
         });
-        const args = mintEvent?.args 
+        const args = mintEvent?.args
         const ethAmount = formatEther(BigInt(args.value));
         setAmountClaimed(ethAmount);
       }
@@ -149,10 +148,8 @@ export default function Home() {
     disconnect();
     setAmountClaimed("");
     setResponseBytes("");
-    setError("");
-    const url = new URL(window.location.href);
-    url.searchParams.delete("sismoConnectResponseCompressed");
-    window.history.replaceState({}, "", url.toString());
+    setError("");      
+    router.replace('/redeem');
   }
 
   return (
@@ -216,7 +213,7 @@ export default function Home() {
                 {
                   groupId: DEANO_ANNOTATORS_GROUP_ID,
                   isSelectableByUser: true,
-                  isOptional:false,
+                  isOptional: false,
                 }
               ]}
               // the auth request we want to make
