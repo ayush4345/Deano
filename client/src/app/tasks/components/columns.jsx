@@ -10,7 +10,7 @@ import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 
-export const columns: ColumnDef<Task>[] = [
+export const columns = [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,7 +51,7 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
+          {label && <Badge className="badge" variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue("title")}
           </span>
@@ -87,7 +87,7 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "priority",
+    accessorKey: "priority", //change to vendor_address later
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Vendor Address" />
     ),
