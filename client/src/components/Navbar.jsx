@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
+import XMTPChat from "./XMTPChat"
 
 export default function Navbar() {
 
@@ -82,6 +83,13 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
+
+                                    <li>
+                                        <Link href="/chat" className="block md:px-4 transition hover:text-primary">
+                                            <span>X</span>
+                                        </Link>
+                                    </li>
+
                                     {/* <li>
                                         <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
                                             <span>Testimonials</span>
@@ -114,6 +122,8 @@ export default function Navbar() {
                                     : <ConnectButton />
                                 } */}
                                 <ConnectButton />
+
+                                
                             </div>
                         </div>
                     </div>
