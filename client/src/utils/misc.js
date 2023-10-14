@@ -5,15 +5,15 @@ import { mumbaiFork } from "../wagmi/chains";
 
 
 
-export const publicWalletClient = createWalletClient({
-  chain: mumbaiFork,
-  transport: custom(window.ethereum),
-  // The private key of the second account of the local anvil network
-  // This account is used for the app to allow the user to have fake tokens to call the contract
-  account: privateKeyToAccount(
-    "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
-  ),
-});
+// export const publicWalletClient = createWalletClient({
+//   chain: mumbaiFork,
+//   transport: custom(window.ethereum),
+//   // The private key of the second account of the local anvil network
+//   // This account is used for the app to allow the user to have fake tokens to call the contract
+//   account: privateKeyToAccount(
+//     "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+//   ),
+// });
 
 export const fundMyAccountOnLocalFork = async (address) => {
   if (!address) return;
