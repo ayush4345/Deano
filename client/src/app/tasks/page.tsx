@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 // Simulate a database read for tasks.
 
 export default async function TaskPage() {
-  const response = await fetch("http://localhost:3000/api/data");
+  const response = await fetch("https://tableland-data.vercel.app/api/data");
 
   const tasks = await response.json()
 
