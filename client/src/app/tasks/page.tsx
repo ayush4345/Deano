@@ -5,10 +5,10 @@ import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { UserNav } from "./components/user-nav";
 
-// export const metadata: Metadata = {
-//   title: "Tasks",
-//   description: "A task and issue tracker build using Tanstack Table.",
-// }
+export const metadata: Metadata = {
+  title: "Tasks",
+  description: "A task and issue tracker build using Tanstack Table.",
+}
 
 // Simulate a database read for tasks.
 

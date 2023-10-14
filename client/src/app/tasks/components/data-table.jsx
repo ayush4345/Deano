@@ -25,25 +25,25 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { DataTablePagination } from "../components/data-table-pagination"
-import { DataTableToolbar } from "../components/data-table-toolbar"
+import { DataTablePagination } from "./data-table-pagination"
+import { DataTableToolbar } from "./data-table-toolbar"
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+// interface DataTableProps<TData, TValue> {
+//   columns: ColumnDef<TData, TValue>[]
+//   data: TData[]
+// }
 
-export function DataTable<TData, TValue>({
+export function DataTable({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    React.useState({})
+  const [columnFilters, setColumnFilters] = React.useState(
     []
   )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState([])
 
   console.log(data)
 

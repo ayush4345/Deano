@@ -12,7 +12,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { addressResolverAbi } from "viem/_types/constants/abis";
 import { useAccount } from "wagmi";
 
 export function UserNav() {
