@@ -10,13 +10,13 @@ import { DataTableViewOptions } from "./data-table-view-options"
 import { priorities, statuses } from "../data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
-interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-}
+// interface DataTableToolbarProps<TData> {
+//   table: Table<TData>
+// }
 
-export function DataTableToolbar<TData>({
+export function DataTableToolbar({
   table,
-}: DataTableToolbarProps<TData>) {
+}) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
@@ -24,7 +24,7 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter tasks..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("title")?.getFilterValue()) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
