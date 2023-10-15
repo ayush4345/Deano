@@ -24,7 +24,7 @@ export function UserNav() {
           {address ? (
             <Avatar className="h-9 w-9">
               <AvatarImage
-                src={`https://api.dicebear.com/5.x/bottts/svg?seed=${address}`}
+                src={`https://api.dicebear.com/7.x/identicon/svg?seed=${address}`}
                 alt="@deano"
               />
               <AvatarFallback>DE</AvatarFallback>
