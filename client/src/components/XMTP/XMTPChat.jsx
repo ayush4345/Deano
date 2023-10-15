@@ -11,6 +11,8 @@ import ChatBox from "@/components/XMTP/ChatBox"
 import { useAccount } from 'wagmi'
 import { useSigner } from '../../hooks/useSigner';
 
+import Contacts from "./Contacts"
+
 const BOT_ADDRESS = "0x937C0d4a6294cdfa575de17382c7076b579DC176";
 
 export default function XMTPChat() {
@@ -18,11 +20,7 @@ export default function XMTPChat() {
   const convRef = useRef(null);
   const clientRef = useRef(null);
   const { address } = useAccount()
-  // const {data : signer} = useWalletClient()
   const signer = useSigner()
-  // const address = getAddress();
-  // const signer = useSigner();
-  // const signer = usePublicClient()
   const isConnected = !!signer;
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [showContactsList, setShowContactList] = useState(false);
@@ -114,36 +112,42 @@ export default function XMTPChat() {
   return (
     <div>
       {/* Display the ConnectWallet component if not connected */}
+
+
       {!isConnected && (
-        <div>
-          <img
-            src="thirdweb-logo-transparent-white.svg"
-            alt="Your image description"
-            width={200}
-          />
-          {/* <ConnectWallet theme="dark" /> */}
+        <div className='border-2 flex flex-col items-center justify-center w-fit mx-auto'>
           <ConnectButton></ConnectButton>
         </div>
       )}
+
+
       {/* Display XMTP connection options if connected but not initialized */}
+
+
       {isConnected && !isOnNetwork && (
-        <div>
-          {/* <ConnectWallet theme="light" /> */}
-          <ConnectButton></ConnectButton>
-          <button onClick={initXmtp}>
-            Connect to XMTP
+        <div className='flex flex-col items-center justify-center w-fit mx-auto'>
+          {/* <ConnectButton></ConnectButton> */}
+          <button onClick={initXmtp} className=' bg-black text-white font-bold rounded-md p-3 m-2 hover:bg-rose-600 transition-all duration-300 ease-in-out'>
+            Enable XMTP Identity
           </button>
+
+
         </div>
       )}
+
+
+
       {/* Render the Chat component if connected, initialized, and messages exist */}
       {isConnected && isOnNetwork && messages && !showContactsList ? (
-        <ChatBox
-          client={clientRef.current}
-          conversation={convRef.current}
-          messageHistory={messages}
-          selectedContact={selectedContact}
-          setShowContactList={setShowContactList}
-        />
+        <div className='border-2 flex flex-col items-center justify-center w-fit mx-auto bg-black  rounded-lg m-2'>
+          <ChatBox
+            client={clientRef.current}
+            conversation={convRef.current}  
+            messageHistory={messages}
+            selectedContact={selectedContact}
+            setShowContactList={setShowContactList}
+          />
+        </div>
       ) : isConnected && isOnNetwork && messages &&
         (
           <Contacts loadConversations={loadConversations} setSelectedContact={setSelectedContact} setShowContactList={setShowContactList} />
