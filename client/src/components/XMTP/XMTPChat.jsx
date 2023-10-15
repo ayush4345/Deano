@@ -50,7 +50,7 @@ export default function XMTPChat() {
 
   // Function to initialize the XMTP client
   const initXmtp = async function () {
-    const startConvo = async(contactToInit) => {
+    const startConvo = async (contactToInit) => {
       console.log("Hi i was called from the initXMTP")
       console.log(address)
       console.log(signer)
@@ -65,11 +65,11 @@ export default function XMTPChat() {
     }
 
 
-    if(selectedContact) {
+    if (selectedContact) {
       startConvo(selectedContact);
-    }  else {
-      startConvo({address: BOT_ADDRESS})
-    }  
+    } else {
+      startConvo({ address: BOT_ADDRESS })
+    }
   };
 
   useEffect(() => {
@@ -87,13 +87,13 @@ export default function XMTPChat() {
           }
         }
       };
-      streamMessages();    
-      loadConversations();  
+      streamMessages();
+      loadConversations();
     }
   }, [messages, isOnNetwork]);
 
   useEffect(() => {
-    const startConvo = async() => {
+    const startConvo = async () => {
       const xmtp = await Client.create(signer, { env: "production" });
       //Create or load conversation with Gm bot
       newConversation(xmtp, selectedContact.address);
@@ -104,7 +104,7 @@ export default function XMTPChat() {
     }
 
 
-    if(selectedContact) {
+    if (selectedContact) {
       startConvo();
     }
   }, [selectedContact]);
@@ -130,8 +130,6 @@ export default function XMTPChat() {
           <button onClick={initXmtp} className=' bg-black text-white font-bold rounded-md p-3 m-2 hover:bg-rose-600 transition-all duration-300 ease-in-out'>
             Enable XMTP Identity
           </button>
-
-
         </div>
       )}
 
@@ -139,19 +137,19 @@ export default function XMTPChat() {
 
       {/* Render the Chat component if connected, initialized, and messages exist */}
       {isConnected && isOnNetwork && messages && !showContactsList ? (
-        <div className='border-2 flex flex-col items-center justify-center w-fit mx-auto bg-black  rounded-lg m-2'>
+        <div className='flex flex-col items-center w-fit min-h-[400px] mx-auto bg-[#F6F6F4] shadow-lg rounded-lg m-2'>
           <ChatBox
             client={clientRef.current}
-            conversation={convRef.current}  
+            conversation={convRef.current}
             messageHistory={messages}
             selectedContact={selectedContact}
             setShowContactList={setShowContactList}
           />
         </div>
       ) : isConnected && isOnNetwork && messages &&
-        (
-          <Contacts loadConversations={loadConversations} setSelectedContact={setSelectedContact} setShowContactList={setShowContactList} />
-        )
+      (
+        <Contacts loadConversations={loadConversations} setSelectedContact={setSelectedContact} setShowContactList={setShowContactList} />
+      )
       }
     </div>
   );
