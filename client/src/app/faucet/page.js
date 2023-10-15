@@ -1,7 +1,6 @@
 'use client'
 // import { db, healthCheck, createTable, insertData, readData } from '../../tableland/connect.js'
 
-
 export default function Faucet() {
 
     return (

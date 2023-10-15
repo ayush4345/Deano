@@ -3,6 +3,8 @@ import { Wallet, getDefaultProvider } from "ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+
+
 // You can also pull getDefaultProvider from the SDK's 'helpers' module
 
 const privateKey = process.env.NEXT_PUBLIC_SEPOLIA_WALLET_PRIVATE_KEY;
