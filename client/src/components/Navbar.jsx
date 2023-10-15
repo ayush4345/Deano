@@ -12,10 +12,11 @@ import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
+import { Router } from "next/router"
 
 export default function Navbar() {
 
-    const dispatch = useDispatch()
+    const router = useRouter()
     const userType = useSelector((state) => state.user.userType)
 
     const { address } = useAccount()
@@ -24,11 +25,11 @@ export default function Navbar() {
 
     useEffect(() => {
 
-        if (address != null){
+        if (address != null) {
 
         }
 
-    },[address])
+    }, [address])
 
     return (
         <header>
@@ -95,12 +96,12 @@ export default function Navbar() {
                                         <HoverCardTrigger asChild>
                                             <img
                                                 alt="user"
-                                                src={`https://api.dicebear.com/5.x/bottts/svg?seed=${address}`}
+                                                src={`https://api.dicebear.com/7.x/identicon/svg?seed=${address}`}
                                                 className=" w-10 h-10 rounded-full"
                                             />
                                         </HoverCardTrigger>
                                         <HoverCardContent className=" w-fit p-2 rounded-lg">
-                                            <button onClick={() => logoutHandler()} className="hover:bg-slate-200 p-3 rounded-lg">
+                                            <button onClick={() => router.push("/profile/annotator")} className="hover:bg-slate-200 p-3 rounded-lg">
                                                 Profile
                                             </button>
                                         </HoverCardContent>
