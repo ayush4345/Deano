@@ -61,12 +61,7 @@ const FileUploadForm = ({setCid, setUploadedFiles}) => {
                     onChange={handleFileSelected}
                 />
                 <button
-                    type="button"
-                    className={classNames({
-                        "bg-violet-50 text-violet-500 hover:bg-violet-100 px-4 py-2 rounded-md":
-                            true,
-                        "disabled pointer-events-none opacity-40": uploading,
-                    })}
+                    type="button"            
                     disabled={uploading}
                     onClick={handleSubmit}
                 >

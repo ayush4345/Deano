@@ -38,7 +38,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     chain.hardhat,
   ],
   [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? "" }), // Set up an Alchemy account: https://www.alchemy.com/
+    // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? "" }), // Set up an Alchemy account: https://www.alchemy.com/
     publicProvider(),
   ]
 );
