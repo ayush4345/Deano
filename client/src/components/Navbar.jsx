@@ -1,8 +1,5 @@
 import Link from "next/link"
-// import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-// import { setUserData } from '/src/utils/userSlice'
-// import { supabase } from '/src/utils/supabase'
 import {
     HoverCard,
     HoverCardContent,
@@ -12,7 +9,8 @@ import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
-import { Router } from "next/router"
+import { BellIcon } from "@radix-ui/react-icons"
+import { EmbedSDK } from "@pushprotocol/uiembed";
 
 export default function Navbar() {
 
@@ -20,16 +18,36 @@ export default function Navbar() {
     const userType = useSelector((state) => state.user.userType)
 
     const { address } = useAccount()
-
-    console.log(address == null)
+    console.log(address)
 
     useEffect(() => {
-
-        if (address != null) {
-
+        if (address) { // 'your connected wallet address'
+            EmbedSDK.init({
+                headerText: 'Deano', // optional
+                targetID: 'sdk-trigger-id', // mandatory
+                appName: 'Deano', // mandatory
+                user: "address", // mandatory
+                chainId: 5, // mandatory
+                viewOptions: {
+                    type: 'sidebar', // optional [default: 'sidebar', 'modal']
+                    showUnreadIndicator: true, // optional
+                    unreadIndicatorColor: '#cc1919',
+                    unreadIndicatorPosition: 'bottom-right',
+                },
+                theme: 'light',
+                onOpen: () => {
+                    console.log('-> client dApp onOpen callback');
+                },
+                onClose: () => {
+                    console.log('-> client dApp onClose callback');
+                }
+            });
         }
 
-    }, [address])
+        return () => {
+            EmbedSDK.cleanup();
+        };
+    }, []);
 
     return (
         <header>
@@ -76,12 +94,10 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
-                                            <span>Testimonials</span>
-                                        </Link>
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link href="#blog" className="block md:px-4 transition hover:text-primary">
                                             <span>Blog</span>
                                         </Link>
