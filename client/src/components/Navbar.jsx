@@ -13,6 +13,7 @@ import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import XMTPChat from "./XMTP/XMTPChat"
+import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 
 export default function Navbar() {
 
@@ -141,12 +142,9 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
-
                                     <li>
-                                        <Link href="/chat" className="block md:px-4 transition hover:text-primary">
-                                            <span>
-                                                Chat (powered by XMTP) <span className="text-xs text-red-500">BETA</span>
-                                            </span>
+                                        <Link href="/vendor" className="block md:px-4 transition hover:text-primary">
+                                            <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
