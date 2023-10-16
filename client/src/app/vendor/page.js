@@ -1,27 +1,34 @@
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+
 export default function VendorPage() {
+
+    const router = useRouter()
+
     return (
-        <main className="flex p-24 flex-col bg-white">
-            <h1 className="text-3xl">Vendor Page</h1>
-            <div className="flex flex-row justify-between">
-
-                <Link href="/vendor/create">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Create New Job
-                    </button>
-                </Link>
-
-                <h3 className="text-xl">
-                    Tokens available: 0
-                    <Link href={"/faucet"}>
-                        <button>
-                            Get tokens
-                        </button>
-                    </Link>
-                </h3>
+        <main className="h-full flex-1 flex-col space-y-8 p-8 flex">
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Welcome Vendor!</h2>
+                    <p className="text-muted-foreground">
+                        Here&apos;s a list of your jobs made by you!
+                    </p>
+                </div>
+                <div className="flex items-end flex-col space-x-2">
+                    <h3 className="text-xl font-semibold">
+                        Tokens available: 0
+                    </h3>
+                    <Button onClick={() => router.push("/faucet")}>
+                        Get tokens
+                    </Button>
+                </div>
             </div>
-            <h2 className="text-2xl">Jobs</h2>
-
+            <Button variant="outline" onClick={() => router.push("/vendor/create")} >
+                Create New Job
+            </Button>
         </main>
     )
 }

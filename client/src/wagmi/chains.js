@@ -27,6 +27,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mumbaiFork,
     chain.mainnet,
+    chain.goerli,
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
