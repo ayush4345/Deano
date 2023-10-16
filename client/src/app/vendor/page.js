@@ -50,16 +50,18 @@ export default function VendorPage() {
             <div className="flex flex-row justify-between">
 
                 <Link href="/vendor/create">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Create New Job
-                    </button>
+                    <Button className="m-2">
+                        Create Job
+                    </Button>
                 </Link>
 
             </div>
             <h2 className="text-2xl">
 
-                {vendorDetails.jobs ? vendorDetails.jobs.map((job) => (
-                    <div className="flex flex-row justify-between">
+                {vendorDetails.jobs ? vendorDetails.jobs.map((job, index) => (
+                    <div
+                        key={index}
+                        className="flex flex-row justify-between">
                         <div className="flex flex-col">
                             <div className="text-xl font-bold">
                                 {job.job_name}
@@ -75,6 +77,12 @@ export default function VendorPage() {
                             <div className="text-sm">
                                 {job.job_type}
                             </div>
+                            <div className="text-sm">
+                                {job.job_type}
+                            </div>
+                            <Button className="m-2">
+                                Get Results
+                            </Button>
                         </div>
                     </div>
                 )) : <div>No Jobs</div>}

@@ -5,16 +5,17 @@ dotenv.config();
 
 // You can also pull getDefaultProvider from the SDK's 'helpers' module
 
-// const privateKey = process.env.NEXT_PUBLIC_SEPOLIA_WALLET_PRIVATE_KEY;
-const privateKey = process.env.NEXT_PUBLIC_POLYGON_WALLET_PRIVATE_KEY;
-// const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
-const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_API_KEY;
-const polygonProviderURL = `https://polygon-mumbai.g.alchemy.com/v2/${alchemyApiKey}`;
+const privateKey = process.env.NEXT_PUBLIC_SEPOLIA_WALLET_PRIVATE_KEY;
+// const privateKey = process.env.NEXT_PUBLIC_POLYGON_WALLET_PRIVATE_KEY;
+const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+// const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_API_KEY;
+// const polygonProviderURL = `https://polygon-mumbai.g.alchemy.com/v2/${alchemyApiKey}`;
+const sepoliaProviderURL = `https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`;
 
 const wallet = new Wallet(privateKey);
 // To avoid connecting to the browser wallet (locally, port 8545),
 // replace the URL with a provider like Alchemy, Infura, Etherscan, etc.
-const provider = getDefaultProvider(polygonProviderURL);
+const provider = getDefaultProvider(sepoliaProviderURL);
 const signer = wallet.connect(provider);
 // Connect to the database
 export const db = new Database({ signer });
@@ -38,12 +39,6 @@ export const createTable = async (prefix) => {
 
 
 
-
-
-
-
-
-
 export const insertData = async () => {
     // const prefix = "reputations_80001_7724";
     const tableName = `reputations_80001_7724`;
@@ -61,7 +56,7 @@ export const insertData = async () => {
         .prepare(`INSERT INTO test_80001_7735 (id ) VALUES (?);`)
         .bind(1)
         .run();
-        
+
     console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
     const res = await insert.txn.wait();
     console.log(res);
@@ -75,4 +70,38 @@ export const readData = async () => {
     const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
     console.log(results);
     return results
+}
+
+async function waitForTransaction(insert) {
+    const res = await insert.txn.wait();
+    if (res.error) console.log(res.error);
+}
+
+
+export const createJob = async (job) => {
+    const tableName = "jobs_11155111_137";
+    const { meta: insert } = await db
+        .prepare(`INSERT INTO ${tableName} (vendor_address, job_id, status , cid, bounty, type) VALUES (?, ?, ?, ?, ?, ?);`)
+        .bind(job.vendor_address, job.job_id, job.status, job.cid, job.bounty, job.type)
+        .run();
+    console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
+    waitForTransaction(insert)
+    return insert.txn.transactionHash
+}
+
+
+export const getAllJobs = async () => {
+    const tableName = `jobs_11155111_137`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
+    console.log(results);
+    return results
+
+}
+
+export const getVendorJobs = async (vendor_address) => {
+    const tableName = `jobs_11155111_137`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE vendor_address = '${vendor_address}';`).all();
+    console.log(results);
+    return results
+
 }
