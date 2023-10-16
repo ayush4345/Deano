@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
     HoverCard,
     HoverCardContent,
@@ -11,6 +11,7 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
+import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import XMTPChat from "./XMTP/XMTPChat"
 
 export default function Navbar() {
@@ -18,8 +19,42 @@ export default function Navbar() {
     const router = useRouter()
     const userType = useSelector((state) => state.user.userType)
 
+    const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+    const { wallets } = useWallets();
+    const [signer, setSigner] = useState(null);
+    const [loggingOut, setLoggingOut] = useState(false); // Add this line
+
     const { address } = useAccount()
     console.log(address)
+
+    useEffect(() => {
+        const getSigner = async () => {
+            const embeddedWallet =
+                wallets.find((wallet) => wallet.walletClientType === "privy") ||
+                wallets[0];
+            if (embeddedWallet) {
+                const provider = await embeddedWallet.getEthersProvider();
+                const signer = provider.getSigner();
+                signer.signMessage = async (message) => {
+                    const uiConfig = {
+                        title: "Enable Secure Messaging with XMTP",
+                        description:
+                            "What is XMTP? XMTP provides apps and websites with private, secure, and encrypted messaging without your email or phone number. To turn on secure messaging for this app, tap the 'Enable XMTP' button.",
+                        buttonText: "Enable XMTP",
+                    };
+
+                    const signature = await signMessage(message, uiConfig);
+
+                    return signature;
+                };
+                setSigner(signer);
+            }
+        };
+
+        if (wallets.length > 0) {
+            getSigner();
+        }
+    }, [wallets]);
 
     useEffect(() => {
         if (address) { // 'your connected wallet address'
@@ -49,6 +84,13 @@ export default function Navbar() {
             EmbedSDK.cleanup();
         };
     }, []);
+
+    const handleLogout = async () => {
+        setLoggingOut(true); // Set loggingOut to true when logout begins
+        await logout(); // Wait for logout to complete
+        setLoggingOut(false); // Set loggingOut to false when logout ends
+    };
+
 
     return (
         <header>
@@ -80,8 +122,8 @@ export default function Navbar() {
 
                             <div className="text-gray-600 dark:text-gray-300 lg:pr-4 lg:w-auto w-full lg:pt-0">
                                 <ul className="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
-                                    <li>
-                                        <Link href="/#features" className="block md:px-4 transition hover:text-primary">
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <Link href="/#features" className="flex items-center md:px-4 transition hover:text-primary">
                                             <span>Features</span>
                                         </Link>
                                     </li>
@@ -90,8 +132,8 @@ export default function Navbar() {
                                             <span>Dashboard</span>
                                         </Link>
                                     </li> */}
-                                    <li>
-                                        <Link href="/vendor" className="block md:px-4 transition hover:text-primary">
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <Link href="/vendor" >
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
@@ -104,17 +146,9 @@ export default function Navbar() {
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
-
-                                    {/* <li>
-                                        <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
-                                            <span>Testimonials</span>
-                                        </Link>
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl" onClick={login}>login privy</button>
                                     </li>
-                                    <li>
-                                        <Link href="#blog" className="block md:px-4 transition hover:text-primary">
-                                            <span>Blog</span>
-                                        </Link>
-                                    </li> */}
                                 </ul>
                             </div>
 
