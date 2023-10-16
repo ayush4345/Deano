@@ -32,8 +32,29 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/tasks/components/columns.jsx", "src/app/tasks/components/data-table-column-header.jsx", "src/app/tasks/components/data-table-faceted-filter.jsx", "src/app/tasks/components/data-table-pagination.jsx", "src/app/tasks/components/data-table-row-actions.jsx", "src/app/tasks/components/data-table-toolbar.jsx", "src/app/tasks/components/data-table-view-options.jsx", "src/app/tasks/components/data-table.jsx", "src/app/tasks/components/user-nav.jsx", "src/utils/misc.js", "src/app/tasks/components/columns.jsx", "src/app/tasks/components/data-table-column-header.jsx", "src/app/tasks/components/data-table-faceted-filter.jsx", "src/app/tasks/components/data-table-pagination.jsx", "src/app/tasks/components/data-table-row-actions.jsx", "src/app/tasks/components/data-table-toolbar.jsx", "src/app/tasks/components/data-table-view-options.jsx", "src/app/tasks/components/data-table.jsx", "src/app/tasks/components/user-nav.jsx"  ],
+    "**/*.tsx",
+    "src/app/tasks/components/columns.jsx",
+    "src/app/tasks/components/data-table-column-header.jsx",
+    "src/app/tasks/components/data-table-faceted-filter.jsx",
+    "src/app/tasks/components/data-table-pagination.jsx",
+    "src/app/tasks/components/data-table-row-actions.jsx",
+    "src/app/tasks/components/data-table-toolbar.jsx",
+    "src/app/tasks/components/data-table-view-options.jsx",
+    "src/app/tasks/components/data-table.jsx",
+    "src/app/tasks/components/user-nav.jsx",
+    "src/utils/misc.js",
+    "src/app/tasks/components/columns.jsx",
+    "src/app/tasks/components/data-table-column-header.jsx",
+    "src/app/tasks/components/data-table-faceted-filter.jsx",
+    "src/app/tasks/components/data-table-pagination.jsx",
+    "src/app/tasks/components/data-table-row-actions.jsx",
+    "src/app/tasks/components/data-table-toolbar.jsx",
+    "src/app/tasks/components/data-table-view-options.jsx",
+    "src/app/tasks/components/data-table.jsx",
+    "src/app/tasks/components/user-nav.jsx",
+    "src/app/tasks/data/data.jsx",
+    "src/app/tasks/data/schema.js"
+  ],
   "exclude": [
     "node_modules"
   ]

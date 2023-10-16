@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useAccount, useBalance, useContractWrite, usePrepareContractWrite } from "wagmi";
-import { abi as tokenABI } from './../../../abi/Airdrop.json'
+import { abi as tokenABI } from '@/abi/Airdrop.json'
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
 export default function CreateJob() {
