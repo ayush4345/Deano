@@ -21,11 +21,7 @@ export async function GET(request, { params }) {
     const vendor_details = {
         name: 'test',
         address: vendor_address,
-        jobs: [
-            job,
-            job,
-            job
-        ]
+        jobs
     }
 
     return NextResponse.json(vendor_details)
