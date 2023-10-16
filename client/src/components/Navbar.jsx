@@ -101,10 +101,10 @@ export default function Navbar() {
                                             <span>X</span>
                                         </Link>
                                     </li>
-
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
+
                                     {/* <li>
                                         <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
                                             <span>Testimonials</span>
