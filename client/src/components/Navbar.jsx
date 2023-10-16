@@ -25,6 +25,7 @@ export default function Navbar() {
 
     const { address } = useAccount()
     console.log(address)
+    console.log(wallets)
 
     useEffect(() => {
         const getSigner = async () => {
@@ -89,6 +90,9 @@ export default function Navbar() {
         await logout(); // Wait for logout to complete
         setLoggingOut(false); // Set loggingOut to false when logout ends
     };
+    console.log(loggingOut)
+
+    console.log(user, authenticated)
 
 
     return (
@@ -140,7 +144,10 @@ export default function Navbar() {
                                         <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
-                                        <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl" onClick={login}>login privy</button>
+                                        {(ready && authenticated)
+                                            ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>logout privy</button>
+                                            : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>login privy</button>
+                                        }
                                     </li>
                                 </ul>
                             </div>
