@@ -105,3 +105,17 @@ export const getVendorJobs = async (vendor_address) => {
     return results
 
 }
+
+export const getJob = async (job_id) => {
+    const tableName = `jobs_11155111_137`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
+    console.log(results);
+    return results
+}
+
+export const getJobResults = async (job_id) => {
+
+
+
+
+}
