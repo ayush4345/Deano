@@ -1,8 +1,5 @@
 import Link from "next/link"
-// import { useSelector, useDispatch } from 'react-redux'
-// import { useEffect } from 'react'
-// import { setUserData } from '/src/utils/userSlice'
-// import { supabase } from '/src/utils/supabase'
+import { useEffect } from 'react'
 import {
     HoverCard,
     HoverCardContent,
@@ -11,31 +8,46 @@ import {
 import { useRouter } from "next/navigation"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
+import { useSelector, useDispatch } from 'react-redux'
+import { BellIcon } from "@radix-ui/react-icons"
+import { EmbedSDK } from "@pushprotocol/uiembed";
 
 export default function Navbar() {
 
-    // const dispatch = useDispatch()
-    // const router = useRouter()
-
-    // const getUserData = async () => {
-    //     const { data: { user } } = await supabase.auth.getUser()
-    //     dispatch(setUserData(user))
-    // }
-
-    // useEffect(() => {
-    //     getUserData()
-    // }, [])
-
-    // const user = useSelector((state) => state.user.userData)
-
-    // const logoutHandler = async () => {
-    //     const { error } = await supabase.auth.signOut()
-    //     if (!error) {
-    //         router.push("/")
-    //     }
-    // }
+    const router = useRouter()
+    const userType = useSelector((state) => state.user.userType)
 
     const { address } = useAccount()
+    console.log(address)
+
+    useEffect(() => {
+        if (address) { // 'your connected wallet address'
+            EmbedSDK.init({
+                headerText: 'Deano', // optional
+                targetID: 'sdk-trigger-id', // mandatory
+                appName: 'Deano', // mandatory
+                user: address, // mandatory
+                chainId: 5, // mandatory
+                viewOptions: {
+                    type: 'sidebar', // optional [default: 'sidebar', 'modal']
+                    showUnreadIndicator: true, // optional
+                    unreadIndicatorColor: '#cc1919',
+                    unreadIndicatorPosition: 'bottom-right',
+                },
+                theme: 'light',
+                onOpen: () => {
+                    console.log('-> client dApp onOpen callback');
+                },
+                onClose: () => {
+                    console.log('-> client dApp onClose callback');
+                }
+            });
+        }
+
+        return () => {
+            EmbedSDK.cleanup();
+        };
+    }, []);
 
     return (
         <header>
@@ -61,7 +73,7 @@ export default function Navbar() {
                         </div>
                         <div aria-hidden="true" className="fixed z-10 inset-0 h-screen w-screen bg-white/70 backdrop-blur-2xl origin-bottom scale-y-0 transition duration-500 peer-checked:origin-top peer-checked:scale-y-100 lg:hidden dark:bg-gray-900/70"></div>
                         <div className="z-20 flex-wrap gap-6 p-8 rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 justify-end w-full invisible opacity-0 translate-y-1  absolute top-full left-0 transition-all duration-300 scale-95 origin-top 
-                                lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:w-7/12 lg:gap-0 lg:p-0 lg:bg-transparent lg:visible lg:opacity-100 lg:border-none
+                                lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:w-9/12 lg:gap-0 lg:p-0 lg:bg-transparent lg:visible lg:opacity-100 lg:border-none
                                 peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none 
                                 dark:shadow-none dark:bg-gray-800 dark:border-gray-700">
 
@@ -82,12 +94,10 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
-                                            <span>Testimonials</span>
-                                        </Link>
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link href="#blog" className="block md:px-4 transition hover:text-primary">
                                             <span>Blog</span>
                                         </Link>
@@ -95,25 +105,25 @@ export default function Navbar() {
                                 </ul>
                             </div>
 
-                            <div className="mt-12 lg:mt-0">
-                                {/* {address
+                            <div className="mt-12 lg:mt-0 flex gap-4">
+                                <ConnectButton />
+                                {address
                                     ? <HoverCard>
                                         <HoverCardTrigger asChild>
                                             <img
                                                 alt="user"
-                                                src={`https://api.dicebear.com/5.x/bottts/svg?seed=${address}`}
+                                                src={`https://api.dicebear.com/7.x/identicon/svg?seed=${address}`}
                                                 className=" w-10 h-10 rounded-full"
                                             />
                                         </HoverCardTrigger>
                                         <HoverCardContent className=" w-fit p-2 rounded-lg">
-                                            <button onClick={() => logoutHandler()} className="hover:bg-slate-200 p-3 rounded-lg">
-                                                Log out
+                                            <button onClick={() => router.push("/profile/annotator")} className="hover:bg-slate-200 p-3 rounded-lg">
+                                                Profile
                                             </button>
                                         </HoverCardContent>
                                     </HoverCard>
-                                    : <ConnectButton />
-                                } */}
-                                <ConnectButton />
+                                    : <></>
+                                }
                             </div>
                         </div>
                     </div>
