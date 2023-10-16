@@ -27,6 +27,7 @@ export default function Navbar() {
 
     const { address } = useAccount()
     console.log(address)
+    console.log(wallets)
 
     useEffect(() => {
         const getSigner = async () => {
