@@ -26,7 +26,7 @@ export default function Navbar() {
                 headerText: 'Deano', // optional
                 targetID: 'sdk-trigger-id', // mandatory
                 appName: 'Deano', // mandatory
-                user: "address", // mandatory
+                user: address, // mandatory
                 chainId: 5, // mandatory
                 viewOptions: {
                     type: 'sidebar', // optional [default: 'sidebar', 'modal']
