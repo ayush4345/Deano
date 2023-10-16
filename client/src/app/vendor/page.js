@@ -9,10 +9,21 @@ import {
     CardTitle
 } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
+import { getVendorJobs } from "@/tableland/db";
 
 export default function VendorPage() {
 
     const [vendorDetails, setVendorDetails] = useState({ name: "Loading..." })
+    const [vendorJobs, setVendorJobs] = useState([])
+    const [updatingJobs, setUpdatingJobs] = useState(false)
+
+    const updateJobs = async () => {
+        setUpdatingJobs(true)
+        const jobs = await getVendorJobs(address);
+        setVendorJobs(jobs)
+        setUpdatingJobs(false)
+    }
+
 
     useEffect(() => {
         const getVendorDetails = async () => {
@@ -22,6 +33,7 @@ export default function VendorPage() {
             setVendorDetails(data)
         }
         getVendorDetails()
+        updateJobs()
     }, [])
 
     const { address } = useAccount();
@@ -54,11 +66,14 @@ export default function VendorPage() {
                         Create Job
                     </Button>
                 </Link>
+                <Button className="m-2" onClick={updateJobs} disabled={updatingJobs}>
+                    {updatingJobs ? "Updating Jobs..." : "Update Jobs"}
+                </Button>
 
             </div>
             <h2 className="text-2xl">
 
-                {vendorDetails.jobs ? vendorDetails.jobs.map((job, index) => (
+                {vendorJobs ? vendorJobs.map((job, index) => (
                     <div
                         key={index}
                         className="flex flex-row justify-between">
