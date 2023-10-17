@@ -1,0 +1,20 @@
+# Compiler files
+cache/
+out/
+node_modules
+broadcast/
+
+# Dotenv file
+.env
+.env.*
+
+.vscode
+lib
+
+.hardhat/contracts
+
+# Deployment files
+deployments/test.json
+**deployments/test/*.json
+**/tmp/*
+!**/tmp/example.json
