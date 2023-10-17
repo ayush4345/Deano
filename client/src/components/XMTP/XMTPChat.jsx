@@ -110,7 +110,7 @@ export default function XMTPChat() {
   }, [selectedContact]);
 
   return (
-    <div>
+    <div className=" min-w-[220px]  pt-16 mr-8">
       {/* Display the ConnectWallet component if not connected */}
 
 
@@ -125,7 +125,7 @@ export default function XMTPChat() {
 
 
       {isConnected && !isOnNetwork && (
-        <div className='flex flex-col items-center justify-center w-fit mx-auto'>
+        <div className='flex sticky top-0 flex-col items-center justify-center w-fit mx-auto'>
           {/* <ConnectButton></ConnectButton> */}
           <button onClick={initXmtp} className=' bg-black text-white font-bold rounded-md p-3 m-2 hover:bg-rose-600 transition-all duration-300 ease-in-out'>
             Enable XMTP Identity
@@ -137,7 +137,7 @@ export default function XMTPChat() {
 
       {/* Render the Chat component if connected, initialized, and messages exist */}
       {isConnected && isOnNetwork && messages && !showContactsList ? (
-        <div className='flex flex-col items-center w-fit min-h-[400px] mx-auto bg-[#F6F6F4] shadow-lg rounded-lg m-2'>
+        <div className='flex sticky top-0 flex-col items-center w-fit min-h-[400px] mx-auto bg-[#F6F6F4] shadow-lg rounded-lg m-2'>
           <ChatBox
             client={clientRef.current}
             conversation={convRef.current}

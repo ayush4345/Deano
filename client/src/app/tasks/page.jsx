@@ -1,11 +1,10 @@
-import { Metadata } from "next";
 import Image from "next/image";
 
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { UserNav } from "./components/user-nav";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Tasks",
   description: "A task and issue tracker build using Tanstack Table.",
 }
