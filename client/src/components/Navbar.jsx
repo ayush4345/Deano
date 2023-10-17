@@ -11,6 +11,7 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
+import XMTPChat from "./XMTP/XMTPChat"
 
 export default function Navbar() {
 
@@ -94,10 +95,22 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
+
+                                    <li>
+                                        <Link href="/chat" className="block md:px-4 transition hover:text-primary">
+                                            <span>X</span>
+                                        </Link>
+                                    </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
+
                                     {/* <li>
+                                        <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
+                                            <span>Testimonials</span>
+                                        </Link>
+                                    </li>
+                                    <li>
                                         <Link href="#blog" className="block md:px-4 transition hover:text-primary">
                                             <span>Blog</span>
                                         </Link>
@@ -124,6 +137,8 @@ export default function Navbar() {
                                     </HoverCard>
                                     : <></>
                                 }
+
+                                
                             </div>
                         </div>
                     </div>
