@@ -1,0 +1,8 @@
+{
+  "mumbai": {
+    "DeanoPayoutContract": {
+      "address": "0xCbcAae06e64c3a75add1FA186558fB12B24B9cD6",
+      "startBlock": 41307220
+    }
+  }
+}
