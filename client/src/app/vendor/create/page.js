@@ -131,28 +131,5 @@ export default function CreateJob() {
 }
 
 
-// Name	Type	Not Null	Primary Key	Unique
-// vendor_address
 
-// text
-
-// job_id
-
-// integer
-
-// status
-
-// integer
-
-// cid
-
-// text
-
-// bounty
-
-// integer
-
-// type
-
-// integer
 

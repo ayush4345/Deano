@@ -9,16 +9,6 @@ export const healthCheck = async () => {
 export const insertData = async () => {
     // const prefix = "reputations_80001_7724";
     const tableName = `reputations_80001_7724`;
-    // const tableName = `my_sdk_table_80001_7733`;
-
-    // const { meta: insert } = await db
-    //     .prepare(`INSERT INTO ${tableName} (address , score) VALUES (?, ?);`)
-    //     .bind('0x3151D7f15e6cdfEeeA36D0dE4F6Da118f7A757e7' , 20)
-    //     .run();
-    // const { meta: insert } = await db
-    //     .prepare(`INSERT INTO ${tableName} (id , name) VALUES (?, ?);`)
-    //     .bind(1 , 'test')
-    //     .run();
     const { meta: insert } = await db
         .prepare(`INSERT INTO test_80001_7735 (id ) VALUES (?);`)
         .bind(1)
@@ -86,4 +76,15 @@ export const getJobResults = async (job_id) => {
     const tableName = `results_11155111_137`;
     const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
 
+}
+
+export const updateJobStatus = async (job_id, status) => {
+
+    const tableName = `jobs_80001_7842`;
+    const { meta: update } = await db
+        .prepare(`UPDATE ${tableName} SET status = '${status}' WHERE job_id = '${job_id}';`)
+        .run();
+    console.log(update.txn.transactionHash); // e.g., my_sdk_table_80001_311
+    waitForTransaction(update)
+    return update.txn.transactionHash
 }
