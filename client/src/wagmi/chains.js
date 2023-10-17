@@ -25,18 +25,18 @@ export const mumbaiFork = {
 // All of the chains configured below are supported by Tableland
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    mumbaiFork,
-    chain.mainnet,
-    chain.goerli,
-    chain.polygon,
-    chain.optimism,
-    chain.arbitrum,
-    chain.arbitrumGoerli,
-    chain.sepolia,
+    // mumbaiFork,
+    // chain.mainnet,
+    // chain.goerli,
+    // chain.polygon,
+    // chain.optimism,
+    // chain.arbitrum,
+    // chain.arbitrumGoerli,
+    // chain.sepolia,
     chain.polygonMumbai,
-    chain.optimismGoerli,
-    chain.filecoinCalibration,
-    chain.hardhat,
+    // chain.optimismGoerli,
+    // chain.filecoinCalibration,
+    // chain.hardhat,
   ],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? "" }), // Set up an Alchemy account: https://www.alchemy.com/

@@ -10,7 +10,6 @@ export async function POST(request) {
         status: body.status,
         cid: body.cid,
         bounty: body.bounty,
-        type: body.type
     }
 
     try {
@@ -23,7 +22,7 @@ export async function POST(request) {
 
     catch (error) {
         return NextResponse.json(
-            { error: error },
+            { error: error.message },
             { status: 500 }
         )
     }

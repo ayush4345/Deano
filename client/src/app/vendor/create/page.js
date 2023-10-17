@@ -55,19 +55,17 @@ export default function CreateJob() {
             },
             body: JSON.stringify({
                 vendor_address: address,
-                //convert to int uuid
-                job_id: 4,
-                status: 1,
+                job_id: uuidv4().slice(0, 6),
+                status: 'active',
                 cid: cid,
-                bounty: 120,
-                type: 2
+                bounty: bounty,
             })
         })
         const data = await res.json()
         console.log(data)
         setSubmitting(false)
         // router.push(`/vendor/${address}`)
-        router.replace(`/vendor/`)
+        // router.replace(`/vendor/`)
     }
 
     return (
@@ -131,3 +129,30 @@ export default function CreateJob() {
         </>
     )
 }
+
+
+// Name	Type	Not Null	Primary Key	Unique
+// vendor_address
+
+// text
+
+// job_id
+
+// integer
+
+// status
+
+// integer
+
+// cid
+
+// text
+
+// bounty
+
+// integer
+
+// type
+
+// integer
+
