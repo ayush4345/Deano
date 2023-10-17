@@ -28,21 +28,15 @@ import { waitForTransaction } from "@wagmi/core";
 import { decodeEventLog, formatEther } from "viem";
 import { abi as PayoutABI } from "../../abi/Payout.json";
 import { errorsABI, formatError, fundMyAccountOnLocalFork, signMessage } from "@/utils/misc";
-import { mumbaiFork } from "../../wagmi/chains";
 import {
   SismoConnectButton, // the Sismo Connect React button displayed below
-  //   SismoConnectConfig, // the Sismo Connect config with your appId
   AuthType, // the authType enum, we will choose 'VAULT' in this tutorial
-  //   ClaimType, // the claimType enum, we will choose 'GTE' in this tutorial, to check that the user has a value greater than a given threshold
 } from "@sismo-core/sismo-connect-react";
 // import { transactions } from "../../broadcast/Payout.s.sol/5151111";
 import { transactions } from "../../broadcast/Payout.s.sol/80001/run-latest.json";
 import { useRouter } from "next/navigation";
 
 /* ***********************  Sismo Connect Config *************************** */
-
-// you can create a new Sismo Connect app at https://factory.sismo.io
-// The SismoConnectConfig is a configuration needed to connect to Sismo Connect and requests data from your users.
 
 const sismoConnectConfig = {
   appId: "0xf4977993e52606cfd67b7a1cde717069",
@@ -176,8 +170,7 @@ export default function Home() {
             <SismoConnectButton
               // the client config created
               config={sismoConnectConfig}
-              // request a proof of Gitcoin Passport ownership from your users
-              // pass the groupId and the minimum value required in the group
+
               claims={[
 
                 {
