@@ -15,22 +15,22 @@ import { mumbaiFork } from "../wagmi/chains";
 //   ),
 // });
 
-export const fundMyAccountOnLocalFork = async (address) => {
-  if (!address) return;
-  try {
-    const balance = await fetchBalance({ address, chainId: mumbaiFork.id });
-    if (balance?.value < parseEther("5")) {
-      await publicWalletClient.sendTransaction({
-        chain: mumbaiFork,
-        to: address,
-        value: parseEther("5"),
-      });
-      console.log("Account funded on mumbai local fork");
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
+// export const fundMyAccountOnLocalFork = async (address) => {
+//   if (!address) return;
+//   try {
+//     const balance = await fetchBalance({ address, chainId: mumbaiFork.id });
+//     if (balance?.value < parseEther("5")) {
+//       await publicWalletClient.sendTransaction({
+//         chain: mumbaiFork,
+//         to: address,
+//         value: parseEther("5"),
+//       });
+//       console.log("Account funded on mumbai local fork");
+//     }
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 export const signMessage = (address) => {
   return encodeAbiParameters(

@@ -12,8 +12,9 @@ export default function Token() {
     const { address } = useAccount();
     const res = useBalance({
         address: address,
-        token: "0x158012940D35D9F14C091A6f21DC4F0B2Ce126F7",
+        token: "0xCbcAae06e64c3a75add1FA186558fB12B24B9cD6",
     })
+
     if (res.isLoading) return <div>Loading...</div>
     if (res.error) return <div>Error: {res.error.message}</div>
     return (
@@ -27,7 +28,7 @@ export default function Token() {
                 <CardContent>
                     <div className="text-2xl font-bold">{
                         //concat to 2 decimal places
-                        res.data.formatted.slice(0, -16)
+                        res.data.formatted
                     } {res.data.symbol}</div>
 
                     <Button className="m-2">

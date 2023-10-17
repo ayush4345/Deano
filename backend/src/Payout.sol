@@ -71,7 +71,7 @@ contract Payout is ERC20, SismoConnect {
 
     // we check if the user has claimed
     uint lastClaimed = claimed[vaultId];
-    if (lastClaimed + allowancePeriodInDays > block.timestamp * (1 days)) {
+    if (lastClaimed + allowancePeriodInDays > block.timestamp) {
       revert AlreadyClaimed();
     }
 
@@ -79,7 +79,7 @@ contract Payout is ERC20, SismoConnect {
     uint256 payoutAmount = _getRewardAmount(result);
 
     // we update the last claimed timestamp
-    claimed[vaultId] = block.timestamp * (1 days);
+    claimed[vaultId] = block.timestamp;
 
     // we mint the tokens to the user
     _mint(msg.sender, payoutAmount);
