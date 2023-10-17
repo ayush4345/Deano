@@ -2,8 +2,9 @@
 
 import AnnotationCard from "../card.js"
 import { data } from "../card.js"
-import { useRouter } from "next/navigation.js"
 import { useDispatch, useSelector } from "react-redux"
+
+import XMTPChat from '@/components/XMTP/XMTPChat'
 
 export default function CardWithForm({ params }) {
 
@@ -18,15 +19,19 @@ export default function CardWithForm({ params }) {
         <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
         <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
       </div>
-      <div className=" p-16 flex gap-7 justify-center items-center z-10 relative flex-wrap">
-        {
-          data.map((value) => {
-            return (
-              <AnnotationCard id={value.id} labels={value.labels} slug={params.slug} />
-            )
-          })
-        }
+      <div className=" flex relative z-10">
+        <div className=" p-16 pl-8 pr-1 flex gap-7 justify-center items-center relative flex-wrap">
+          {
+            data.map((value) => {
+              return (
+                <AnnotationCard id={value.id} labels={value.labels} slug={params.slug} />
+              )
+            })
+          }
+        </div>
+        <XMTPChat></XMTPChat>
       </div>
+
     </>
   )
 }
