@@ -34,7 +34,7 @@ export const fundMyAccountOnLocalFork = async (address) => {
 
 export const signMessage = (address) => {
   return encodeAbiParameters(
-    [{ type: "address", name: "airdropAddress" }],
+    [{ type: "address", name: "payoutAddress" }],
     [address]
   );
 };

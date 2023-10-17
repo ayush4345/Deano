@@ -3,11 +3,11 @@
     {
       "hash": "0x5e54cbaa31d0911bd4f4a669110cc6257b49d4f500f5cf6a2cafae0bf4781d62",
       "transactionType": "CREATE",
-      "contractName": "Airdrop",
+      "contractName": "Payout",
       "contractAddress": "0xfB8CDe95404b8542A7FC93C25dCba40Ad3874d1b",
       "function": null,
       "arguments": [
-        "My airdrop contract",
+        "My payout contract",
         "AIR"
       ],
       "transaction": {
