@@ -77,7 +77,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
   return (
     <div>
 
-      <h1 className="font-semibold text-[#202009] bg-[#E9ECED] mx-auto w-full flex justify-center items-center text-[30px] rounded-t-lg shadow-md">chat with vendor</h1>
+      <h1 className="font-semibold text-[#202009] bg-[#E9ECED] mx-auto w-full flex justify-center items-center text-[24px] rounded-t-lg shadow-md">chat with vendor</h1>
 
       {/* <button onClick={() => setShowContactList(true)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
