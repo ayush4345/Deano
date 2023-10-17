@@ -12,13 +12,9 @@ import {
 } from "wagmi";
 import {
   mainnet,
-  goerli,
   sepolia,
-  arbitrum,
   arbitrumGoerli,
   scrollTestnet,
-  gnosis,
-  polygon,
   scrollSepolia,
   polygonMumbai,
   base,
@@ -43,7 +39,6 @@ const sismoConnectConfig = {
 };
 
 /* ********************  Defines the chain to use *************************** */
-// const CHAIN = mumbaiFork;
 const CHAIN = polygonMumbai;
 
 export default function Home() {
