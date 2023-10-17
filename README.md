@@ -3,12 +3,20 @@
 
 ## Introduction
 
+It is a truism that the quality of data you can get out of a system depends on the quality of the data you put into the system. This is as true in a basic Excel file as it is in the most advanced artificial intelligence (AI) systems.
+
+Human Only Labeling
+Humans are exceptionally skilled at tasks for many modalities we care about for machine learning applications, such as vision and natural language processing. Humans provide higher quality labels than automated data labeling in many domains.
+
+
+
+
 Authenticity and Quality of Data used for training Machine Learning models is a major concern in the industry. 
 We often have to blindly trust the data provided by centralized data providers and there is no way to verify the authenticity of the data.
 
 
 Deano tries to solve this problem by providing a transparent and decentralized platform for data annotation.
-Vendors can upload their data to the platform and request for annotations. Each annotation request is verified by the community and the data is annotated by the community. Each member is given a fixed payout every month for their contribution to the platform based on a reputation metric for each individual.
+Vendors can upload their data to the platform and request for annotations. Each annotation request is verified by the community and the data is annotated by the community. Each member is given a fixed payout every x days for their contribution to the platform based on a reputation metric for each individual.
 
 ## Architecture
 
