@@ -12,69 +12,38 @@ import {
 } from "wagmi";
 import {
   mainnet,
-  goerli,
   sepolia,
-  optimism,
-  optimismGoerli,
-  arbitrum,
   arbitrumGoerli,
   scrollTestnet,
-  gnosis,
-  polygon,
+  scrollSepolia,
   polygonMumbai,
   base,
   baseGoerli,
 } from "wagmi/chains";
 import { waitForTransaction } from "@wagmi/core";
 import { decodeEventLog, formatEther } from "viem";
-import { abi as AirdropABI } from "../../abi/Airdrop.json";
+import { abi as PayoutABI } from "../../abi/Payout.json";
 import { errorsABI, formatError, fundMyAccountOnLocalFork, signMessage } from "@/utils/misc";
-import { mumbaiFork } from "../../wagmi/chains";
 import {
   SismoConnectButton, // the Sismo Connect React button displayed below
-  //   SismoConnectConfig, // the Sismo Connect config with your appId
   AuthType, // the authType enum, we will choose 'VAULT' in this tutorial
-  //   ClaimType, // the claimType enum, we will choose 'GTE' in this tutorial, to check that the user has a value greater than a given threshold
 } from "@sismo-core/sismo-connect-react";
-// import { transactions } from "../../broadcast/Airdrop.s.sol/5151111";
-import { transactions } from "../../broadcast/Airdrop.s.sol/80001/run-latest.json";
+// import { transactions } from "../../broadcast/Payout.s.sol/5151111";
+import { transactions } from "../../broadcast/Payout.s.sol/80001/run-latest.json";
 import { useRouter } from "next/navigation";
 
 /* ***********************  Sismo Connect Config *************************** */
 
-// you can create a new Sismo Connect app at https://factory.sismo.io
-// The SismoConnectConfig is a configuration needed to connect to Sismo Connect and requests data from your users.
-
 const sismoConnectConfig = {
   appId: "0xf4977993e52606cfd67b7a1cde717069",
-  vault: {
-    // For development purposes
-    // insert any account that you want to impersonate  here
-    // Never use this in production
-    impersonate: [
-      "leo21.sismo.eth",
-      "0xA4C94A6091545e40fc9c3E0982AEc8942E282F38",
-      "0x1b9424ed517f7700e7368e34a9743295a225d889",
-      "0x82fbed074f62386ed43bb816f748e8817bf46ff7",
-      "0xc281bd4db5bf94f02a8525dca954db3895685700",
-      "twitter:leo21_eth",
-      "github:leo21",
-    ],
-  },
 };
 
 /* ********************  Defines the chain to use *************************** */
-// const CHAIN = mumbaiFork;
 const CHAIN = polygonMumbai;
 
 export default function Home() {
-  /* ***********************  Application states *************************** */
 
-  // const GITCOIN_PASSPORT_HOLDERS_GROUP_ID = "0x1cde61966decb8600dfd0749bd371f12";
-  // const SISMO_COMMUNITY_MEMBERS_GROUP_ID = "0xd630aa769278cacde879c5c0fe5d203c";
-  // const EARLY_SISMO_COMMUNITY_MEMBERS_GROUP_ID = "0xe4c011331d91b79639df349a93157a1b";
-  // const SISMO_FACTORY_USERS_GROUP_ID = "0x05629c9a54e30d8c8aea911a48cd9e30";
-  const DEANO_ANNOTATORS_GROUP_ID = "0x5ebd62b3c756b552b6d3602fc7f996d1";
+  const DEANO_ANNOTATORS_GROUP_ID = "0x390f865ab67200e84079573e5de40d56";
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -94,7 +63,7 @@ export default function Home() {
     responseBytes && chain
       ? {
         address: transactions[0].contractAddress,
-        abi: [...AirdropABI, ...errorsABI],
+        abi: [...PayoutABI, ...errorsABI],
         functionName: "claimWithSismo",
         args: [responseBytes],
         chain,
@@ -116,8 +85,8 @@ export default function Home() {
     return setError(formatError(wagmiSimulateError));
   }, [wagmiSimulateError, isConnected]);
 
-  /* ************  Handle the airdrop claim button click ******************* */
-  async function claimAirdrop() {
+  /* ************  Handle the payout claim button click ******************* */
+  async function claimPayout() {
     if (!address) return;
     setError("");
     setLoading(true);
@@ -128,7 +97,7 @@ export default function Home() {
       const txReceipt = tx && (await waitForTransaction({ hash: tx.hash }));
       if (txReceipt?.status === "success") {
         const mintEvent = decodeEventLog({
-          abi: AirdropABI,
+          abi: PayoutABI,
           data: txReceipt.logs[0]?.data,
           topics: txReceipt.logs[0]?.topics,
         });
@@ -148,7 +117,7 @@ export default function Home() {
     disconnect();
     setAmountClaimed("");
     setResponseBytes("");
-    setError("");      
+    setError("");
     router.replace('/redeem');
   }
 
@@ -158,12 +127,12 @@ export default function Home() {
         <h1>
           <b> Tutorial</b>
           <br />
-          Sismo Connect onchain airdrop
+          Sismo Connect onchain payout
         </h1>
 
         {!isConnected && (
           <>
-            <p>This is a simple ERC20 gated airdrop example using Sismo Connect.</p>
+            <p>This is a simple ERC20 gated payout example using Sismo Connect.</p>
             {connectors.map((connector) => (
               <button
                 disabled={!connector.ready || isLoading}
@@ -180,36 +149,25 @@ export default function Home() {
 
         {isConnected && !responseBytes && (
           <>
-            <p>Using Sismo Connect we will protect our airdrop from:</p>
+            <p>Using Sismo Connect we will protect our payout from:</p>
             <br />
             <ul>
               <li>Double-spending: each user has a unique Vault id derived from your app id.</li>
-              <li>Front-running: the airdrop destination address is sent as signature request</li>
+              <li>Front-running: the payout destination address is sent as signature request</li>
             </ul>
             <br />
             <p>
               <b>Chain: {chain?.name}</b>
               <br />
-              <b>Your airdrop destination address is: {address}</b>
+              <b>Your payout destination address is: {address}</b>
             </p>
 
             <SismoConnectButton
               // the client config created
               config={sismoConnectConfig}
-              // request a proof of Gitcoin Passport ownership from your users
-              // pass the groupId and the minimum value required in the group
+
               claims={[
-                // {
-                //   groupId: GITCOIN_PASSPORT_HOLDERS_GROUP_ID,
-                //   value: 1,
-                //   claimType: ClaimType.GTE,
-                // }
-                // ,
-                // { groupId: SISMO_COMMUNITY_MEMBERS_GROUP_ID, isSelectableByUser: true },
-                // // this proof of group membership optional
-                // { groupId: EARLY_SISMO_COMMUNITY_MEMBERS_GROUP_ID, isOptional: true },
-                // // this proof of group membership optional
-                // { groupId: SISMO_FACTORY_USERS_GROUP_ID, isOptional: true },
+
                 {
                   groupId: DEANO_ANNOTATORS_GROUP_ID,
                   isSelectableByUser: true,
@@ -218,7 +176,7 @@ export default function Home() {
               ]}
               // the auth request we want to make
               // here we want the proof of a Sismo Vault ownership from our users
-              auths={[{ authType: AuthType.VAULT }]}
+              auths={[{ authType: AuthType.EVM_ACCOUNT }]}
               // we ask the user to sign a message
               // it will be used onchain to prevent frontrunning
               signature={{ message: signMessage(address) }}
@@ -235,8 +193,8 @@ export default function Home() {
         {isConnected && responseBytes && !amountClaimed && (
           <>
             <p>Chain: {chain?.name}</p>
-            <p>Your airdrop destination address is: {address}</p>
-            <button disabled={loading || Boolean(error)} onClick={() => claimAirdrop()}>
+            <p>Your payout destination address is: {address}</p>
+            <button disabled={loading || Boolean(error)} onClick={() => claimPayout()}>
               {!loading ? "Claim" : "Claiming..."}
             </button>
           </>
@@ -259,12 +217,7 @@ export default function Home() {
           </>
         )}
       </main>
-
-      {isConnected && (
-        <button className={styles.disconnect} onClick={() => resetApp()}>
-          Reset
-        </button>
-      )}
+      
     </>
   );
 }
