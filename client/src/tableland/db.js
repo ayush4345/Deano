@@ -107,10 +107,10 @@ const insertResults = async (results, job_id) => {
 
 }
 
-const insertAnnotator = async (annotator_address) => {
+export const insertAnnotator = async (annotator_address) => {
     const tableName = `reputations_80001_7880`;
     const { meta: insert } = await db
-        .prepare(`INSERT INTO ${tableName} (address,  reputation) VALUES (?, ?);`)
+        .prepare(`INSERT INTO ${tableName} (annotator_address,  reputation) VALUES (?, ?);`)
         .bind(annotator_address, 0)
         .run();
 
@@ -125,23 +125,18 @@ async function updateReputations(updates, pending_jobs) {
     const tableName = `reputations_80001_7880`;
     //construct a batched update query
 
-
-
-    // await db.batch([
-    //     db.prepare("UPDATE users SET name = ?1 WHERE id = ?2").bind("John", 17),
-    //     db.prepare("UPDATE users SET age = ?1 WHERE id = ?2").bind(35, 19),
-    // ]);
-
     //add the delta to the old reputation
 
     const queries = pending_jobs.map((job, index) => {
         const { annotator_address } = job;
         const delta = updates[index];
-        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE address = '${annotator_address}';`)
+        console.log(`Updating ${annotator_address} by ${delta} points`);
+        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE annotator_address = '${annotator_address}';`)
     })
 
     const res = await db.batch(queries);
-
+    console.log(res); // e.g., my_sdk_table_80001_311
+    
 }
 
 
@@ -218,12 +213,18 @@ async function updateReputations(updates, pending_jobs) {
 
         })
 
+        //convert floats to ints
+        Object.keys(updates).map((key) => {
+            updates[key] = Math.round(updates[key] * 100);
+        })
+
 
         updateReputations(updates, pending_jobs)
 
 
         // const res = await insertResults( JSON.stringify(majority), job_id);
         // return res;
+        return updates;
 
     }
 
