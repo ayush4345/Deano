@@ -6,12 +6,14 @@ import {
     CardTitle
 } from '@/components/ui/card'
 import { Button } from "./ui/button";
-
+import { useWallets } from "@privy-io/react-auth";
 
 export default function Token() {
     const { address } = useAccount();
+    const { wallets } = useWallets();
+
     const res = useBalance({
-        address: address,
+        address: wallets[0].address,
         token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
     })
 

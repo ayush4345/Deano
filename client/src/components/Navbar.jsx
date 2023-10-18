@@ -11,7 +11,6 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import XMTPChat from "./XMTP/XMTPChat"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 
