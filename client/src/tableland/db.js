@@ -88,3 +88,34 @@ export const updateJobStatus = async (job_id, status) => {
     waitForTransaction(update)
     return update.txn.transactionHash
 }
+
+
+export const computeJobResults = async (job_id) => {
+
+    //get all the responses from the pending_answers table
+    //annotator_address , job_id, response
+    //response is a blob of json
+    //response = { "image" : "1" , label : "1" }
+    const tableName = `pending_answers_80001_7842`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
+    console.log(results);
+
+    const responses = results.map((r) => {
+        return JSON.parse(r.response)
+    })
+
+    console.log(responses);
+
+    const answers = [];
+
+    responses.map((r) => {
+        r.map((a) => {
+            answers[a.image] = a.label
+        })
+
+    })
+
+
+}
+
+

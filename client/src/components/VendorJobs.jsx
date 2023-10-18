@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { getVendorJobs } from "@/tableland/db";
@@ -9,7 +9,6 @@ export default function VendorJobs({ vendor_address }) {
 
     const [updatingJobs, setUpdatingJobs] = useState(false)
     const [vendorJobs, setVendorJobs] = useState([])
-    const [stoppingJob, setStoppingJob] = useState(false)
     const updateJobs = async () => {
         setUpdatingJobs(true)
         const jobs = await getVendorJobs(vendor_address);
@@ -17,13 +16,9 @@ export default function VendorJobs({ vendor_address }) {
         setUpdatingJobs(false)
     }
 
-    const stopJob = (job_id, status) => async () => {
-        setStoppingJob(true)
-        const result = await updateJobStatus(job_id, status)
-        console.log(result)
-        setStoppingJob(false)
+    useEffect(() => {
         updateJobs()
-    }
+    }, [])
 
     return (
         <div className="">
@@ -53,19 +48,9 @@ export default function VendorJobs({ vendor_address }) {
                             {job.status}
                         </div>
 
-                        <Button
-                            // disabled={stoppingJob || job.status === "pending"}
-                            onClick={stopJob(job.job_id, "active")}
-
-                            className="m-2">
-
-                            {
-                                stoppingJob ? "Stopping Job..." : "Stop Job"
-                            }
-
-                        </Button>
-                        <Link href={`/vendor/${job.job_id}/results`}
-                            className='underline text-blue-500'>                            
+                        <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
+                        <Link href={`/api/vendor/results/${job.job_id}`}
+                            className='underline text-blue-500'>
                             View Results
                         </Link>
 
@@ -76,4 +61,27 @@ export default function VendorJobs({ vendor_address }) {
         </div>
     )
 
+}
+
+export const StopButton = ({ job_id, status , updateJobs}) => {
+    const [stoppingJob, setStoppingJob] = useState(false)
+    const stopJob = async () => {
+        setStoppingJob(true)
+        const result = await updateJobStatus(job_id, "active")
+        console.log(result)
+        updateJobs()
+        setStoppingJob(false)
+    }
+    return (
+        <Button
+            disabled={stoppingJob || status === "pending"}
+            onClick={stopJob}
+            className="m-2">
+
+            {
+                stoppingJob ? "Stopping Job..." : "Stop Job"
+            }
+
+        </Button>
+    )
 }

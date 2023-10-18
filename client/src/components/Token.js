@@ -12,7 +12,7 @@ export default function Token() {
     const { address } = useAccount();
     const res = useBalance({
         address: address,
-        token: "0xCbcAae06e64c3a75add1FA186558fB12B24B9cD6",
+        token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
     })
 
     if (res.isLoading) return <div>Loading...</div>

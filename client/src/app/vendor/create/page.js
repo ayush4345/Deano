@@ -8,6 +8,7 @@ import { useAccount, useBalance, useContractWrite, usePrepareContractWrite } fro
 import { abi as tokenABI } from '@/abi/Payout.json'
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
+import Token from "@/components/Token"
 export default function CreateJob() {
 
     const router = useRouter();
@@ -32,7 +33,6 @@ export default function CreateJob() {
         cacheTime: 100000,
     })
 
-
     const { data, isLoading, isSuccess, write } = useContractWrite({
         ...config,
         onSuccess: () => setHasPaid(true),
@@ -40,6 +40,10 @@ export default function CreateJob() {
 
     const handlePayBounty = (e) => {
         e.preventDefault()
+        // if(bounty > res.data.formatted){
+        //     alert("You don't have enough tokens to pay this bounty");
+        //     return;
+        // }
         console.log(bounty)
         // write?.()
         setHasPaid(true)
@@ -48,6 +52,10 @@ export default function CreateJob() {
     const handleJobSubmit = async (e) => {
         e.preventDefault()
         setSubmitting(true)
+
+
+
+
         const res = await fetch(`http://localhost:3000/api/vendor/${address}/create`, {
             method: "POST",
             headers: {
@@ -65,7 +73,7 @@ export default function CreateJob() {
         console.log(data)
         setSubmitting(false)
         // router.push(`/vendor/${address}`)
-        // router.replace(`/vendor/`)
+        router.replace(`/vendor/`)
     }
 
     return (
@@ -78,6 +86,8 @@ export default function CreateJob() {
                 <h1 className="bg-clip-text text-transparent bg-gradient-to-tr from-violet-900 to-gray-300 inline text-[72px] font-bold">
                     Create new job
                 </h1>
+
+                <Token />
                 <form
                     onSubmit={handleJobSubmit}
                     className="flex flex-col justify-between w-2/3 h-2/3 p-20 shadow-xl rounded-lg">
@@ -96,33 +106,34 @@ export default function CreateJob() {
                                         {value}
                                     </div>
                                     <input type="range" min={0} max={100} value={value} onChange={(e) => setValue(e.target.value)} onMouseUp={(e) => setBounty(e.target.value)} className="w-full" />
-                                    <button
+                                    <Button
                                         disabled={isLoading}
-                                        onClick={handlePayBounty}
-                                        className="bg-slate-700 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded">
+                                        onClick={handlePayBounty}>
                                         {isLoading ? "Paying..." : "Pay Bounty"}
-                                    </button>
+                                    </Button>
                                 </>
                             )}
                     </div>
+                    <div className="upload flex flex-col space-y-1.5 mb-2">
 
-                    {
-                        uploadedFiles ? (
-                            <div className="flex flex-col items-center justify-between p-24 bg-green-600">
-                                Files Pinned to IPFS at
-                                <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
-                                    {cid}
-                                </a>
-                            </div>
-                        ) : (
-                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} />
-                        )
-                    }
-                    <button
+                        {
+                            uploadedFiles ? (
+                                <div className="flex flex-col space-y-1.5 text-green-700">
+                                    Files Pinned to IPFS at
+                                    <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
+                                        {cid}
+                                    </a>
+                                </div>
+                            ) : (
+                                <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} />
+                            )
+                        }
+                    </div>
+                    <Button
                         disabled={submitting}
-                        className="bg-slate-700 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded">
+                    >
                         {submitting ? "Submitting..." : "Submit Job"}
-                    </button>
+                    </Button>
 
                 </form>
             </div>
