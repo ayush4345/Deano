@@ -109,30 +109,25 @@ export default function Home() {
       setError(formatError(e));
     } finally {
       setLoading(false);
+      router.replace('/redeem');
+
     }
   }
 
-  /* *************************  Reset state **************************** */
-  function resetApp() {
-    disconnect();
-    setAmountClaimed("");
-    setResponseBytes("");
-    setError("");
-    router.replace('/redeem');
-  }
 
   return (
     <>
       <main className={styles.main}>
-        <h1>
-          <b> Tutorial</b>
-          <br />
-          Sismo Connect onchain payout
+        <h1 className="text-xl font-bold">
+          Payout
         </h1>
+
+        <p>
+          Your salary will be determined 
+        </p>
 
         {!isConnected && (
           <>
-            <p>This is a simple ERC20 gated payout example using Sismo Connect.</p>
             {connectors.map((connector) => (
               <button
                 disabled={!connector.ready || isLoading}
@@ -148,24 +143,13 @@ export default function Home() {
         )}
 
         {isConnected && !responseBytes && (
-          <>
-            <p>Using Sismo Connect we will protect our payout from:</p>
-            <br />
-            <ul>
-              <li>Double-spending: each user has a unique Vault id derived from your app id.</li>
-              <li>Front-running: the payout destination address is sent as signature request</li>
-            </ul>
-            <br />
-            <p>
-              <b>Chain: {chain?.name}</b>
-              <br />
-              <b>Your payout destination address is: {address}</b>
-            </p>
+          <div className="">
+
+
 
             <SismoConnectButton
               // the client config created
               config={sismoConnectConfig}
-
               claims={[
 
                 {
@@ -187,7 +171,7 @@ export default function Home() {
               // Some text to display on the button
               text={"Claim with Sismo"}
             />
-          </>
+          </div>
         )}
 
         {isConnected && responseBytes && !amountClaimed && (
@@ -217,7 +201,7 @@ export default function Home() {
           </>
         )}
       </main>
-      
+
     </>
   );
 }
