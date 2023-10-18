@@ -25,9 +25,9 @@ Vendors can upload their data to the platform and request for annotations. Each 
 
 ### Workflow
 
-1 - Vendors upload their data to the platform and request for annotations.
-2 - Annotators verify the authenticity of the data and annotate the data.
-3 - Annotators are rewarded for their contribution to the platform based on a reputation metric for each individual.
+- Vendors upload their data to the platform and request for annotations.
+- Annotators verify the authenticity of the data and annotate the data.
+- Annotators are rewarded for their contribution to the platform based on a reputation metric for each individual.
 
 ### How Accuracy is maintained
 
