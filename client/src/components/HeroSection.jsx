@@ -10,8 +10,10 @@ export default function Hero() {
             <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
                 <div className="relative pt-36 ml-auto">
                     <div className="lg:w-2/3 text-center mx-auto">
-                        <h1 className="text-gray-900 dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">Shaping a world with <span className="text-primary dark:text-white">reimagination.</span></h1>
-                        <p className="mt-8 text-gray-700 dark:text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio incidunt nam itaque sed eius modi error totam sit illum. Voluptas doloribus asperiores quaerat aperiam. Quidem harum omnis beatae ipsum soluta!</p>
+                        <h1 className="text-gray-900 dark:text-white font-bold text-4xl md:text-6xl xl:text-7xl">Shaping the world with <span className="text-primary dark:text-white">decentralised annotation.</span></h1>
+                        <p className="mt-8 text-gray-700 dark:text-gray-300">
+                            We are building a platform that allows you to annotate your data in a decentralised way. 
+                        </p>
                         <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
                             <Link
                                 href="/auth/login"

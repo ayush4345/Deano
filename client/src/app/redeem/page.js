@@ -122,8 +122,9 @@ export default function Home() {
           Payout
         </h1>
 
-        <p>
-          Your salary will be determined 
+        <p className="text-lg p-2 text-gray-500">
+          Your salary will be determined by your reputation score revealed 
+          through the Sismo Vault.
         </p>
 
         {!isConnected && (
@@ -144,8 +145,6 @@ export default function Home() {
 
         {isConnected && !responseBytes && (
           <div className="">
-
-
 
             <SismoConnectButton
               // the client config created
