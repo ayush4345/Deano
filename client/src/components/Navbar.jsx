@@ -151,9 +151,12 @@ export default function Navbar() {
                                         <button id="sdk-trigger-id"><BellIcon /></button>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
-                                        {(ready && authenticated)
-                                            ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>logout privy</button>
-                                            : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>login privy</button>
+                                        {ready
+                                            ? (authenticated
+                                                ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>logout privy</button>
+                                                : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>login privy</button>
+                                            )
+                                            : <button className=" bg-orange-400 text-white p-3 px-3 rounded-xl font-semibold" onClick={login} disabled>login privy</button>
                                         }
                                     </li>
                                 </ul>
