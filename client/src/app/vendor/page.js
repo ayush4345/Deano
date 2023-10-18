@@ -11,6 +11,7 @@ import {
 
 import Token from "@/components/Token"
 import VendorJobs from "../../components/VendorJobs";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 
 export default function VendorPage() {
 
@@ -27,10 +28,9 @@ export default function VendorPage() {
     }, [])
 
     const { address } = useAccount();
-    const res = useBalance({
-        address: address,
-        token: "0x158012940D35D9F14C091A6f21DC4F0B2Ce126F7",
-    })
+    const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+    const { wallets } = useWallets();
+
 
     return (
         <main className="flex p-24 flex-col bg-white">
@@ -44,11 +44,11 @@ export default function VendorPage() {
                             </CardTitle>
                         </CardHeader>
                     </Card>
-                    <Token />
+                    {ready && wallets.length > 0 && <Token />}
                 </Suspense>
-            </div>           
+            </div>
 
-            <VendorJobs vendor_address={address} />      
+            <VendorJobs vendor_address={address} />
 
         </main>
     )
