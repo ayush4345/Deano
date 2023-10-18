@@ -5,7 +5,7 @@ export async function GET(request, { params }) {
     //filter jobs by vendor address
     const vendor_address = params.address
     const vendor_details = {
-        name: 'test',
+        name: 'Shubham Rasal',
         address: vendor_address,
     }
 

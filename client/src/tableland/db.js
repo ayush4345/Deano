@@ -89,6 +89,11 @@ export const updateJobStatus = async (job_id, status) => {
         .run();
     console.log(update.txn.transactionHash); // e.g., my_sdk_table_80001_311
     waitForTransaction(update)
+
+    if(status == "pending"){
+        computeJobResults(job_id)
+    }
+
     return update.txn.transactionHash
 }
 
@@ -136,96 +141,89 @@ async function updateReputations(updates, pending_jobs) {
 
     const res = await db.batch(queries);
     console.log(res); // e.g., my_sdk_table_80001_311
-    
+
 }
 
 
+export const computeJobResults = async (job_id) => {
 
 
+    //TODO: Get the pending_jobs
+
+    //dummy responses
+    const pending_jobs = [
+        {
+            annotator_address: "0x123",
+            response: [1, 1, 2],
+        },
+
+        {
+            annotator_address: "0x123",
+            response: [2, 2, 1],
+        },
+
+        {
+            annotator_address: "0x123",
+            response: [3, 3, 1],
+        },
+
+        {
+            annotator_address: "0x123",
+            response: [4, 4, 2],
+        },
+
+        {
+            annotator_address: "0x123",
+            response: [5, 5, 3],
+        },
+    ]
+
+    const responses = pending_jobs.map((job) => job.response);
 
 
+    //for each index go trough each response and count the majority
+    //if there is a tie then we have to do something else
+    //if there is no majority then we have to do something else
 
+    const results = responses[0].map((_, colIndex) => responses.map(row => row[colIndex]));
 
-    export const computeJobResults = async (job_id) => {
+    const answers = results
 
+    //find the value that occurs the most in each row
+    const majority = answers.map((row) => {
+        return row.reduce((a, b, i, arr) =>
+            (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+    })
 
-        //TODO: Get the pending_jobs
+    //update reputations for annotators whose answers is in the majority
+    const updates = {};
 
-        //dummy responses
-        const pending_jobs = [
-            {
-                annotator_address: "0x123",
-                response: [1, 1, 2],
-            },
-
-            {
-                annotator_address: "0x123",
-                response: [2, 2, 1],
-            },
-
-            {
-                annotator_address: "0x123",
-                response: [3, 3, 1],
-            },
-
-            {
-                annotator_address: "0x123",
-                response: [4, 4, 2],
-            },
-
-            {
-                annotator_address: "0x123",
-                response: [5, 5, 3],
-            },
-        ]
-
-        const responses = pending_jobs.map((job) => job.response);
-
-
-        //for each index go trough each response and count the majority
-        //if there is a tie then we have to do something else
-        //if there is no majority then we have to do something else
-
-        const results = responses[0].map((_, colIndex) => responses.map(row => row[colIndex]));
-
-        const answers = results
-        //answers = [[1,1,2],[2,2,1],[3,3,1],[4,4,2],[5,5,3]]
-
-        //find the value that occurs the most in each row
-        const majority = answers.map((row) => {
-            return row.reduce((a, b, i, arr) =>
-                (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+    responses.map((row, index) => {
+        let correctCount = 0;
+        row.map((answer, i) => {
+            if (answer == majority[i]) {
+                //update reputation
+                correctCount += 1
+            }
         })
 
-        //update reputations for annotators whose answers is in the majority
-        const updates = {};
+        updates[index] = correctCount / row.length;
 
-        responses.map((row, index) => {
-            let correctCount = 0;
-            row.map((answer, i) => {
-                if (answer == majority[i]) {
-                    //update reputation
-                    correctCount += 1
-                }
-            })
+    })
 
-            updates[index] = correctCount / row.length;
-
-        })
-
-        //convert floats to ints
-        Object.keys(updates).map((key) => {
-            updates[key] = Math.round(updates[key] * 100);
-        })
+    //convert floats to ints
+    Object.keys(updates).map((key) => {
+        updates[key] = Math.round(updates[key] * 100);
+    })
 
 
-        updateReputations(updates, pending_jobs)
+    updateReputations(updates, pending_jobs)
 
 
-        // const res = await insertResults( JSON.stringify(majority), job_id);
-        // return res;
-        return updates;
+    // const res = await insertResults( JSON.stringify(majority), job_id);
+    // return res;
+    return updates;
 
-    }
+}
 
 

@@ -65,13 +65,17 @@ export default function VendorJobs({ vendor_address }) {
 
 export const StopButton = ({ job_id, status , updateJobs}) => {
     const [stoppingJob, setStoppingJob] = useState(false)
+   
+   
     const stopJob = async () => {
         setStoppingJob(true)
-        const result = await updateJobStatus(job_id, "active")
+        const result = await updateJobStatus(job_id, "pending")
         console.log(result)
         updateJobs()
         setStoppingJob(false)
     }
+    
+    
     return (
         <Button
             disabled={stoppingJob || status === "pending"}

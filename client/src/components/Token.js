@@ -28,7 +28,7 @@ export default function Token() {
                 <CardContent>
                     <div className="text-2xl font-bold">{
                         //concat to 2 decimal places
-                        res.data.formatted
+                        res.data.formatted.slice(0, -16)
                     } {res.data.symbol}</div>
 
                     <Button className="m-2">

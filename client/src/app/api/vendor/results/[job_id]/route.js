@@ -9,11 +9,13 @@ export async function GET(request, { params }) {
     // const insertHash = await insertAnnotator('0x123')
     // console.log(insertHash)
 
-    const txHash = await computeJobResults(job_id);
 
-    console.log(txHash)
 
-    // const results = await getJobResults(job_id);
+    // const txHash = await computeJobResults(job_id);
+
+    // console.log(txHash)
+
+    const results = await getJobResults(job_id);
 
     return NextResponse.json(txHash)
 
