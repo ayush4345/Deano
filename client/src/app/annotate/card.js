@@ -21,7 +21,7 @@ import { setAnnotations, updateAnnotations } from '../../utils/annotationSlice'
 import { useState } from "react"
 import { useAccount } from "wagmi"
 
-export default function AnnotationCard({ id, labels }) {
+export default function AnnotationCard({ id, labels, slug }) {
 
     const dispatch = useDispatch()
     const [label, setLabel] = useState("")
@@ -32,14 +32,13 @@ export default function AnnotationCard({ id, labels }) {
     console.log(value)
 
     const insertAnnotations = () => {
-        if ((value.filter((value) => value.imageId == `Image${id}_${address}`)).length > 0) {
+        if ((value.filter((value) => value.imageId == id)).length > 0) {
             console.log("update")
-            dispatch(updateAnnotations({ imageId: `Image${id}_${address}`, label: label.toLowerCase() }))
+            dispatch(updateAnnotations({ imageId: id, label: label.toLowerCase() }))
         } else {
-            dispatch(setAnnotations({ imageId: `Image${id}_${address}`, label: label.toLowerCase() }))
+            dispatch(setAnnotations({ imageId: id, label: label.toLowerCase() }))
         }
     }
-
 
     return (
         <Card className="w-[250px]">
@@ -53,10 +52,6 @@ export default function AnnotationCard({ id, labels }) {
             <CardContent>
                 <form>
                     <div className="grid w-full items-center gap-4">
-                        {/* <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Name of your project" />
-              </div> */}
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="framework">Label</Label>
                             <Select onValueChange={(e) => { setLabel(e) }}>
