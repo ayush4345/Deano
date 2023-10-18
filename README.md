@@ -51,3 +51,5 @@ This score is continuously updated as the annotator annotates more data. The rep
 Payout = Reputation Score * Base Payout
 ```
 
+
+
