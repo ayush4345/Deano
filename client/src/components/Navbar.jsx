@@ -81,8 +81,8 @@ export default function Navbar() {
                             <div className="text-gray-600 dark:text-gray-300 lg:pr-4 lg:w-auto w-full lg:pt-0">
                                 <ul className="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
                                     <li>
-                                        <Link href="/#features" className="block md:px-4 transition hover:text-primary">
-                                            <span>Features</span>
+                                        <Link href="/redeem" className="block md:px-4 transition hover:text-primary">
+                                            <span>Redeem</span>
                                         </Link>
                                     </li>
                                     {/* <li>
@@ -98,7 +98,9 @@ export default function Navbar() {
 
                                     <li>
                                         <Link href="/chat" className="block md:px-4 transition hover:text-primary">
-                                            <span>X</span>
+                                            <span>
+                                                Chat (powered by XMTP) <span className="text-xs text-red-500">BETA</span>
+                                            </span>
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">

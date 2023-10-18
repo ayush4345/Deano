@@ -17,13 +17,11 @@ export default function Features() {
           </svg>
 
           <h2 className="my-8 text-2xl font-bold text-gray-700 dark:text-white md:text-4xl">
-            A technology-first approach to payments and finance
+            A decentralised approach to annotation and ground truth data creation
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ad
-            ipsum pariatur autem, fugit laborum in atque amet obcaecati? Nisi
-            minima aspernatur, quidem nulla cupiditate nam consequatur eligendi
-            magni adipisci.
+            We are building a platform that allows you to annotate your data in
+            a decentralised way.
           </p>
         </div>
         <div className="mt-16 grid divide-x divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-3xl border border-gray-100 text-gray-600 dark:border-gray-700 sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
