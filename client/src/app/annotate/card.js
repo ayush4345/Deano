@@ -21,11 +21,13 @@ import { setAnnotations, updateAnnotations } from '../../utils/annotationSlice'
 import { useState } from "react"
 import { useAccount } from "wagmi"
 
-export default function AnnotationCard({ id, labels, slug }) {
+export default function AnnotationCard({ id, labels, slug, images }) {
 
     const dispatch = useDispatch()
     const [label, setLabel] = useState("")
     const { address } = useAccount()
+
+    console.log(images)
 
     const value = useSelector((state) => state.annotation.annotation)
 

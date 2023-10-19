@@ -6,12 +6,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button } from "@/components/ui/button.jsx"
 import { db } from "@/tableland/connect.js"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
-
+import { useEffect, useState } from "react"
 import XMTPChat from '@/components/XMTP/XMTPChat'
+import { set } from "zod"
+
 
 export default function CardWithForm({ params }) {
 
   const value = useSelector((state) => state.annotation.annotation)
+  const [jobData, setJobData] = useState([])
+  const [images, setImages] = useState([])
 
   const { wallets } = useWallets();
 
@@ -45,6 +49,37 @@ export default function CardWithForm({ params }) {
 
   }
 
+  useEffect(() => {
+    const getJobData = async () => {
+      const tableName = `jobs_final2_80001_7898`;
+      const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${params.slug}';`).all();
+      console.log(results);
+      setJobData(results)
+    }
+
+    getJobData()
+
+  }, [])
+
+  useEffect(() => {
+
+    const getImages = async () => {
+      console.log("fetching images")
+      const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}`);
+      const result = await response.json();
+      setImages(result)
+      console.log("hello")
+    }
+
+    if (jobData.length > 0) {
+      getImages()
+    }
+
+  }, [jobData])
+
+  console.log(jobData[0]?.cid)
+
+  console.log(images)
 
   return (
     <>
@@ -58,7 +93,7 @@ export default function CardWithForm({ params }) {
             {
               data.map((value, id) => {
                 return (
-                  <AnnotationCard id={id} labels={value.labels} slug={params.slug} />
+                  <AnnotationCard id={id} labels={value.labels} slug={params.slug} images={images}/>
                 )
               })
             }

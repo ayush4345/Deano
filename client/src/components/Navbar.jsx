@@ -11,8 +11,10 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { EmbedSDK } from "@pushprotocol/uiembed";
-import XMTPChat from "./XMTP/XMTPChat"
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { fetchNotifications } from "../utils/notifications"
+import * as AlertDialog from '@radix-ui/react-alert-dialog';
+import Notification from "./Notification"
 
 export default function Navbar() {
 
@@ -25,8 +27,29 @@ export default function Navbar() {
     const [loggingOut, setLoggingOut] = useState(false); // Add this line
 
     const { address } = useAccount()
-    console.log(address)
-    console.log(wallets)
+
+    const [notifications, setNotifications] = useState([]);
+
+    async function getNotifications(account) {
+        try {
+            const data = await fetchNotifications(account)
+            console.log('notifications', data)
+            setNotifications(data)
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    useEffect(() => {
+
+        if (ready && wallets.length > 0) {
+            getNotifications(wallets[0].address)
+        }
+
+    }, [ready, wallets])
+
+    console.log(notifications)
 
     useEffect(() => {
         const getSigner = async () => {
@@ -57,44 +80,11 @@ export default function Navbar() {
         }
     }, [wallets]);
 
-    useEffect(() => {
-        if (address) { // 'your connected wallet address'
-            EmbedSDK.init({
-                headerText: 'Deano', // optional
-                targetID: 'sdk-trigger-id', // mandatory
-                appName: 'Deano', // mandatory
-                user: address, // mandatory
-                chainId: 5, // mandatory
-                viewOptions: {
-                    type: 'sidebar', // optional [default: 'sidebar', 'modal']
-                    showUnreadIndicator: true, // optional
-                    unreadIndicatorColor: '#cc1919',
-                    unreadIndicatorPosition: 'bottom-right',
-                },
-                theme: 'light',
-                onOpen: () => {
-                    console.log('-> client dApp onOpen callback');
-                },
-                onClose: () => {
-                    console.log('-> client dApp onClose callback');
-                }
-            });
-        }
-
-        return () => {
-            EmbedSDK.cleanup();
-        };
-    }, []);
-
     const handleLogout = async () => {
         setLoggingOut(true); // Set loggingOut to true when logout begins
         await logout(); // Wait for logout to complete
         setLoggingOut(false); // Set loggingOut to false when logout ends
     };
-    console.log(loggingOut)
-
-    console.log(user, authenticated)
-
 
     return (
         <header>
@@ -137,23 +127,48 @@ export default function Navbar() {
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
-                                        <Link href="/vendor" >
-                                            <span>Vendor Dashboard</span>
-                                        </Link>
-                                    </li>
-
-                                    <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <Link href="/chat" className="block md:px-4 transition hover:text-primary">
                                             <span>X</span>
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
-                                        <button id="sdk-trigger-id"><BellIcon /></button>
+                                        <AlertDialog.Root>
+                                            <AlertDialog.Trigger asChild>
+                                                <button>
+                                                    <BellIcon />
+                                                </button>
+                                            </AlertDialog.Trigger>
+                                            <AlertDialog.Portal>
+                                                <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+                                                <AlertDialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+                                                    <AlertDialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+                                                        {`Notifications (${notifications.length})`}
+                                                    </AlertDialog.Title>
+                                                    <AlertDialog.Description className=" max-h-[68vh] overflow-y-scroll mt-4 mb-5 text-[15px] leading-normal">
+                                                        {notifications.map((n, i) => {
+                                                            // Create a notification row where icon is an image.
+                                                            return <Notification key={i} notification={n} />
+                                                        })}
+                                                    </AlertDialog.Description>
+                                                    <div className="flex justify-end gap-[25px]">
+                                                        <AlertDialog.Cancel asChild>
+                                                            <button className=" bg-red-400 hover:bg-red-600 text-white inline-flex h-[35px] items-center justify-center rounded-[8px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+                                                                Close
+                                                            </button>
+                                                        </AlertDialog.Cancel>
+                                                    </div>
+                                                </AlertDialog.Content>
+                                            </AlertDialog.Portal>
+                                        </AlertDialog.Root>
                                     </li>
+
+                                    {/* <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <button id="sdk-trigger-id"><BellIcon /></button>
+                                    </li> */}
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         {ready
                                             ? (authenticated
-                                                ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>logout privy</button>
+                                                ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>{loggingOut ? "logging out..." : "logout privy"}</button>
                                                 : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>login privy</button>
                                             )
                                             : <button className=" bg-orange-400 text-white p-3 px-3 rounded-xl font-semibold" onClick={login} disabled>login privy</button>
