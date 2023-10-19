@@ -37,9 +37,9 @@ async function waitForTransaction(insert) {
 
 
 export const createJob = async (job) => {
-    const tableName = "jobs_80001_7842";
+    const tableName = "jobs_final_80001_7896";
     const { meta: insert } = await db
-        .prepare(`INSERT INTO ${tableName} (vendo_address, job_id,  cid, status , bounty) VALUES (?, ?, ?, ?, ?);`)
+        .prepare(`INSERT INTO ${tableName} (vendor_address, job_id,  cid, status , bounty) VALUES (?, ?, ?, ?, ?);`)
         .bind(job.vendor_address, job.job_id, job.cid, job.status, job.bounty)
         .run();
     console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
@@ -49,7 +49,7 @@ export const createJob = async (job) => {
 
 
 export const getAllJobs = async () => {
-    const tableName = `jobs_80001_7842`;
+    const tableName = `jobs_final_80001_7896`;
     const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
     console.log(results);
     return results
@@ -57,15 +57,15 @@ export const getAllJobs = async () => {
 }
 
 export const getVendorJobs = async (vendor_address) => {
-    const tableName = `jobs_80001_7842`;
-    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE vendo_address = '${vendor_address}';`).all();
+    const tableName = `jobs_final_80001_7896`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE vendor_address = '${vendor_address}';`).all();
     console.log(results);
     return results
 
 }
 
 export const getJob = async (job_id) => {
-    const tableName = `jobs_80001_7842`;
+    const tableName = `jobs_final_80001_7896`;
     const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
     console.log(results);
     return results
@@ -83,7 +83,7 @@ export const getJobResults = async (job_id) => {
 
 export const updateJobStatus = async (job_id, status) => {
 
-    const tableName = `jobs_80001_7842`;
+    const tableName = `jobs_final_80001_7896`;
     const { meta: update } = await db
         .prepare(`UPDATE ${tableName} SET status = '${status}' WHERE job_id = '${job_id}';`)
         .run();

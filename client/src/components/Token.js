@@ -32,7 +32,7 @@ export default function Token() {
                     } {res.data.symbol}</div>
 
                     <Button className="m-2">
-                        <a href="https://app.uniswap.org/#/swap?inputCurrency=0x158012940D35D9F14C091A6f21DC4F0B2Ce126F7&outputCurrency=MATIC" target="_blank" rel="noopener noreferrer">
+                        <a href="https://app.uniswap.org/#/swap?inputCurrency=MATIC&outputCurrency=0x6cD23FB64f122705AbeE7305Eef346Bb10175491" target="_blank" rel="noopener noreferrer">
                             Get Tokens
                         </a>
                     </Button>

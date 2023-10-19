@@ -19,14 +19,14 @@ export default function CreateJob() {
     const { address } = useAccount();
     const res = useBalance({
         address: address,
-        token: "0x158012940D35D9F14C091A6f21DC4F0B2Ce126F7",
+        token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
         cacheTime: 100000,
     })
     const [bounty, setBounty] = useState(0)
     const [value, setValue] = useState(0)
     const [cid, setCid] = useState("bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri")
     const { config } = usePrepareContractWrite({
-        address: '0x158012940D35D9F14C091A6f21DC4F0B2Ce126F7',
+        address: '0x6cD23FB64f122705AbeE7305Eef346Bb10175491',
         abi: tokenABI,
         functionName: 'depositBounty',
         args: [bounty],
