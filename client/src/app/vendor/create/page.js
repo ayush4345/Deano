@@ -11,9 +11,20 @@ import { v4 as uuidv4 } from 'uuid';
 import Token from "@/components/Token"
 export default function CreateJob() {
 
+
+    const randomAnnotationJobTitles = [
+        "Annotate 100 plant images",
+        "Annotate 1000 images of people",
+        "Annotate 1000 images of animals",
+        "Annotate 1000 images of cars",
+        "Annotate 10 images of retina scans",
+        "Annotate 1000 images of cats"
+    ]
+
+
     const router = useRouter();
     const [uploadedFiles, setUploadedFiles] = useState(false)
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState(randomAnnotationJobTitles[Math.floor(Math.random() * randomAnnotationJobTitles.length)])
     const [hasPaid, setHasPaid] = useState(false)
     const [submitting, setSubmitting] = useState(false)
     const { address } = useAccount();
@@ -22,8 +33,9 @@ export default function CreateJob() {
         token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
         cacheTime: 100000,
     })
-    const [bounty, setBounty] = useState(0)
-    const [value, setValue] = useState(0)
+    //set a random bounty
+    const [bounty, setBounty] = useState(Math.round(Math.random() * 100))
+    const [value, setValue] = useState(bounty)
     const [cid, setCid] = useState("bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri")
     const { config } = usePrepareContractWrite({
         address: '0x6cD23FB64f122705AbeE7305Eef346Bb10175491',
@@ -53,15 +65,13 @@ export default function CreateJob() {
         e.preventDefault()
         setSubmitting(true)
 
-
-
-
         const res = await fetch(`http://localhost:3000/api/vendor/${address}/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                name: title,
                 vendor_address: address,
                 job_id: uuidv4().slice(0, 6),
                 status: 'active',
@@ -73,7 +83,8 @@ export default function CreateJob() {
         console.log(data)
         setSubmitting(false)
         // router.push(`/vendor/${address}`)
-        router.replace(`/vendor/`)
+        // router.replace(`/vendor/`)
+        alert("submitted successfully");
     }
 
     return (
@@ -93,7 +104,10 @@ export default function CreateJob() {
                     className="flex flex-col justify-between w-2/3 h-2/3 p-20 shadow-xl rounded-lg">
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" placeholder="Name of your task" />
+                        <Input 
+                        onChange={(e) => setTitle(e.target.value)}
+                        value={title}
+                        id="name"/>
                     </div>
                     <div className="bounty">
                         {hasPaid ? <div className="flex flex-row justify-between">

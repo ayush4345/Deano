@@ -5,6 +5,7 @@ import { createJob } from '../../../../../tableland/db';
 export async function POST(request) {
     const body = await request.json();
     const job = {
+        name: body.name,
         vendor_address: body.vendor_address,
         job_id: body.job_id,
         status: body.status,
