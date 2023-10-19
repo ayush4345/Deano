@@ -45,7 +45,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
 
     return (
       <div className=" ">
-        <ul className=" m-2 p-3  overflow-y-scroll no-scrollbar max-h-[500px] max-w-[500px] ">
+        <ul className=" m-2 p-3 overflow-y-scroll no-scrollbar max-h-[500px] max-w-[500px] ">
           {messages.map((message, index) => (
 
             <li
