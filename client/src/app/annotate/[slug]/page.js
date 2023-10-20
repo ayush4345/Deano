@@ -16,6 +16,8 @@ export default function CardWithForm({ params }) {
   const value = useSelector((state) => state.annotation.annotation)
   const [jobData, setJobData] = useState([])
   const [images, setImages] = useState([])
+  const [filename, setFilename] = useState({"filenames":[]})
+  const [labels, setLabels] = useState({"labels":[]})
 
   const { wallets } = useWallets();
 
@@ -65,10 +67,15 @@ export default function CardWithForm({ params }) {
 
     const getImages = async () => {
       console.log("fetching images")
-      const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}`);
+      const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/filename.json`);
       const result = await response.json();
-      setImages(result)
-      console.log("hello")
+      setFilename(result)
+
+      const response2 = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/labels.json`);
+      const result2 = await response2.json();
+      setLabels(result2)
+
+      console.log("done")
     }
 
     if (jobData.length > 0) {
@@ -77,7 +84,7 @@ export default function CardWithForm({ params }) {
 
   }, [jobData])
 
-  console.log(jobData)
+  console.log(filename)
 
   console.log(images)
 
@@ -91,9 +98,9 @@ export default function CardWithForm({ params }) {
         <div className="mb-10 flex flex-col justify-center px-5">
           <div className=" p-10 pl-8 pr-1 flex gap-7 justify-center items-center relative flex-wrap">
             {
-              data.map((value, id) => {
+              filename.filenames.map((value, id) => {
                 return (
-                  <AnnotationCard id={id} labels={value.labels} slug={params.slug} images={images}/>
+                  <AnnotationCard id={id} labels={labels.labels} slug={params.slug} image={jobData[0].cid+"/"+value}/>
                 )
               })
             }

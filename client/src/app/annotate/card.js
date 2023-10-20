@@ -21,13 +21,11 @@ import { setAnnotations, updateAnnotations } from '../../utils/annotationSlice'
 import { useState } from "react"
 import { useAccount } from "wagmi"
 
-export default function AnnotationCard({ id, labels, slug, images }) {
+export default function AnnotationCard({ id, labels, slug, image }) {
 
     const dispatch = useDispatch()
     const [label, setLabel] = useState("")
     const { address } = useAccount()
-
-    console.log(images)
 
     const value = useSelector((state) => state.annotation.annotation)
 
@@ -45,7 +43,7 @@ export default function AnnotationCard({ id, labels, slug, images }) {
     return (
         <Card className="w-[250px]">
             <div>
-                <img className="rounded-lg" src="https://images.unsplash.com/photo-1682695795255-b236b1f1267d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="logo" />
+                <img className="rounded-lg" src={`https://ipfs.io/ipfs/${image}`}alt="logo" />
             </div>
             <CardHeader>
                 <CardTitle>Image {id}</CardTitle>
