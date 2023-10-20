@@ -20,13 +20,13 @@ export async function POST(req) {
         }
     }
 
-    // const cid = await storeFiles(files)
+    const cid = await storeFiles(files)
 
 
     // Store the file in web3.storage
     return NextResponse.json({
         success: true,
-        //cid : cid,
-        cid: "bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri"
+        cid : cid,
+        // cid: "bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri"
     })
 }

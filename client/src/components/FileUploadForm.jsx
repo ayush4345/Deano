@@ -57,7 +57,7 @@ const FileUploadForm = ({setCid, setUploadedFiles}) => {
         <form className="w-full" >
             <div className="flex justify-between">
                 <CustomFileSelector
-                    accept="image/png, image/jpeg"
+                    accept="image/png, image/jpeg, application/json"
                     onChange={handleFileSelected}
                 />
                 <button
