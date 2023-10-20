@@ -125,11 +125,6 @@ export default function Navbar() {
                                             <span>Features</span>
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link href="/dashboard" className="block md:px-4 transition hover:text-primary">
-                                            <span>Dashboard</span>
-                                        </Link>
-                                    </li> */}
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <Link href="/chat" className="block md:px-4 transition hover:text-primary">
                                             <span>X</span>
