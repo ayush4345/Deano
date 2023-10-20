@@ -77,7 +77,7 @@ export default function CardWithForm({ params }) {
 
   }, [jobData])
 
-  console.log(jobData[0]?.cid)
+  console.log(jobData)
 
   console.log(images)
 

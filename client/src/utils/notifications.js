@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button"
 import { PushAPI } from '@pushprotocol/restapi'
 
 export const NotificationOptIn = async () => {
-
+    console.log("subscribing...")
     const Pkey = `0x${process.env.NEXT_PUBLIC_PUSH_PRIVATE_KEY}`;
     const _signer = new ethers.Wallet(Pkey);
 
@@ -13,8 +13,31 @@ export const NotificationOptIn = async () => {
     await userAlice.notification.subscribe(
         `eip155:5:0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167` // channel address in CAIP format
     )
-
+    console.log("subscribed")
+    
+    userSubscriptions()
 }
+
+export const userSubscriptions = async () => {
+
+    const Pkey = `0x${process.env.NEXT_PUBLIC_PUSH_PRIVATE_KEY}`;
+    const _signer = new ethers.Wallet(Pkey);
+
+    const userAlice = await PushAPI.initialize(_signer, { env: 'staging' })
+
+    const aliceSubscriptions = await userAlice.notification.subscriptions()
+
+    let subscribed = aliceSubscriptions.find((element) => element.channel == "0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167")
+
+    console.log(aliceSubscriptions)
+
+    if (subscribed) {
+        return true
+    } else {
+        return false
+    }
+}
+
 export async function fetchNotifications(address) {
 
     const Pkey = `0x${process.env.NEXT_PUBLIC_PUSH_PRIVATE_KEY}`;
@@ -27,7 +50,7 @@ export async function fetchNotifications(address) {
         {
             account: `eip155:5:${address}`,
             channels: [`eip155:5:0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167`],
-            limit:14,
+            limit: 14,
         },
     );
 

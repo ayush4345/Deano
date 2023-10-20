@@ -3,22 +3,25 @@
 import { useAccount } from "wagmi"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { NotificationOptIn } from "@/utils/notifications"
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 
 export default function AnnotatorProfile() {
 
-    const { address } = useAccount()
+    const { wallets } = useWallets();
 
     return (
         <div class="w-full px-6 py-6 mx-auto drop-zone loopple-min-height-78vh text-slate-500"><div class="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-white/80 bg-clip-border mb-4 draggable" draggable="true">
             <div class="flex flex-wrap -mx-3">
                 <div class="flex-none w-auto max-w-full px-3">
                     <div class="text-base ease-soft-in-out h-18.5 w-18.5 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
-                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${address}`} alt="profile_image" class="w-20 shadow-soft-sm rounded-xl" />
+                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${wallets[0].address}`} alt="profile_image" class="w-20 shadow-soft-sm rounded-xl" />
                     </div>
                 </div>
                 <div class="flex-none w-auto max-w-full px-3 my-auto">
                     <div class="h-full">
-                        <h5 class="mb-1">{address}</h5>
+                        <h5 class="mb-1">{wallets[0].address}</h5>
                         <p class="mb-0 font-semibold leading-normal text-sm">Annotator</p>
                     </div>
                 </div>
@@ -36,7 +39,7 @@ export default function AnnotatorProfile() {
                                 <ul class="flex flex-col pl-0 mb-0 rounded-lg">
                                     <li class="relative block px-0 py-2 bg-white border-0 rounded-t-lg text-inherit">
                                         <div className="flex items-center space-x-2">
-                                            <Switch id="follow" />
+                                            <Button id="follow" onClick={() => NotificationOptIn(wallets[0].address)} >Opt In</Button>
                                             <Label htmlFor=" follow" >Enable Push Notification</Label>
                                         </div>
                                     </li>
@@ -174,6 +177,6 @@ export default function AnnotatorProfile() {
                         </div>
                     </div>
                 </div>
-            </div></div>
+            </div></div >
     )
 }
