@@ -121,13 +121,14 @@ export default function Navbar() {
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
-                                        <Link href="/#features" className="flex items-center md:px-4 transition hover:text-primary">
-                                            <span>Features</span>
+                                        <Link href="/vendor" className="block md:px-4 transition hover:text-primary">
+                                            <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
+
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <Link href="/chat" className="block md:px-4 transition hover:text-primary">
-                                            <span>X</span>
+                                        Chat (powered by XMTP) <span className="text-xs text-red-500">BETA</span>
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
