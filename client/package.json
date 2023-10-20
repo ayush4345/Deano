@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@airstack/airstack-react": "^0.5.5",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^8.1.0",
+    "@mui/material": "^5.14.14",
     "@privy-io/react-auth": "^1.43.3",
     "@pushprotocol/restapi": "^1.4.27",
     "@radix-ui/react-alert-dialog": "^1.0.5",
