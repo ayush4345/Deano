@@ -10,11 +10,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
-import { EmbedSDK } from "@pushprotocol/uiembed";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { fetchNotifications } from "../utils/notifications"
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import Notification from "./Notification"
+import CheckIfUser from "../utils/checkIfUser"
 
 export default function Navbar() {
 
@@ -45,11 +45,10 @@ export default function Navbar() {
 
         if (ready && wallets.length > 0) {
             getNotifications(wallets[0].address)
+            CheckIfUser(wallets[0].address)
         }
 
     }, [ready, wallets])
-
-    console.log(notifications)
 
     useEffect(() => {
         const getSigner = async () => {
