@@ -1,8 +1,11 @@
-import Image from "next/image";
+"use client"
 
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { UserNav } from "./components/user-nav";
+import { useEffect,useState } from "react";
+import {z} from "zod";
+import {taskSchema} from "./data/schema"
 
 export const metadata = {
   title: "Tasks",
@@ -11,21 +14,38 @@ export const metadata = {
 
 // Simulate a database read for tasks.
 
-export default async function TaskPage() {
-  const response = await fetch("https://deano.vercel.app/api/data");
-  const tasks = [
-    {
-      "job_id": "86de88",
-      "name": "Annotate 8 images of cat",
-      "vendor_address": "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
-      "status": "active",
-      "bounty": 29,
-      "cid": "bafybeidykipmptpql33uzy4wv6eh5ych2lnnhvfk22hszlc2x7fyolnyme"
-    }
-  ]
-  const result = await response.json()
+export default function TaskPage() {
 
-  console.log(await response.json())
+  const [jobData, setJobData] = useState([])
+
+  useEffect(() => {
+    const getJobData = async () => {
+      const tableName = `jobs_final2_80001_7898`;
+      const { results } = await db.prepare(`SELECT * FROM ${tableName} ;`).all();
+      console.log(results);
+      const response = z.array(taskSchema).parse(tasks)
+
+      setJobData(response)
+    }
+
+    getJobData()
+
+  }, [])
+
+  // const response = await fetch("https://deano.vercel.app/api/data");
+  // const tasks = [
+  //   {
+  //     "job_id": "86de88",
+  //     "name": "Annotate 8 images of cat",
+  //     "vendor_address": "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
+  //     "status": "active",
+  //     "bounty": 29,
+  //     "cid": "bafybeidykipmptpql33uzy4wv6eh5ych2lnnhvfk22hszlc2x7fyolnyme"
+  //   }
+  // ]
+  // const result = await response.json()
+
+  console.log(jobData)
 
   return (
     <>
@@ -41,7 +61,7 @@ export default async function TaskPage() {
             <UserNav />
           </div>
         </div>
-        <DataTable data={result} columns={columns} />
+        <DataTable data={jobData} columns={columns} />
       </div>
     </>
   );

@@ -112,9 +112,11 @@ export default function CreateJob() {
                         id="name"/>
                     </div>
                     <div className="bounty">
-                        {hasPaid ? <div className="flex flex-row justify-between">
-                            {bounty}
-                        </div> :
+                        {hasPaid 
+                        ? <div className="flex flex-row justify-between">
+                            Paid Bounty Amount {bounty}
+                        </div> 
+                        :
                             (
                                 <>
                                     <label for="bounty">Bounty</label>
