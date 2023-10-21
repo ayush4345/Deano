@@ -7,10 +7,10 @@ import { useEffect,useState } from "react";
 import {z} from "zod";
 import {taskSchema} from "./data/schema"
 
-export const metadata = {
-  title: "Tasks",
-  description: "A task and issue tracker build using Tanstack Table.",
-}
+// export const metadata = {
+//   title: "Tasks",
+//   description: "A task and issue tracker build using Tanstack Table.",
+// }
 
 // Simulate a database read for tasks.
 
