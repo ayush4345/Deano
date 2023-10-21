@@ -26,6 +26,19 @@ export default function CreateJob() {
     const router = useRouter();
     const [uploadedFiles, setUploadedFiles] = useState(false)
     const [title, setTitle] = useState(randomAnnotationJobTitles[Math.floor(Math.random() * randomAnnotationJobTitles.length)])
+
+    const Instructions = () => {
+      return (
+        <div className="bg-orange-200 p-4 rounded-lg mb-4 m-2 shadow-md">
+          <h2 className="text-lg font-bold mb-2">Important Instructions to Create a Job</h2>
+          <ul className="list-disc list-inside">
+            <li>You can choose Multiple Images.</li>
+            <li>Add <code>labels.json</code> which contains all Labels, and <code>filename.json</code> containing name of the file</li>
+          </ul>
+        </div>
+      );
+    }
+
     const [hasPaid, setHasPaid] = useState(false)
     const [submitting, setSubmitting] = useState(false)
     const { address } = useAccount();
@@ -96,11 +109,16 @@ export default function CreateJob() {
                 <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
             </div>
             <div className="flex flex-col items-center justify-between p-24 text-black relative z-10">
+                <div className="flex justify-between items-center gap-x-4">
+                    
                 <h1 className="bg-clip-text text-transparent bg-gradient-to-tr from-violet-900 to-gray-300 inline text-[72px] font-bold">
-                    Create new job
+                    Create New Job
                 </h1>
-
                 <Token />
+                </div>
+            
+                <Instructions />
+            
                 <form
                     onSubmit={handleJobSubmit}
                     className="flex flex-col justify-between w-2/3 h-2/3 p-20 shadow-xl rounded-lg">
@@ -154,11 +172,8 @@ export default function CreateJob() {
                     </Button>
 
                 </form>
+            
             </div>
         </>
     )
 }
-
-
-
-
