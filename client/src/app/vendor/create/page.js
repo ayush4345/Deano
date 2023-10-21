@@ -37,7 +37,7 @@ export default function CreateJob() {
     //set a random bounty
     const [bounty, setBounty] = useState(Math.round(Math.random() * 100))
     const [value, setValue] = useState(bounty)
-    const [cid, setCid] = useState("bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri")
+    const [cid, setCid] = useState("")
     const { config } = usePrepareContractWrite({
         address: '0x6cD23FB64f122705AbeE7305Eef346Bb10175491',
         abi: tokenABI,

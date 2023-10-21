@@ -12,11 +12,20 @@ export const metadata = {
 // Simulate a database read for tasks.
 
 export default async function TaskPage() {
-  const response = await fetch("https://tableland-data.vercel.app/api/data");
+  const response = await fetch("https://deano.vercel.app/api/data");
+  const tasks = [
+    {
+      "job_id": "86de88",
+      "name": "Annotate 8 images of cat",
+      "vendor_address": "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
+      "status": "active",
+      "bounty": 29,
+      "cid": "bafybeidykipmptpql33uzy4wv6eh5ych2lnnhvfk22hszlc2x7fyolnyme"
+    }
+  ]
+  const result = await response.json()
 
-  const tasks = await response.json()
-
-  // console.log(tasks)
+  console.log(await response.json())
 
   return (
     <>
@@ -32,7 +41,7 @@ export default async function TaskPage() {
             <UserNav />
           </div>
         </div>
-        <DataTable data={tasks} columns={columns} />
+        <DataTable data={result} columns={columns} />
       </div>
     </>
   );

@@ -33,27 +33,27 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: "bounty",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Bounty" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-    enableSorting: false,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("bounty")}</div>,
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label)
+      // const label = labels.find((label) => label.value === row.original.label)
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge className="badge" variant="outline">{label.label}</Badge>}
+          <Badge className="badge" variant="outline">{row.original.job_id}</Badge>
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
+            {row.getValue("name")}
           </span>
         </div>
       )
@@ -87,25 +87,25 @@ export const columns = [
     },
   },
   {
-    accessorKey: "priority", //change to vendor_address later
+    accessorKey: "vendor_address", //change to vendor_address later
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Vendor Address" />
     ),
     cell: ({ row }) => {
-      const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority")
-      )
+      // const priority = priorities.find(
+      //   (priority) => priority.value === row.getValue("priority")
+      // )
 
-      if (!priority) {
-        return null
-      }
+      // if (!priority) {
+      //   return null
+      // }
 
       return (
         <div className="flex items-center">
-          {priority.icon && (
+          {/* {priority.icon && (
             <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{priority.label}</span>
+          )} */}
+          <span>{row.getValue("vendor_address")}</span>
         </div>
       )
     },
@@ -113,8 +113,8 @@ export const columns = [
       return value.includes(row.getValue(id))
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ]
