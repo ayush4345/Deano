@@ -5,7 +5,7 @@ import CustomFileSelector from "./CustomFileSelector";
 import ImagePreview from "./ImagePreview";
 import classNames from "classnames";
 
-const FileUploadForm = ({setCid, setUploadedFiles}) => {
+const FileUploadForm = ({ setCid, setUploadedFiles, hasPaid }) => {
     const [images, setImages] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -48,10 +48,7 @@ const FileUploadForm = ({setCid, setUploadedFiles}) => {
             // Handle errors here
             console.error(e);
         }
-
     };
-
-
 
     return (
         <form className="w-full" >
@@ -63,11 +60,11 @@ const FileUploadForm = ({setCid, setUploadedFiles}) => {
                 <button
                     type="button"
                     className={classNames({
-                        "bg-slate-50 text-slate-800 hover:bg-slate-100 px-4 py-2 rounded-md":
+                        "bg-slate-100 text-slate-800 hover:bg-slate-200 px-4 py-2 rounded-md":
                             true,
                         "disabled pointer-events-none opacity-40": uploading,
                     })}
-                    disabled={uploading}
+                    disabled={uploading || !hasPaid}
                     onClick={handleSubmit}
                 >
                     Upload

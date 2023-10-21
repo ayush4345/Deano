@@ -9,8 +9,11 @@ import { abi as tokenABI } from '@/abi/Payout.json'
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
 import Token from "@/components/Token"
-export default function CreateJob() {
+import { sendNotification } from "../../../utils/notifications"
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import CircularProgress from '@mui/material/CircularProgress';
 
+export default function CreateJob() {
 
     const randomAnnotationJobTitles = [
         "Annotate 100 plant images",
@@ -21,10 +24,24 @@ export default function CreateJob() {
         "Annotate 1000 images of cats"
     ]
 
-
     const router = useRouter();
     const [uploadedFiles, setUploadedFiles] = useState(false)
     const [title, setTitle] = useState(randomAnnotationJobTitles[Math.floor(Math.random() * randomAnnotationJobTitles.length)])
+    const { wallets } = useWallets()
+    const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+
+    const Instructions = () => {
+        return (
+            <div className="bg-orange-200 p-4 rounded-lg mb-4 m-2 shadow-md">
+                <h2 className="text-lg font-bold mb-2">Important Instructions to Create a Job</h2>
+                <ul className="list-disc list-inside">
+                    <li>You can choose Multiple Images.</li>
+                    <li>Add <code>labels.json</code> which contains all Labels, and <code>filename.json</code> containing name of the file</li>
+                </ul>
+            </div>
+        );
+    }
+
     const [hasPaid, setHasPaid] = useState(false)
     const [submitting, setSubmitting] = useState(false)
     const { address } = useAccount();
@@ -36,7 +53,7 @@ export default function CreateJob() {
     //set a random bounty
     const [bounty, setBounty] = useState(Math.round(Math.random() * 100))
     const [value, setValue] = useState(bounty)
-    const [cid, setCid] = useState("bafybeihi4eb6t32szzhxcp7gxrspwcpviktqy7o7s2qagfnqigd7moicri")
+    const [cid, setCid] = useState("")
     const { config } = usePrepareContractWrite({
         address: '0x6cD23FB64f122705AbeE7305Eef346Bb10175491',
         abi: tokenABI,
@@ -82,6 +99,7 @@ export default function CreateJob() {
         const data = await res.json()
         console.log(data)
         setSubmitting(false)
+        sendNotification("A New Job has Arrived!", title)
         // router.push(`/vendor/${address}`)
         // router.replace(`/vendor/`)
         alert("submitted successfully");
@@ -93,68 +111,74 @@ export default function CreateJob() {
                 <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
                 <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
             </div>
-            <div className="flex flex-col items-center justify-between p-24 text-black relative z-10">
-                <h1 className="bg-clip-text text-transparent bg-gradient-to-tr from-violet-900 to-gray-300 inline text-[72px] font-bold">
-                    Create new job
-                </h1>
-
-                <Token />
-                <form
-                    onSubmit={handleJobSubmit}
-                    className="flex flex-col justify-between w-2/3 h-2/3 p-20 shadow-xl rounded-lg">
-                    <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Name</Label>
-                        <Input 
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
-                        id="name"/>
-                    </div>
-                    <div className="bounty">
-                        {hasPaid ? <div className="flex flex-row justify-between">
-                            {bounty}
-                        </div> :
-                            (
-                                <>
-                                    <label for="bounty">Bounty</label>
-                                    <div className="flex flex-row justify-between">
-                                        {value}
-                                    </div>
-                                    <input type="range" min={0} max={100} value={value} onChange={(e) => setValue(e.target.value)} onMouseUp={(e) => setBounty(e.target.value)} className="w-full" />
-                                    <Button
-                                        disabled={isLoading}
-                                        onClick={handlePayBounty}>
-                                        {isLoading ? "Paying..." : "Pay Bounty"}
-                                    </Button>
-                                </>
-                            )}
-                    </div>
-                    <div className="upload flex flex-col space-y-1.5 mb-2">
-
-                        {
-                            uploadedFiles ? (
-                                <div className="flex flex-col space-y-1.5 text-green-700">
-                                    Files Pinned to IPFS at
-                                    <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
-                                        {cid}
-                                    </a>
+            {ready
+                ? (wallets[0]?.address > 0
+                    ? <div className="flex flex-col items-center justify-between p-20 pt-0 text-black relative z-10">
+                        <div className="flex justify-between items-center gap-x-4">
+                            <h1 className="bg-clip-text text-transparent bg-gradient-to-tr from-violet-900 to-gray-300 inline text-[72px] font-bold">
+                                Create New Job
+                            </h1>
+                        </div>
+                        <Instructions />
+                        <section className="flex items-center w-full">
+                            <Token />
+                            <form
+                                onSubmit={handleJobSubmit}
+                                className="flex flex-col justify-between w-2/3 h-2/3 p-16 gap-5 shadow-xl rounded-lg">
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label className="font-semibold" htmlFor="name">Name</Label>
+                                    <Input
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        value={title}
+                                        id="name" />
                                 </div>
-                            ) : (
-                                <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} />
-                            )
-                        }
+                                <div className="bounty">
+                                    {hasPaid
+                                        ? <div className="flex flex-row justify-between">
+                                            Paid Bounty Amount {bounty}
+                                        </div>
+                                        :
+                                        (
+                                            <>
+                                                <label className="font-semibold" for="bounty">Bounty</label>
+                                                <div className="flex flex-row justify-between">
+                                                    {value}
+                                                </div>
+                                                <input type="range" min={0} max={100} value={value} onChange={(e) => setValue(e.target.value)} onMouseUp={(e) => setBounty(e.target.value)} className="w-full" />
+                                                <Button
+                                                    disabled={isLoading}
+                                                    onClick={handlePayBounty}>
+                                                    {isLoading ? "Paying..." : "Pay Bounty"}
+                                                </Button>
+                                            </>
+                                        )}
+                                </div>
+                                <div className="upload flex flex-col space-y-1.5 mb-2">
+                                    {
+                                        uploadedFiles ? (
+                                            <div className="flex flex-col space-y-1.5 text-green-700">
+                                                Files Pinned to IPFS at
+                                                <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
+                                                    {cid}
+                                                </a>
+                                            </div>
+                                        ) : (
+                                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} hasPaid={hasPaid}/>
+                                        )
+                                    }
+                                </div>
+                                <Button
+                                    disabled={submitting}
+                                >
+                                    {submitting ? "Submitting..." : "Submit Job"}
+                                </Button>
+                            </form>
+                        </section>
                     </div>
-                    <Button
-                        disabled={submitting}
-                    >
-                        {submitting ? "Submitting..." : "Submit Job"}
-                    </Button>
-
-                </form>
-            </div>
+                    : <div className="h-[75vh] w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
+                )
+                : <div className="h-[75vh] w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
+            }
         </>
     )
 }
-
-
-
-

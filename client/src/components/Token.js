@@ -6,14 +6,18 @@ import {
     CardTitle
 } from '@/components/ui/card'
 import { Button } from "./ui/button";
-
+import { useWallets } from "@privy-io/react-auth";
 
 export default function Token() {
     const { address } = useAccount();
+    const { wallets } = useWallets();
+
     const res = useBalance({
-        address: address,
+        address: wallets[0].address,
         token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
     })
+
+    
 
     if (res.isLoading) return <div>Loading...</div>
     if (res.error) return <div>Error: {res.error.message}</div>
@@ -28,7 +32,7 @@ export default function Token() {
                 <CardContent>
                     <div className="text-2xl font-bold">{
                         //concat to 2 decimal places
-                        res.data.formatted.slice(0, -16)
+                        res.data.formatted
                     } {res.data.symbol}</div>
 
                     <Button className="m-2">

@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi'
 
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 
-const ChatBox = ({ client, messageHistory, conversation, setShowContactList, selectedContact }) => {
+const ChatBox = ({ client, messageHistory, conversation, setShowContactList, selectedContact,peer }) => {
 
   const { address } = useAccount()
   const [inputValue, setInputValue] = useState("");
@@ -45,19 +45,19 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
 
     return (
       <div className=" ">
-        <ul className=" m-2 p-3  overflow-y-scroll no-scrollbar max-h-[500px] max-w-[500px] ">
+        <ul className=" m-2 p-3 overflow-y-scroll no-scrollbar max-h-[500px] max-w-[500px] ">
           {messages.map((message, index) => (
 
             <li
               key={message.id}
-              className={`m-2 p-2 rounded-t-lg ${getUserName(message) === "You" ? "text-right rounded-l-lg bg-[#3D5A66] text-white" : "text-left rounded-r-lg bg-white"}`}
+              className={`m-2 p-2 rounded-t-lg ${getUserName(message) === "You" ? "text-right rounded-l-lg bg-[#CB342A] text-white" : "text-left rounded-r-lg bg-[#FEECEB]"}`}
             >
               <div className="flex flex-col ">
                 <strong className="text-green-900">
                   {/* {getUserName(message)} */}
                 </strong>
                 <span className="flex-wrap">{message.content}</span>
-                <span className="text-[12px] text-[#81A8B1]"> {message.sent.toLocaleTimeString()}</span>
+                <span className="text-[12px] text-[#34090B]"> {message.sent.toLocaleTimeString()}</span>
               </div>
             </li>
           ))}
@@ -77,7 +77,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
   return (
     <div>
 
-      <h1 className="font-semibold text-[#202009] bg-[#E9ECED] mx-auto w-full flex justify-center items-center text-[30px] rounded-t-lg shadow-md">chat with vendor</h1>
+      <h1 className="font-semibold text-[#FFFFFF] bg-[#4F45E4] mx-auto w-full flex justify-center items-center text-[24px] rounded-t-lg shadow-md">Chat with {peer}</h1>
 
       {/* <button onClick={() => setShowContactList(true)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -92,7 +92,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
 
       {/* div for the Input and Send Button */}
 
-      <div className=" m-auto mx-5 mb-5 bg-slate-50 rounded-md border-2 border-transparent focus-within:border-2 focus-within:border-[#6796A2] flex items-center justify-center">
+      <div className=" m-auto mx-5 mb-5 bg-slate-50 rounded-md border-2 border-transparent focus-within:border-2 focus-within:border-[#4F45E4] flex items-center justify-center">
         <input
           type="text"
           className="p-3 w-full bg-slate-50 rounded-md outline-none "
@@ -101,7 +101,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
           value={inputValue}
           placeholder="Type a message..."
         />
-        <button onClick={handleSend} className="p-3 m-1 bg-[#62929E] border-2 border-white rounded-md hover:bg-[#466972] transition-all duration-300 ease-in-out text-white ">
+        <button onClick={handleSend} className="p-3 m-1 bg-[#4F45E4] border-2 border-white rounded-md hover:bg-[#5a2895] transition-all duration-300 ease-in-out text-white ">
           <PaperPlaneIcon />
         </button>
       </div>
