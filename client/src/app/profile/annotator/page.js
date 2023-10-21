@@ -4,15 +4,42 @@ import { useAccount } from "wagmi"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { NotificationOptIn } from "@/utils/notifications"
+import { NotificationOptIn, userSubscriptions,NotificationOptOut } from "@/utils/notifications"
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import Snackbar from "../../../components/Snackbar"
+import { useState,useCallback, useEffect } from "react"
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function AnnotatorProfile() {
 
     const { wallets } = useWallets();
+    const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+    const [message, setMessage] = useState("successfully opted into channel")
+    const [open,setOpen] = useState(false)
+    const [subscribed,setSubscribed] = useState(false)
+
+    const openChangeHandler = useCallback(props => {
+		setOpen(props);
+	}, []);
+
+    const optInNotificationHandler = async() => {
+        const response = await NotificationOptIn(wallets[0].address)
+        console.log(response)
+        setOpen(true)
+    }
+
+    const optOutNotificationHandler = async() => {
+        const response = await NotificationOptOut(wallets[0].address)
+        console.log(response)
+        setOpen(true)
+    }
 
     return (
-        <div class="w-full px-6 py-6 mx-auto drop-zone loopple-min-height-78vh text-slate-500"><div class="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-white/80 bg-clip-border mb-4 draggable" draggable="true">
+        <>
+        {
+            ready && wallets.length > 0
+
+            ?<div class="w-full px-6 py-6 mx-auto drop-zone loopple-min-height-78vh text-slate-500"><div class="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-white/80 bg-clip-border mb-4 draggable" draggable="true">
             <div class="flex flex-wrap -mx-3">
                 <div class="flex-none w-auto max-w-full px-3">
                     <div class="text-base ease-soft-in-out h-18.5 w-18.5 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
@@ -27,7 +54,8 @@ export default function AnnotatorProfile() {
                 </div>
                 <div class="w-full max-w-full px-3 mx-auto mt-4 sm:my-auto sm:mr-0 md:w-1/2 md:flex-none lg:w-4/12"></div>
             </div>
-        </div><div class="w-full pb-6 mx-auto removable">
+        </div>
+            <div class="w-full pb-6 mx-auto removable">
                 <div class="flex flex-wrap -mx-3 drop-zone">
                     <div class="w-full max-w-full px-3 xl:w-4/12">
                         <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
@@ -39,7 +67,11 @@ export default function AnnotatorProfile() {
                                 <ul class="flex flex-col pl-0 mb-0 rounded-lg">
                                     <li class="relative block px-0 py-2 bg-white border-0 rounded-t-lg text-inherit">
                                         <div className="flex items-center space-x-2">
-                                            <Button id="follow" onClick={() => NotificationOptIn(wallets[0].address)} >Opt In</Button>
+                                            {subscribed 
+                                            ? <Button id="follow" onClick={() => optOutNotificationHandler()} >Opt Out</Button>
+                                            : <Button id="follow" onClick={() => optInNotificationHandler()} >Opt In</Button>
+                                            }
+                                           
                                             <Label htmlFor=" follow" >Enable Push Notification</Label>
                                         </div>
                                     </li>
@@ -177,6 +209,14 @@ export default function AnnotatorProfile() {
                         </div>
                     </div>
                 </div>
-            </div></div >
+            </div>
+            {open && (
+					<Snackbar message={message} open={open} openChangeHandler={openChangeHandler}/>
+				)}
+        </div >
+        :<div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
+        }
+        </>
+        
     )
 }

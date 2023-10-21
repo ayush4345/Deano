@@ -10,12 +10,14 @@ export const NotificationOptIn = async () => {
 
     const userAlice = await PushAPI.initialize(_signer, { env: 'staging' })
 
-    await userAlice.notification.subscribe(
+    const response = await userAlice.notification.subscribe(
         `eip155:5:0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167` // channel address in CAIP format
     )
-    console.log("subscribed")
-    
-    userSubscriptions()
+    console.log(response)
+
+    if (response.status == 204){
+        return response.message;
+    }
 }
 
 export const userSubscriptions = async () => {
@@ -24,6 +26,8 @@ export const userSubscriptions = async () => {
     const _signer = new ethers.Wallet(Pkey);
 
     const userAlice = await PushAPI.initialize(_signer, { env: 'staging' })
+
+    console.log("checking..")
 
     const aliceSubscriptions = await userAlice.notification.subscriptions()
 
@@ -58,34 +62,22 @@ export async function fetchNotifications(address) {
     return notifications
 }
 
-export const NotificationOptOut = () => {
+export const NotificationOptOut = async() => {
 
-    const { address } = useAccount()
-
+    console.log("unsubscribing...")
     const Pkey = `0x${process.env.NEXT_PUBLIC_PUSH_PRIVATE_KEY}`;
     const _signer = new ethers.Wallet(Pkey);
 
-    const OptOut = async () => {
+    const userAlice = await PushAPI.initialize(_signer, { env: 'staging' })
 
-        await PushAPI.channels.unsubscribe({
-            signer: _signer,
-            channelAddress: 'eip155:5:0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb', // channel address in CAIP
-            userAddress: `eip155:5:${address}`, // user address in CAIP
-            onSuccess: () => {
-                console.log('opt out success');
-            },
-            onError: () => {
-                console.error('opt out error');
-            },
-            env: 'staging'
-        })
-    }
-
-    return (
-        <>
-            <Button variant="contained" className="bg-sky-600 mr-3" onClick={OptOut}>Opt Out</Button>
-        </>
+    const response = await userAlice.notification.unsubscribe(
+        `eip155:5:0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167` // channel address in CAIP format
     )
+    console.log(response)
+
+    if (response.status == 204){
+        return response.message;
+    }
 
 }
 
