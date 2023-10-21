@@ -11,7 +11,7 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { fetchNotifications } from "../utils/notifications"
+import { fetchNotifications,userSubscriptions  } from "../utils/notifications"
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import Notification from "./Notification"
 import CheckIfUser from "../utils/checkIfUser"
@@ -33,12 +33,13 @@ export default function Navbar() {
     async function getNotifications(account) {
         try {
             const data = await fetchNotifications(account)
+            const subscriptions = await userSubscriptions ()
+            console.log(subscriptions)
             console.log('notifications', data)
             setNotifications(data)
         } catch (e) {
             console.log(e)
         }
-
     }
 
     useEffect(() => {
@@ -112,7 +113,6 @@ export default function Navbar() {
                                 lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:gap-0 lg:p-0 lg:bg-transparent lg:visible lg:opacity-100 lg:border-none
                                 peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none 
                                 dark:shadow-none dark:bg-gray-800 dark:border-gray-700">
-
                             <div className="text-gray-600 dark:text-gray-300 lg:pr-4 lg:w-auto w-full lg:pt-0">
                                 <ul className="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
@@ -125,12 +125,21 @@ export default function Navbar() {
                                             <span>Vendor Dashboard</span>
                                         </Link>
                                     </li>
-
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <Link href="/tasks" className="block md:px-4 transition hover:text-primary">
+                                            <span>Tasks</span>
+                                        </Link>
+                                    </li>
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <Link href="/register" className="block md:px-4 transition hover:text-primary">
+                                            <span>Register</span>
+                                        </Link>
+                                    </li>
+                                    {/* <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <Link href="/chat" className="block md:px-4 transition hover:text-primary">
                                         Chat (powered by XMTP) <span className="text-xs text-red-500">BETA</span>
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <AlertDialog.Root>
                                             <AlertDialog.Trigger asChild>

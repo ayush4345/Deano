@@ -18,18 +18,14 @@ import {
 export function Providers({ children }) {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+
   return (
     <Provider store={store}>
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
         onSuccess={(user) => console.log(`User ${user.id} logged in!`)}
         config={{
-          // loginMethods: ['email', 'wallet'],
-          // appearance: {
-          //   theme: 'light',
-          //   accentColor: '#676FFF',
-          //   logo: 'https://your-logo-url',
-          // },
+          supportedChains: chains,
           embeddedWallets: {
             createOnLogin: 'users-without-wallets'
           }

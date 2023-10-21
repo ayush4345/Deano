@@ -10,7 +10,7 @@ const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function ErrorSnackbar(props) {
+export default function SuccessSnackbar(props) {
     const [open, setOpen] = useState(props.open);
 
     const theme = createTheme({
@@ -46,7 +46,7 @@ export default function ErrorSnackbar(props) {
         <ThemeProvider theme={theme}>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical:"bottom", horizontal:"center"}}>
-                    <Alert color="secondary" onClose={handleClose} severity="success" sx={{ width: '100%' }} TransitionComponent={TransitionUp}>
+                    <Alert color="primary" onClose={handleClose} severity="success" sx={{ width: '100%' }} TransitionComponent={TransitionUp}>
                         {props.message}
                     </Alert>
                 </Snackbar>

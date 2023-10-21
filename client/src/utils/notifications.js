@@ -31,9 +31,9 @@ export const userSubscriptions = async () => {
 
     const aliceSubscriptions = await userAlice.notification.subscriptions()
 
-    let subscribed = aliceSubscriptions.find((element) => element.channel == "0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167")
+    const subscribed = aliceSubscriptions.find((element) => element.channel = "0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167")
 
-    console.log(aliceSubscriptions)
+    console.log(subscribed)
 
     if (subscribed) {
         return true

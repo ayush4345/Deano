@@ -1,16 +1,14 @@
 "use client"
 
 import AnnotationCard from "../card.js"
-import { data } from "../card.js"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from "@/components/ui/button.jsx"
 import { db } from "@/tableland/connect.js"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import XMTPChat from '@/components/XMTP/XMTPChat'
-import { set } from "zod"
 import CircularProgress from '@mui/material/CircularProgress';
-
+import SuccessSnackbar from '@/components/Snackbar'
 
 export default function CardWithForm({ params }) {
 
@@ -19,7 +17,8 @@ export default function CardWithForm({ params }) {
   const [images, setImages] = useState([])
   const [filename, setFilename] = useState({ "filenames": [] })
   const [labels, setLabels] = useState({ "labels": [] })
-  const [vendorAddress, setVendorAddress] = useState("0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167")
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState("Successfully Submitted the Annotation")
 
   const { wallets } = useWallets();
 
@@ -86,10 +85,9 @@ export default function CardWithForm({ params }) {
 
   }, [jobData])
 
-  console.log(filename)
-
-  console.log(labels)
-  console.log(jobData)
+  const openChangeHandler = useCallback(props => {
+    setOpen(props);
+  }, []);
 
   return (
     <>
@@ -115,6 +113,9 @@ export default function CardWithForm({ params }) {
         </div>
         : <div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
       }
+      {open && (
+        <SuccessSnackbar message={message} open={open} openChangeHandler={openChangeHandler} />
+      )}
     </>
   )
 }
