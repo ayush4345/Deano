@@ -50,8 +50,13 @@ export default function VendorPage() {
         </Suspense>{" "}
       </div>
       <div className=" flex gap-5 ">
-        <VendorJobs vendor_address="0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc" />
-        <XMTPChat peer="Annotator" peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`} />
+        {ready && wallets.length > 0 && (
+          <VendorJobs vendor_address={wallets[0].address} />
+        )}
+        <XMTPChat
+          peer="Annotator"
+          peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`}
+        />
       </div>
     </main>
   );
