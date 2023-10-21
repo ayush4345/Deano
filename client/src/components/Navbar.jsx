@@ -168,10 +168,10 @@ export default function Navbar() {
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
                                         {ready
                                             ? (authenticated
-                                                ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>{loggingOut ? "logging out..." : "logout privy"}</button>
-                                                : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>login privy</button>
+                                                ? <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={() => handleLogout()}>{loggingOut ? "logging out..." : "Logout Privy"}</button>
+                                                : <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>Login Privy</button>
                                             )
-                                            : <button className=" bg-orange-400 text-white p-3 px-3 rounded-xl font-semibold" onClick={login} disabled>login privy</button>
+                                            : <button className=" bg-orange-400 text-white p-3 px-3 rounded-xl font-semibold" onClick={login} disabled>Login Privy</button>
                                         }
                                     </li>
                                 </ul>

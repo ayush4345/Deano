@@ -19,6 +19,7 @@ export default function CardWithForm({ params }) {
   const [images, setImages] = useState([])
   const [filename, setFilename] = useState({ "filenames": [] })
   const [labels, setLabels] = useState({ "labels": [] })
+  const [vendorAddress, setVendorAddress] = useState("0xa3670A55c11A4Bc444AF82bd17Cd1F4E67257167")
 
   const { wallets } = useWallets();
 
@@ -88,6 +89,7 @@ export default function CardWithForm({ params }) {
   console.log(filename)
 
   console.log(labels)
+  console.log(jobData)
 
   return (
     <>
@@ -109,7 +111,7 @@ export default function CardWithForm({ params }) {
             </div>
             <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
           </div>
-          <XMTPChat></XMTPChat>
+          <XMTPChat peer="Vendor" peerAddress={jobData[0].vendor_address}></XMTPChat>
         </div>
         : <div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
       }
