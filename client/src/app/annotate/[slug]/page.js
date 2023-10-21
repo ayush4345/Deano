@@ -9,6 +9,7 @@ import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import { useEffect, useState } from "react"
 import XMTPChat from '@/components/XMTP/XMTPChat'
 import { set } from "zod"
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function CardWithForm({ params }) {
@@ -16,8 +17,8 @@ export default function CardWithForm({ params }) {
   const value = useSelector((state) => state.annotation.annotation)
   const [jobData, setJobData] = useState([])
   const [images, setImages] = useState([])
-  const [filename, setFilename] = useState({"filenames":[]})
-  const [labels, setLabels] = useState({"labels":[]})
+  const [filename, setFilename] = useState({ "filenames": [] })
+  const [labels, setLabels] = useState({ "labels": [] })
 
   const { wallets } = useWallets();
 
@@ -66,7 +67,7 @@ export default function CardWithForm({ params }) {
   useEffect(() => {
 
     const getImages = async () => {
-      console.log("fetching images")
+      console.log("fetching info")
       const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/filename.json`);
       const result = await response.json();
       setFilename(result)
@@ -86,7 +87,7 @@ export default function CardWithForm({ params }) {
 
   console.log(filename)
 
-  console.log(images)
+  console.log(labels)
 
   return (
     <>
@@ -94,21 +95,24 @@ export default function CardWithForm({ params }) {
         <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
         <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
       </div>
-      <div className=" flex relative z-10">
-        <div className="mb-10 flex flex-col justify-center px-5">
-          <div className=" p-10 pl-8 pr-1 flex gap-7 justify-center items-center relative flex-wrap">
-            {
-              filename.filenames.map((value, id) => {
-                return (
-                  <AnnotationCard id={id} labels={labels.labels} slug={params.slug} image={jobData[0].cid+"/"+value}/>
-                )
-              })
-            }
+      {jobData.length > 0 && labels.labels.length > 0 && filename.filenames.length > 0
+        ? <div className=" flex relative z-10">
+          <div className="mb-10 flex flex-col justify-center px-5">
+            <div className=" p-10 pl-8 pr-1 flex gap-7 justify-center items-center relative flex-wrap">
+              {
+                filename.filenames.map((value, id) => {
+                  return (
+                    <AnnotationCard id={id} labels={labels.labels} slug={params.slug} image={jobData[0].cid + "/" + value} />
+                  )
+                })
+              }
+            </div>
+            <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
           </div>
-          <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
+          <XMTPChat></XMTPChat>
         </div>
-        <XMTPChat></XMTPChat>
-      </div>
+        : <div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
+      }
     </>
   )
 }

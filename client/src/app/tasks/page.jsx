@@ -6,6 +6,7 @@ import { UserNav } from "./components/user-nav";
 import { useEffect,useState } from "react";
 import {z} from "zod";
 import {taskSchema} from "./data/schema"
+import { db } from "@/tableland/connect";
 
 // export const metadata = {
 //   title: "Tasks",
@@ -23,7 +24,7 @@ export default function TaskPage() {
       const tableName = `jobs_final2_80001_7898`;
       const { results } = await db.prepare(`SELECT * FROM ${tableName} ;`).all();
       console.log(results);
-      const response = z.array(taskSchema).parse(tasks)
+      const response = z.array(taskSchema).parse(results)
 
       setJobData(response)
     }
