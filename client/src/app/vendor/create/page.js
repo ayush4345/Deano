@@ -9,6 +9,7 @@ import { abi as tokenABI } from '@/abi/Payout.json'
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
 import Token from "@/components/Token"
+import {sendNotification} from "../../../utils/notifications"
 export default function CreateJob() {
 
 
@@ -82,6 +83,7 @@ export default function CreateJob() {
         const data = await res.json()
         console.log(data)
         setSubmitting(false)
+        sendNotification("A New Job has Arrived!", title)
         // router.push(`/vendor/${address}`)
         // router.replace(`/vendor/`)
         alert("submitted successfully");

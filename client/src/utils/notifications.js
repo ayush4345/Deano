@@ -89,3 +89,19 @@ export const NotificationOptOut = () => {
 
 }
 
+export const sendNotification = async (title, body) => {
+    const Pkey = `0x${process.env.NEXT_PUBLIC_PUSH_PRIVATE_KEY}`;
+    const _signer = new ethers.Wallet(Pkey);
+
+    const userAlice = await PushAPI.initialize(_signer, { env: 'staging' });
+
+    const recipients = ['*'];
+    const notification = { title, body };
+
+    try {
+        const sendNotifRes = await userAlice.channel.send(recipients, { notification });
+        console.log('Notification sent:', sendNotifRes);
+    } catch (error) {
+        console.error('Error sending notification:', error);
+    }
+}
