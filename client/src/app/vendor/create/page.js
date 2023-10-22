@@ -102,8 +102,8 @@ export default function CreateJob() {
         setSubmitting(false)
         sendNotification("A New Job has Arrived!", title)
         // router.push(`/vendor/${address}`)
-        // router.replace(`/vendor/`)
         alert("submitted successfully");
+        router.replace(`/vendor/`)
     }
 
     return (
@@ -160,7 +160,7 @@ export default function CreateJob() {
                                 <div className="upload flex flex-col space-y-1.5 mb-2">
                                     {
                                         uploadedFiles ? (
-                                            <div className="flex flex-col space-y-1.5 text-green-700">
+                                            <div className="flex flex-col space-y-1.5 text-blue-700">
                                                 Files Pinned to IPFS at
                                                 <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
                                                     {cid}
@@ -172,7 +172,7 @@ export default function CreateJob() {
                                     }
                                 </div>
                                 <Button
-                                    disabled={submitting || cid === ""}
+                                    disabled={submitting}
                                 >
                                     {submitting ? "Submitting..." : "Submit Job"}
                                 </Button>

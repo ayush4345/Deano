@@ -56,6 +56,7 @@ export default function CardWithForm({ params }) {
     const getJobData = async () => {
       const tableName = `jobs_final2_80001_7898`;
       const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${params.slug}';`).all();
+      // const { results } = await db.prepare(`DELETE FROM jobs_final2_80001_7898 WHERE job_id = '7c50cc';`).all();
       console.log(results);
       setJobData(results)
     }

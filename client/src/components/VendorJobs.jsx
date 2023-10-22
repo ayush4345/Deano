@@ -23,44 +23,12 @@ export default function VendorJobs({ vendor_address }) {
     const [vendorJobs, setVendorJobs] = useState([])
     const updateJobs = async () => {
         setUpdatingJobs(true)
+
         const jobs = await getVendorJobs(vendor_address);
         setVendorJobs(jobs)
-        const tableName = `answers_final_80001_7894`;
-
-        let { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '86de88';`).all();
-
-        results = results.filter((result) => result.annotator_id !== "" && result.labels.length > 0)
-        // console.log(results[0].labels);
-
-        const pending_jobs = results.map((result) => {
-            return {
-                annotator_address: result.annotator_id,
-                response: result.labels,
-            }
-        })
-
-        // console.log(pending_jobs);
-
-        const responses = pending_jobs.map((job) => job.response);
-        console.log(responses);
-
-        //find the value occuring the most in each column
-        const majority = responses.map((response) => {
-            const counts = response.reduce((a, c) => {
-                a[c] = (a[c] || 0) + 1;
-                return a;
-            }, {});
-            const maxCount = Math.max(...Object.values(counts));
-            return Object.keys(counts).filter(k => counts[k] === maxCount);
-        });
-
-        console.log(majority)
-
         setUpdatingJobs(false)
     }
 
-    // console.log(vendorJobs)
-    // console.log(vendor_address)
 
     useEffect(() => {
         updateJobs()
@@ -134,7 +102,7 @@ export const StopButton = ({ job_id, status, updateJobs }) => {
 
     const stopJob = async () => {
         setStoppingJob(true)
-        const result = await updateJobStatus(job_id, "pending")
+        const result = await updateJobStatus(job_id, "active")
         console.log(result)
         updateJobs()
         setStoppingJob(false)
@@ -142,6 +110,7 @@ export const StopButton = ({ job_id, status, updateJobs }) => {
 
     return (
         <Button
+            // disabled={stoppingJob}
             disabled={stoppingJob || status === "completed" || status === "pending"}
             onClick={stopJob}
             className="m-2">
