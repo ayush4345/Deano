@@ -45,7 +45,7 @@ export default function SuccessSnackbar(props) {
     return (
         <ThemeProvider theme={theme}>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical:"bottom", horizontal:"center"}}>
+                <Snackbar open={open} autoHideDuration={10000} onClose={handleClose} anchorOrigin={{ vertical:"bottom", horizontal:"center"}}>
                     <Alert color="primary" onClose={handleClose} severity="success" sx={{ width: '100%' }} TransitionComponent={TransitionUp}>
                         {props.message}
                     </Alert>

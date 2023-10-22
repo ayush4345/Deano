@@ -15,7 +15,7 @@ import Contacts from "./Contacts"
 
 const BOT_ADDRESS = "0x937C0d4a6294cdfa575de17382c7076b579DC176";
 
-export default function XMTPChat({peerAddress, peer}) {
+export default function XMTPChat({ peerAddress, peer, contactList }) {
   const [messages, setMessages] = useState(null);
   const convRef = useRef(null);
   const clientRef = useRef(null);
@@ -48,7 +48,9 @@ export default function XMTPChat({peerAddress, peer}) {
     return conversations
   }
 
-  console.log(selectedContact)
+  console.log(peerAddress)
+  console.log(peerAddress.length)
+
 
   // Function to initialize the XMTP client
   const initXmtp = async function () {
@@ -75,6 +77,13 @@ export default function XMTPChat({peerAddress, peer}) {
   };
 
   useEffect(() => {
+    if (peerAddress.length > 0 && signer) {
+      console.log("changing...")
+      initXmtp()
+    }
+  }, [peerAddress])
+
+  useEffect(() => {
     if (isOnNetwork && convRef.current) {
       // Function to stream new messages in the conversation
       const streamMessages = async () => {
@@ -92,7 +101,7 @@ export default function XMTPChat({peerAddress, peer}) {
       streamMessages();
       loadConversations();
     }
-  }, [messages, isOnNetwork]);
+  }, [messages, isOnNetwork, peerAddress]);
 
   useEffect(() => {
     const startConvo = async () => {
@@ -147,6 +156,7 @@ export default function XMTPChat({peerAddress, peer}) {
             selectedContact={selectedContact}
             setShowContactList={setShowContactList}
             peer={peer}
+            contactList={contactList}
           />
         </div>
       ) : isConnected && isOnNetwork && messages &&

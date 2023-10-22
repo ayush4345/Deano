@@ -11,7 +11,7 @@ import { useAccount } from "wagmi"
 import { useSelector, useDispatch } from 'react-redux'
 import { BellIcon } from "@radix-ui/react-icons"
 import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { fetchNotifications,userSubscriptions  } from "../utils/notifications"
+import { fetchNotifications, userSubscriptions } from "../utils/notifications"
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import Notification from "./Notification"
 import CheckIfUser from "../utils/checkIfUser"
@@ -33,7 +33,7 @@ export default function Navbar() {
     async function getNotifications(account) {
         try {
             const data = await fetchNotifications(account)
-            const subscriptions = await userSubscriptions ()
+            const subscriptions = await userSubscriptions()
             console.log(subscriptions)
             console.log('notifications', data)
             setNotifications(data)
@@ -131,6 +131,11 @@ export default function Navbar() {
                                         </Link>
                                     </li>
                                     <li className="flex items-center md:px-4 transition hover:text-primary">
+                                        <Link href="/rank" className="block md:px-4 transition hover:text-primary">
+                                            <span>Leaderboard</span>
+                                        </Link>
+                                    </li>
+                                    <li className="flex items-center md:px-4 transition hover:text-primary">
                                         <Link href="/register" className="block md:px-4 transition hover:text-primary">
                                             <span>Register</span>
                                         </Link>
@@ -186,8 +191,7 @@ export default function Navbar() {
                                 </ul>
                             </div>
                             <div className="mt-12 lg:mt-0 flex gap-4">
-                                <ConnectButton />
-                                {address
+                                {ready && wallets.length > 0
                                     ? <HoverCard>
                                         <HoverCardTrigger asChild>
                                             <img

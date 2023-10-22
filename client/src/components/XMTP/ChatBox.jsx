@@ -1,15 +1,35 @@
 import React, { useState } from "react";
-
 import { getAddress } from "viem";
-
 import { useAccount } from 'wagmi'
-
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import { Combobox } from "./Combobox"
 
-const ChatBox = ({ client, messageHistory, conversation, setShowContactList, selectedContact,peer }) => {
+const ChatBox = ({ client, messageHistory, conversation, setShowContactList, selectedContact, peer, contactList }) => {
 
   const { address } = useAccount()
   const [inputValue, setInputValue] = useState("");
+
+  function getTimeDifference(timeString) {
+    const providedTime = new Date(timeString);
+    const currentTime = new Date();
+
+    const timeDifference = currentTime - providedTime;
+
+    const secondsDifference = timeDifference / 1000;
+    const minutesDifference = secondsDifference / 60;
+    const hoursDifference = minutesDifference / 60;
+    const daysDifference = hoursDifference / 24;
+
+    if (daysDifference >= 1) {
+      return Math.floor(daysDifference) + " day(s) ago";
+    } else if (hoursDifference >= 1) {
+      return Math.floor(hoursDifference) + " hour(s) ago";
+    } else if (minutesDifference >= 1) {
+      return Math.floor(minutesDifference) + " minute(s) ago";
+    } else {
+      return Math.floor(secondsDifference) + " second(s) ago";
+    }
+  }
 
   // Function to handle sending a message
   const handleSend = async () => {
@@ -50,14 +70,14 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
 
             <li
               key={message.id}
-              className={`m-2 p-2 rounded-t-lg ${getUserName(message) === "You" ? "text-right rounded-l-lg bg-[#CB342A] text-white" : "text-left rounded-r-lg bg-[#FEECEB]"}`}
+              className={`m-2 p-2 rounded-t-lg ${getUserName(message) === "You" ? "text-right rounded-l-lg bg-[#D35F70] text-white" : "text-left rounded-r-lg bg-[#FEECEB]"}`}
             >
               <div className="flex flex-col ">
                 <strong className="text-green-900">
                   {/* {getUserName(message)} */}
                 </strong>
                 <span className="flex-wrap">{message.content}</span>
-                <span className="text-[12px] text-[#34090B]"> {message.sent.toLocaleTimeString()}</span>
+                <span className="text-[9px] text-[#34090B]"> {getTimeDifference(message.sent)}</span>
               </div>
             </li>
           ))}
@@ -75,24 +95,21 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
     }
   };
   return (
-    <div>
+    <div className="flex flex-col items-center">
 
-      <h1 className="font-semibold text-[#FFFFFF] bg-[#4F45E4] mx-auto w-full flex justify-center items-center text-[24px] rounded-t-lg shadow-md">Chat with {peer}</h1>
-
-      {/* <button onClick={() => setShowContactList(true)}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </button> */}
+      <div className=" mx-auto w-full flex flex-col justify-center py-3 items-center rounded-t-lg shadow-sm">
+        <h1 className="font-semibold text-[#2b5174] text-[24px] ">Chat with {peer}</h1>
+        {contactList.length > 0 && <Combobox contactList={contactList}/>}
+      </div>
 
       {/* div for the Message List */}
-      <div className="">
+      <div className="w-full">
         <MessageList messages={messageHistory} />
       </div>
 
       {/* div for the Input and Send Button */}
 
-      <div className=" m-auto mx-5 mb-5 bg-slate-50 rounded-md border-2 border-transparent focus-within:border-2 focus-within:border-[#4F45E4] flex items-center justify-center">
+      <div className=" m-auto mx-5 mb-5 bg-slate-50 rounded-md border-2 border-transparent focus-within:border-2 focus-within:border-[#2b5174] flex items-center justify-center">
         <input
           type="text"
           className="p-3 w-full bg-slate-50 rounded-md outline-none "
@@ -101,12 +118,10 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
           value={inputValue}
           placeholder="Type a message..."
         />
-        <button onClick={handleSend} className="p-3 m-1 bg-[#4F45E4] border-2 border-white rounded-md hover:bg-[#5a2895] transition-all duration-300 ease-in-out text-white ">
+        <button onClick={handleSend} className="p-3 m-1 bg-[#2b5174] border-2 border-white rounded-md hover:bg-[#5a2895] transition-all duration-300 ease-in-out text-white ">
           <PaperPlaneIcon />
         </button>
       </div>
-
-
 
     </div>
   );
