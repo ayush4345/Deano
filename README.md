@@ -119,8 +119,8 @@ Payout = Reputation Score * Base Payout
 * It plays a crucial role in keeping the entire ecosystem up-to-date by delivering notifications that are vital to annotators' work.
 
 ### [Tableland](https://tableland.xyz/)
-* Within Deano, Tableland serves as a comprehensive solution for the streamlined management of vendor job listings.
-* It simplifies the overall workflow within the web3 framework, enhancing efficiency and accessibility.
+* Tableland is a crucial component of Deano's infrastructure, serving as a comprehensive solution for the streamlined management of vendor job listings. It acts as the backbone of all the datasets within Deano, streamlining the web3 layer on top of the storage.
+* By simplifying the overall workflow within the web3 framework, Tableland enhances efficiency and accessibility, making it easier for vendors and annotators to manage and access job listings and related data.
 
 ### [XMTP Chat](https://xmtp.org/)
 * Stay seamlessly connected with the Vendor for real-time updates on job listings and address any related queries.
@@ -133,7 +133,7 @@ Payout = Reputation Score * Base Payout
 * Deano leverages Privy for smooth user onboarding, allowing users to authenticate using their email address and social logins. This streamlined process simplifies their entry into the web3 world.
 
 ### [web3.storage](https://web3.storage/)
-* In our infrastructure, web3.storage plays a pivotal role as it serves as the repository for all the images uploaded by vendors on the blockchain.
+* web3.storage occupies a central role in our infrastructure, serving as the repository for both images and their associated information uploaded by vendors on the blockchain. This crucial function ensures secure and reliable data storage within the Deano platform.
 
 ### [The Graph](https://thegraph.com/)
 * Our utilization of The Graph extends to the development of a dynamic leaderboard system. This system ranks the most distinguished annotators and vendors based on their reputation, providing a transparent and insightful view of their contributions to the Deano platform.

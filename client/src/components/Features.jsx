@@ -129,7 +129,7 @@ export default function Features() {
                             Tableland
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          Within Deano, Tableland serves as a comprehensive solution for the streamlined management of vendor job listings. It simplifies the overall workflow within the web3 framework, enhancing efficiency and accessibility.
+                          Tableland is a crucial component of Deano's infrastructure, serving as a comprehensive solution for the streamlined management of vendor job listings. It acts as the backbone of all the datasets within Deano, streamlining the web3 layer on top of the storage.
                           </p>
                         </div>
                         
@@ -173,7 +173,7 @@ export default function Features() {
                             web3.storage
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          In our infrastructure, web3.storage plays a pivotal role as it serves as the repository for all the images uploaded by vendors on the blockchain.
+                          web3.storage occupies a central role in our infrastructure, serving as the repository for both images and their associated information uploaded by vendors on the blockchain. This crucial function ensures secure and reliable data storage within the Deano platform.
                           </p>
                         </div>
                         
