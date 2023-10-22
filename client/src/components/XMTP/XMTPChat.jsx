@@ -48,7 +48,9 @@ export default function XMTPChat({ peerAddress, peer, contactList }) {
     return conversations
   }
 
-  console.log(selectedContact)
+  console.log(peerAddress)
+  console.log(peerAddress.length)
+
 
   // Function to initialize the XMTP client
   const initXmtp = async function () {
@@ -75,6 +77,13 @@ export default function XMTPChat({ peerAddress, peer, contactList }) {
   };
 
   useEffect(() => {
+    if (peerAddress.length > 0 && signer) {
+      console.log("changing...")
+      initXmtp()
+    }
+  }, [peerAddress])
+
+  useEffect(() => {
     if (isOnNetwork && convRef.current) {
       // Function to stream new messages in the conversation
       const streamMessages = async () => {
@@ -92,7 +101,7 @@ export default function XMTPChat({ peerAddress, peer, contactList }) {
       streamMessages();
       loadConversations();
     }
-  }, [messages, isOnNetwork]);
+  }, [messages, isOnNetwork, peerAddress]);
 
   useEffect(() => {
     const startConvo = async () => {
