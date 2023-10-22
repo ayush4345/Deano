@@ -70,6 +70,7 @@ export default function CardWithForm({ params }) {
       console.log("fetching info")
       const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/filename.json`);
       const result = await response.json();
+      console.log(result)
       setFilename(result)
 
       const response2 = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/labels.json`);

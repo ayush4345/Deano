@@ -69,13 +69,14 @@ export default function CreateJob() {
 
     const handlePayBounty = (e) => {
         e.preventDefault()
-        if(bounty > res.data.formatted){
+        // res.data.formatted string of balance convert to int
+        const balance = parseInt(res.data.formatted)
+        if (bounty > balance) {
             alert("You don't have enough tokens to pay this bounty");
             return;
         }
         console.log(bounty)
-        // write?.()
-        setHasPaid(true)
+        write?.()
     }
 
     const handleJobSubmit = async (e) => {
@@ -119,9 +120,12 @@ export default function CreateJob() {
                                 Create New Job
                             </h1>
                         </div>
-                        <Instructions />
-                        <section className="flex items-center w-full">
+                        <div className="flex">
+                            <Instructions />
                             <Token />
+
+                        </div>
+                        <section className="flex flex-col items-center w-full">
                             <form
                                 onSubmit={handleJobSubmit}
                                 className="flex flex-col justify-between w-2/3 h-2/3 p-16 gap-5 shadow-xl rounded-lg">
@@ -163,7 +167,7 @@ export default function CreateJob() {
                                                 </a>
                                             </div>
                                         ) : (
-                                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} hasPaid={hasPaid}/>
+                                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} hasPaid={hasPaid} />
                                         )
                                     }
                                 </div>

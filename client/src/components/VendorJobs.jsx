@@ -12,8 +12,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"
-  
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+
 
 export default function VendorJobs({ vendor_address }) {
 
@@ -48,44 +49,42 @@ export default function VendorJobs({ vendor_address }) {
                 </Button>
 
             </div>
-            <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Invoice</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Method</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium">INV001</TableCell>
-                        <TableCell>Paid</TableCell>
-                        <TableCell>Credit Card</TableCell>
-                        <TableCell className="text-right">$250.00</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+            <div className="list mt-2">
+                <Table>
+                    <TableCaption>A list of your annotation jobs.</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Job ID</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Bounty (in DAN)</TableHead>
+                            <TableHead className="text-right">
+                                Actions
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    {vendorJobs ? vendorJobs.map((job, index) => (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell className="w-[100px]">{job.job_id}</TableCell>
+                                <TableCell>{job.name}</TableCell>
+                                <TableCell>
+                                    <Badge className={job.status === "completed" ? "bg-green-500" : "bg-yellow-500"}>
+                                        {job.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell className="text-right">{job.bounty}</TableCell>
+                                <TableCell className="text-right">
+                                    <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    )) : <div>No Jobs</div>}
+
+                </Table>
 
 
-            <div className="list">
-                {vendorJobs ? vendorJobs.map((job, index) => (
-                    <div
-                        key={index}
-                        className="flex items-center flex-row justify-around bg-gray-200 rounded-lg">
-                        <div className="name">
-                            {job.job_id.slice(0, 6)}
-                        </div>
-                        <span className="bg-blue-400 rounded-md h-fit p-1">
-                            {job.status}
-                        </span>
 
-                        <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
-
-
-                    </div>
-                )) : <div>No Jobs</div>}
             </div>
 
             <Link href="/api/vendor/results">

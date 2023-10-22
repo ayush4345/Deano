@@ -31,6 +31,9 @@ import {
 // import { transactions } from "../../broadcast/Payout.s.sol/5151111";
 import { transactions } from "../../broadcast/Payout.s.sol/80001/run-latest.json";
 import { useRouter } from "next/navigation";
+import { Imprima } from "next/font/google";
+import { useBalance } from "wagmi";
+
 
 /* ***********************  Sismo Connect Config *************************** */
 
@@ -129,6 +132,14 @@ export default function Home() {
         <h1 className="text-xl font-bold">
           Payout
         </h1>
+
+        <div className="balance">
+          <p className="text-lg p-2 text-gray-500">
+            Your current balance is: {
+              res.isLoading ? "Loading..." : res.data.formatted + " " + res.data.symbol
+            }
+          </p>
+        </div>
 
         <p className="text-lg p-2 text-gray-500">
           Your salary will be determined by your reputation score revealed
