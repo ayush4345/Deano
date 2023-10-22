@@ -52,7 +52,7 @@ export default function Features() {
                       <div className="relative space-y-8 py-12 p-8">
                         <img
                           src="https://xmtp.org/img/logomark.svg"
-                          className="w-12"
+                          className="w-20"
                           width="512"
                           height="512"
                           alt="chat icon"
@@ -74,7 +74,7 @@ export default function Features() {
                       <div className="relative space-y-8 py-12 p-8 transition duration-300 group-hover:bg-white dark:group-hover:bg-gray-800">
                         <img
                           src="https://github.com/ayush4345/Deano/assets/99096397/7613ba18-4fc5-4cdd-8919-3f7bee297dae"
-                          className="w-12"
+                          className="w-28"
                           width="512"
                           height="512"
                           alt="authentication icon"
@@ -119,7 +119,7 @@ export default function Features() {
                       <div className="relative space-y-8 py-12 p-8">
                         <img
                           src="https://tableland.xyz/_next/static/media/black.bb0834aa.svg"
-                          className="w-12"
+                          className="w-20"
                           width="512"
                           height="512"
                           alt="tableland icon"
