@@ -172,7 +172,7 @@ export default function CreateJob() {
                                     }
                                 </div>
                                 <Button
-                                    disabled={submitting}
+                                    disabled={submitting || cid === ""}
                                 >
                                     {submitting ? "Submitting..." : "Submit Job"}
                                 </Button>

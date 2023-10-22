@@ -130,7 +130,7 @@ export const insertAnnotator = async (annotator_address) => {
 
 
 async function updateReputations(updates, pending_jobs) {
-    const tableName = `reputations_80001_7880`;
+    const tableName = `annotators_80001_7704`;
     //construct a batched update query
 
     //add the delta to the old reputation
@@ -139,7 +139,7 @@ async function updateReputations(updates, pending_jobs) {
         const { annotator_address } = job;
         const delta = updates[index];
         console.log(`Updating ${annotator_address} by ${delta} points`);
-        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE annotator_address = '${annotator_address}';`)
+        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE address = '${annotator_address}';`)
     })
 
     const res = await db.batch(queries);
@@ -151,69 +151,81 @@ async function updateReputations(updates, pending_jobs) {
 export const computeJobResults = async (job_id) => {
 
     //TODO: Get the pending_jobs
+    const tableName = `answers_final_80001_7894`;
+
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
+    console.log(results);
+
+    const pending_jobs = results.map((result) => {
+        return {
+            annotator_address: result.annotator_id,
+            response: JSON.parse(result.labels)
+        }
+    })
 
     //dummy responses
-    const pending_jobs = [
-        {
-            annotator_address: "0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb",
-            response: [1, 1, 2],
-        },
+    // const pending_jobs = [
+    //     {
+    //         annotator_address: "0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb",
+    //         response: [1, 1, 2],
+    //     },
 
-        {
-            annotator_address: "0x7319EC9dFbE3f9e2fd42694156312DF3a525730f",
-            response: [2, 2, 1],
-        },
+    //     {
+    //         annotator_address: "0x7319EC9dFbE3f9e2fd42694156312DF3a525730f",
+    //         response: [2, 2, 1],
+    //     },
 
-        {
-            annotator_address: "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
-            response: [3, 3, 1],
-        }
-    ]
-
+    //     {
+    //         annotator_address: "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
+    //         response: [3, 3, 1],
+    //     }
+    // ]
+    
     const responses = pending_jobs.map((job) => job.response);
+    console.log(responses);
 
 
     //for each index go trough each response and count the majority
     //if there is a tie then we have to do something else
     //if there is no majority then we have to do something else
 
-    const results = responses[0].map((_, colIndex) => responses.map(row => row[colIndex]));
+    // const results = responses[0].map((_, colIndex) => responses.map(row => row[colIndex]));
 
-    const answers = results
+    // const answers = results
 
-    //find the value that occurs the most in each row
-    const majority = answers.map((row) => {
-        return row.reduce((a, b, i, arr) =>
-            (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
-    })
+    // //find the value that occurs the most in each row
+    // const majority = answers.map((row) => {
+    //     return row.reduce((a, b, i, arr) =>
+    //         (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+    // })
 
-    //update reputations for annotators whose answers is in the majority
-    const updates = {};
+    // //update reputations for annotators whose answers is in the majority
+    // const updates = {};
 
-    responses.map((row, index) => {
-        let correctCount = 0;
-        row.map((answer, i) => {
-            if (answer == majority[i]) {
-                //update reputation
-                correctCount += 1
-            }
-        })
+    // responses.map((row, index) => {
+    //     let correctCount = 0;
+    //     row.map((answer, i) => {
+    //         if (answer == majority[i]) {
+    //             //update reputation
+    //             correctCount += 1
+    //         }
+    //     })
 
-        updates[index] = correctCount / row.length;
+    //     updates[index] = correctCount / row.length;
 
-    })
+    // })
 
-    //convert floats to ints
-    Object.keys(updates).map((key) => {
-        updates[key] = Math.round(updates[key] * 100);
-    })
+    // //convert floats to ints
+    // Object.keys(updates).map((key) => {
+    //     updates[key] = Math.round(updates[key] * 100);
+    // })
 
 
     // updateReputations(updates, pending_jobs)
 
 
-    const res = await insertResults(JSON.stringify(majority), job_id);
-    return res;
+    // const res = await insertResults(JSON.stringify(majority), job_id);
+    // return res;
 
 }
 

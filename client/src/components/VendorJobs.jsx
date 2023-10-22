@@ -110,7 +110,7 @@ export const StopButton = ({ job_id, status, updateJobs }) => {
 
     return (
         <Button
-            disabled={stoppingJob || status === "completed"}
+            disabled={stoppingJob || status === "completed" || status === "pending"}
             onClick={stopJob}
             className="m-2">
 
