@@ -20,12 +20,15 @@ export default function CardWithForm({ params }) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("Successfully Submitted the Annotation")
   const [contactInfo, setContactInfo] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const { wallets } = useWallets();
 
   const SubmitHandler = async () => {
 
     try {
+      setIsLoading(true)
+
       const valueCopy = [...value]
       valueCopy.sort(function (a, b) { return a.imageId - b.imageId })
 
@@ -44,6 +47,8 @@ export default function CardWithForm({ params }) {
 
       console.log(insert)
       console.log(insert.txn.transactionHash);
+      setIsLoading(false)
+      openChangeHandler(true)
       const res = await insert.txn.wait();
       console.log(res);
 
@@ -92,13 +97,15 @@ export default function CardWithForm({ params }) {
     setOpen(props);
   }, []);
 
+  console.log(filename.filenames.length)
+
   return (
     <>
       <div aria-hidden="true" className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20 z-0">
         <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
         <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
       </div>
-      {jobData.length > 0 && labels.labels.length > 0 && filename.filenames.length > 0
+      {jobData.length > 0 && labels.labels.length > 0 && filename.filenames.length > 0 && !isLoading
         ? <div className=" flex relative z-10">
           <div className="mb-10 flex flex-col justify-center px-5">
             <div className=" p-10 pl-8 pr-1 flex gap-7 justify-center items-center relative flex-wrap">
@@ -110,7 +117,10 @@ export default function CardWithForm({ params }) {
                 })
               }
             </div>
-            <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
+            {value.length == filename.filenames.length
+              ? <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
+              : <Button onClick={() => SubmitHandler()} disabled>Finally Submit Annotations</Button>
+            }
           </div>
           <XMTPChat peer="Vendor" peerAddress={jobData[0].vendor_address} contactList={contactInfo}></XMTPChat>
         </div>
