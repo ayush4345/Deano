@@ -46,7 +46,7 @@ export default function CreateJob() {
     const [submitting, setSubmitting] = useState(false)
     const { address } = useAccount();
     const res = useBalance({
-        address: address,
+        address: wallets[0].address,
         token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
         cacheTime: 100000,
     })
@@ -83,14 +83,14 @@ export default function CreateJob() {
         e.preventDefault()
         setSubmitting(true)
 
-        const res = await fetch(`https://deano.vercel.app/api/vendor/${address}/create`, {
+        const res = await fetch(`https://deano.vercel.app/api/vendor/${wallets[0].address}/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name: title,
-                vendor_address: address,
+                vendor_address: wallets[0].address,
                 job_id: uuidv4().slice(0, 6),
                 status: 'active',
                 cid: cid,
