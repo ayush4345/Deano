@@ -19,12 +19,11 @@ export const insertData = async () => {
     console.log(res);
 }
 
-export const readData = async () => {
+export const getAnnotator = async (annotator_address) => {
     // const prefix = "my_sdk_table";
     // const tableName = `reputations_80001_7724`;
-    const tableName = `my_sdk_table_80001_7733`;
-
-    const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
+    const tableName = `annotators_80001_7704`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE address = ${annotator_address}`).all();
     console.log(results);
     return results
 }
@@ -71,11 +70,10 @@ export const getJob = async (job_id) => {
     return results
 }
 
-export const getJobResults = async (job_id) => {
+export const getJobResults = async () => {
 
-    const tableName = `results_test2_80001_7876`;
-    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
-
+    const tableName = `results_final_80001_7932`;
+    const {results} = await db.prepare(`SELECT * FROM ${tableName};`).all();
     console.log(results);
     return results
 
@@ -100,14 +98,19 @@ export const updateJobStatus = async (job_id, status) => {
 
 const insertResults = async (results, job_id) => {
 
-    const tableName = `results_test2_80001_7876`;
+    const tableName = `results_final_80001_7932`;
 
     const { meta: insert } = await db
         .prepare(`INSERT INTO ${tableName} (job_id,  results) VALUES (?, ?);`)
         .bind(job_id, results)
         .run();
-    console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
+    console.log(insert.txn.transactionHash); 
     waitForTransaction(insert)
+
+    const res = await updateJobStatus(job_id, "completed")
+
+    console.log(res.txn.transactionHash); 
+
     return insert.txn.transactionHash
 
 }
@@ -147,35 +150,24 @@ async function updateReputations(updates, pending_jobs) {
 
 export const computeJobResults = async (job_id) => {
 
-
     //TODO: Get the pending_jobs
 
     //dummy responses
     const pending_jobs = [
         {
-            annotator_address: "0x123",
+            annotator_address: "0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb",
             response: [1, 1, 2],
         },
 
         {
-            annotator_address: "0x123",
+            annotator_address: "0x7319EC9dFbE3f9e2fd42694156312DF3a525730f",
             response: [2, 2, 1],
         },
 
         {
-            annotator_address: "0x123",
+            annotator_address: "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
             response: [3, 3, 1],
-        },
-
-        {
-            annotator_address: "0x123",
-            response: [4, 4, 2],
-        },
-
-        {
-            annotator_address: "0x123",
-            response: [5, 5, 3],
-        },
+        }
     ]
 
     const responses = pending_jobs.map((job) => job.response);
@@ -217,12 +209,11 @@ export const computeJobResults = async (job_id) => {
     })
 
 
-    updateReputations(updates, pending_jobs)
+    // updateReputations(updates, pending_jobs)
 
 
-    // const res = await insertResults( JSON.stringify(majority), job_id);
-    // return res;
-    return updates;
+    const res = await insertResults(JSON.stringify(majority), job_id);
+    return res;
 
 }
 

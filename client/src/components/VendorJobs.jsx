@@ -44,29 +44,30 @@ export default function VendorJobs({ vendor_address }) {
                         <div className="name">
                             {job.job_id.slice(0, 6)}
                         </div>
-                        <div className="status">
+                        <span className="bg-blue-400 rounded-md h-fit p-1">
                             {job.status}
-                        </div>
+                        </span>
 
                         <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
-                        <Link href={`/api/vendor/results/${job.job_id}`}
-                            className='underline text-blue-500'>
-                            View Results
-                        </Link>
 
 
                     </div>
                 )) : <div>No Jobs</div>}
             </div>
+
+            <Link href="/api/vendor/results">
+            <Button className="m-2">
+                Get Results
+            </Button>
+            </Link>
         </div>
     )
 
 }
 
-export const StopButton = ({ job_id, status , updateJobs}) => {
+export const StopButton = ({ job_id, status, updateJobs }) => {
     const [stoppingJob, setStoppingJob] = useState(false)
-   
-   
+
     const stopJob = async () => {
         setStoppingJob(true)
         const result = await updateJobStatus(job_id, "pending")
@@ -74,11 +75,10 @@ export const StopButton = ({ job_id, status , updateJobs}) => {
         updateJobs()
         setStoppingJob(false)
     }
-    
-    
+
     return (
         <Button
-            disabled={stoppingJob || status === "pending"}
+            disabled={stoppingJob || status === "completed"}
             onClick={stopJob}
             className="m-2">
 

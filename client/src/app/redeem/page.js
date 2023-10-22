@@ -73,6 +73,14 @@ export default function Home() {
   const { config, error: wagmiSimulateError } = usePrepareContractWrite(contractCallInputs);
   const { writeAsync } = useContractWrite(config);
 
+
+  const res = useBalance({
+    address: address,
+    token: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491",
+  })
+
+
+
   /* *************  Handle simulateContract call & chain errors ************ */
   useEffect(() => {
     if (chain?.id !== CHAIN.id) return setError(`Please switch to ${CHAIN.name} network`);
@@ -123,7 +131,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg p-2 text-gray-500">
-          Your salary will be determined by your reputation score revealed 
+          Your salary will be determined by your reputation score revealed
           through the Sismo Vault.
         </p>
 

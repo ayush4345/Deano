@@ -52,10 +52,10 @@ export default function CreateJob() {
 
     const handlePayBounty = (e) => {
         e.preventDefault()
-        // if(bounty > res.data.formatted){
-        //     alert("You don't have enough tokens to pay this bounty");
-        //     return;
-        // }
+        if(bounty > res.data.formatted){
+            alert("You don't have enough tokens to pay this bounty");
+            return;
+        }
         console.log(bounty)
         // write?.()
         setHasPaid(true)
