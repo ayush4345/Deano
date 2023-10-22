@@ -25,7 +25,7 @@ export default function Token() {
     console.log(res.data.formatted)
 
     return (
-        <div className="flex-1">
+        <div className="flex">
             <Card>
                 <CardHeader className="flex flex-row items-center  space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -35,7 +35,9 @@ export default function Token() {
                 <CardContent>
                     <div className="text-2xl font-bold">{
                         //concat to 2 decimal places
-                        res.data.formatted
+                        //parseint
+                        //format
+                        parseInt(res.data.formatted).toFixed(2)
                     } {res.data.symbol}</div>
 
                     <Button className="m-2">
