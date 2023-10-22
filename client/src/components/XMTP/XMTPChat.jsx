@@ -15,7 +15,7 @@ import Contacts from "./Contacts"
 
 const BOT_ADDRESS = "0x937C0d4a6294cdfa575de17382c7076b579DC176";
 
-export default function XMTPChat() {
+export default function XMTPChat({peerAddress, peer}) {
   const [messages, setMessages] = useState(null);
   const convRef = useRef(null);
   const clientRef = useRef(null);
@@ -48,11 +48,13 @@ export default function XMTPChat() {
     return conversations
   }
 
+  console.log(selectedContact)
+
   // Function to initialize the XMTP client
   const initXmtp = async function () {
     const startConvo = async (contactToInit) => {
       console.log("Hi i was called from the initXMTP")
-      console.log(address)
+      console.log(contactToInit)
       console.log(signer)
       const xmtp = await Client.create(signer, { env: "production" });
       console.log("connected till here")
@@ -68,7 +70,7 @@ export default function XMTPChat() {
     if (selectedContact) {
       startConvo(selectedContact);
     } else {
-      startConvo({ address: BOT_ADDRESS })
+      startConvo({ address: peerAddress })
     }
   };
 
@@ -110,7 +112,7 @@ export default function XMTPChat() {
   }, [selectedContact]);
 
   return (
-    <div>
+    <div className=" min-w-[280px]  pt-16 mr-8">
       {/* Display the ConnectWallet component if not connected */}
 
 
@@ -125,7 +127,7 @@ export default function XMTPChat() {
 
 
       {isConnected && !isOnNetwork && (
-        <div className='flex flex-col items-center justify-center w-fit mx-auto'>
+        <div className='flex sticky top-0 flex-col items-center justify-center w-fit mx-auto'>
           {/* <ConnectButton></ConnectButton> */}
           <button onClick={initXmtp} className=' bg-black text-white font-bold rounded-md p-3 m-2 hover:bg-rose-600 transition-all duration-300 ease-in-out'>
             Enable XMTP Identity
@@ -137,13 +139,14 @@ export default function XMTPChat() {
 
       {/* Render the Chat component if connected, initialized, and messages exist */}
       {isConnected && isOnNetwork && messages && !showContactsList ? (
-        <div className='flex flex-col items-center w-fit min-h-[400px] mx-auto bg-[#F6F6F4] shadow-lg rounded-lg m-2'>
+        <div className='flex sticky top-0 flex-col items-center w-fit min-h-[400px] mx-auto bg-[#F6F6F4] shadow-md shadow-gray-300 rounded-lg m-2'>
           <ChatBox
             client={clientRef.current}
             conversation={convRef.current}
             messageHistory={messages}
             selectedContact={selectedContact}
             setShowContactList={setShowContactList}
+            peer={peer}
           />
         </div>
       ) : isConnected && isOnNetwork && messages &&

@@ -1,17 +1,20 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from "fs"
-import path from "path"
 import { taskSchema } from "../../tasks/data/schema"
 import { z } from "zod"
+import { db } from '../../../tableland/connect'
 
 export async function GET(req) {
 
-    const data = await fs.readFile(
-        path.join(process.cwd(),"src","app","api", "data", "tasks.json")
-    )
+    // const data = await fs.readFile(
+    //     path.join(process.cwd(),"src","app","api", "data", "tasks.json")
+    // )
 
-    const tasks = JSON.parse(data.toString())
+    const tableName = `jobs_final2_80001_7898`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} ;`).all();
+    console.log(results);
 
-    return NextResponse.json(z.array(taskSchema).parse(tasks))
+    // const tasks = JSON.parse(results.toString())
+
+    return NextResponse.json(z.array(taskSchema).parse(results))
 
 }

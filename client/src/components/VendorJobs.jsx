@@ -16,12 +16,15 @@ export default function VendorJobs({ vendor_address }) {
         setUpdatingJobs(false)
     }
 
+    console.log(vendorJobs)
+    console.log(vendor_address)
+
     useEffect(() => {
         updateJobs()
     }, [])
 
     return (
-        <div className="">
+        <div className=" w-full pt-16">
 
             <div className="flex flex-row justify-between">
 
@@ -40,7 +43,7 @@ export default function VendorJobs({ vendor_address }) {
                 {vendorJobs ? vendorJobs.map((job, index) => (
                     <div
                         key={index}
-                        className="flex flex-row justify-between">
+                        className="flex items-center flex-row justify-around bg-gray-200 rounded-lg">
                         <div className="name">
                             {job.job_id.slice(0, 6)}
                         </div>
