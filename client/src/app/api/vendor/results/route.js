@@ -1,4 +1,4 @@
-import { computeJobResults, getJobResults} from '@/tableland/db'
+import {getJobResults} from '@/tableland/db'
 import { NextResponse } from 'next/server'
 
 export async function GET() {

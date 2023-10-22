@@ -83,7 +83,7 @@ export default function CreateJob() {
         e.preventDefault()
         setSubmitting(true)
 
-        const res = await fetch(`http://localhost:3000/api/vendor/${address}/create`, {
+        const res = await fetch(`https://deano.vercel.app/api/vendor/${address}/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
