@@ -1,8 +1,7 @@
 
 <div align="center">
 
-<img src="../Deano/client/public/assets/logo.jpeg" alt="deano_logo" border="1" width="100"/>
-
+<img src="https://github.com/ayush4345/Deano/blob/content/client/public/assets/logo.jpeg" alt="deano_logo" border="1" width="100"/>
 
 
   <p align="center">
@@ -10,13 +9,13 @@
   </p>
 </div>
 
-
+---
 <br/>
 
-![HomePage](../Deano/client/public/assets/home_page.png)
-![TaskPage](../Deano/client/public/assets/task_page.png)
-![Sismo Claim](../Deano/client/public/assets/claim_money.png)
-![Annotate Page](../Deano/client/public/assets/annotate_page.jpg)
+![HomePage](https://github.com/ayush4345/Deano/blob/content/client/public/assets/home_page.png)
+![TaskPage](https://github.com/ayush4345/Deano/blob/content/client/public/assets/task_page.png)
+![Sismo Claim](https://github.com/ayush4345/Deano/blob/content/client/public/assets/claim_money.png)
+![Annotate Page](https://github.com/ayush4345/Deano/blob/content/client/public/assets/annotate_page.jpg)
 
 
 <br/>
@@ -143,7 +142,7 @@ Payout = Reputation Score * Base Payout
 
 ## Architecture
 
-![Architecture](../Deano/client/public/assets/Deano.png)
+![Architecture](https://github.com/ayush4345/Deano/blob/content/client/public/assets/Deano.png)
 
 
 <br/>
