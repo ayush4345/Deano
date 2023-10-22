@@ -69,20 +69,21 @@ export default function CreateJob() {
 
     const handlePayBounty = (e) => {
         e.preventDefault()
-        // if(bounty > res.data.formatted){
-        //     alert("You don't have enough tokens to pay this bounty");
-        //     return;
-        // }
+        // res.data.formatted string of balance convert to int
+        const balance = parseInt(res.data.formatted)
+        if (bounty > balance) {
+            alert("You don't have enough tokens to pay this bounty");
+            return;
+        }
         console.log(bounty)
-        // write?.()
-        setHasPaid(true)
+        write?.()
     }
 
     const handleJobSubmit = async (e) => {
         e.preventDefault()
         setSubmitting(true)
 
-        const res = await fetch(`http://localhost:3000/api/vendor/${address}/create`, {
+        const res = await fetch(`https://deano.vercel.app/api/vendor/${address}/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -101,8 +102,8 @@ export default function CreateJob() {
         setSubmitting(false)
         sendNotification("A New Job has Arrived!", title)
         // router.push(`/vendor/${address}`)
-        // router.replace(`/vendor/`)
         alert("submitted successfully");
+        router.replace(`/vendor/`)
     }
 
     return (
@@ -119,9 +120,12 @@ export default function CreateJob() {
                                 Create New Job
                             </h1>
                         </div>
-                        <Instructions />
-                        <section className="flex items-center w-full">
+                        <div className="flex">
+                            <Instructions />
                             <Token />
+
+                        </div>
+                        <section className="flex flex-col items-center w-full">
                             <form
                                 onSubmit={handleJobSubmit}
                                 className="flex flex-col justify-between w-2/3 h-2/3 p-16 gap-5 shadow-xl rounded-lg">
@@ -156,14 +160,14 @@ export default function CreateJob() {
                                 <div className="upload flex flex-col space-y-1.5 mb-2">
                                     {
                                         uploadedFiles ? (
-                                            <div className="flex flex-col space-y-1.5 text-green-700">
+                                            <div className="flex flex-col space-y-1.5 text-blue-700">
                                                 Files Pinned to IPFS at
                                                 <a href={`https://ipfs.io/ipfs/${cid}`} target="_blank" rel="noopener noreferrer">
                                                     {cid}
                                                 </a>
                                             </div>
                                         ) : (
-                                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} hasPaid={hasPaid}/>
+                                            <FileUploadForm setUploadedFiles={setUploadedFiles} setCid={setCid} hasPaid={hasPaid} />
                                         )
                                     }
                                 </div>

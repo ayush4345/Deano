@@ -1,9 +1,9 @@
 import * as React from "react"
 
-import { cn } from "/src/utils/lib"
+import { cn } from "@/utils/lib"
 
 const Table = React.forwardRef(({ className, ...props }, ref) => (
-  <div className="w-full overflow-auto">
+  <div className="relative w-full overflow-auto">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}

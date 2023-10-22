@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 
+
 import Token from "@/components/Token";
 import VendorJobs from "../../components/VendorJobs";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
@@ -16,11 +17,13 @@ import XMTPChat from "@/components/XMTP/XMTPChat";
 
 export default function VendorPage() {
   const [vendorDetails, setVendorDetails] = useState({ name: "Loading..." });
+  const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+  const { wallets } = useWallets();
 
   useEffect(() => {
     const getVendorDetails = async () => {
       const res = await fetch(
-        "http://localhost:3000/api/vendor/0x3151D7f15e6cdfEeeA36D0dE4F6Da118f7A757e7/"
+        `https://deano.vercel.app/api/vendor/${wallets[0]}`
       );
       const data = await res.json();
       console.log(data);
@@ -29,9 +32,7 @@ export default function VendorPage() {
     getVendorDetails();
   }, []);
 
-  const { address } = useAccount();
-  const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
-  const { wallets } = useWallets(); 
+  // const { address } = useAccount();
 
   return (
     <>
@@ -45,6 +46,8 @@ export default function VendorPage() {
                   <CardTitle className="text-md font-medium">
                     {" "}
                     {vendorDetails.name}{" "}
+
+
                   </CardTitle>{" "}
                 </CardHeader>{" "}
               </Card>{" "}
@@ -54,11 +57,12 @@ export default function VendorPage() {
           <div className=" flex gap-5 ">
             {ready && wallets.length > 0 && (
               <VendorJobs vendor_address={wallets[0].address} />
-            )}
-            <XMTPChat
-              peer="Annotator"
-              peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`}
-            />
+              )}
+              <XMTPChat
+                peer="Annotator"
+                peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`}
+              />
+
           </div>
         </main>
         : <div className="h-[75vh] w-screen flex flex-col items-center justify-center backdrop-blur-sm">

@@ -19,12 +19,11 @@ export const insertData = async () => {
     console.log(res);
 }
 
-export const readData = async () => {
+export const getAnnotator = async (annotator_address) => {
     // const prefix = "my_sdk_table";
     // const tableName = `reputations_80001_7724`;
-    const tableName = `my_sdk_table_80001_7733`;
-
-    const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
+    const tableName = `annotators_80001_7704`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE address = ${annotator_address}`).all();
     console.log(results);
     return results
 }
@@ -40,7 +39,7 @@ export const createJob = async (job) => {
     const tableName = "jobs_final2_80001_7898";
     const { meta: insert } = await db
         .prepare(`INSERT INTO ${tableName} (name, vendor_address, job_id,  cid, status , bounty) VALUES (?, ?, ?, ?, ?, ?);`)
-        .bind(job.name , job.vendor_address, job.job_id, job.cid, job.status, job.bounty)
+        .bind(job.name, job.vendor_address, job.job_id, job.cid, job.status, job.bounty)
         .run();
     console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
     waitForTransaction(insert)
@@ -71,11 +70,9 @@ export const getJob = async (job_id) => {
     return results
 }
 
-export const getJobResults = async (job_id) => {
+export const getJobResults = async () => {
 
-    const tableName = `results_test2_80001_7876`;
-    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
-
+    const { results } = await db.prepare(`SELECT * FROM results_final_80001_7932 LIMIT 100;`).all();
     console.log(results);
     return results
 
@@ -90,9 +87,9 @@ export const updateJobStatus = async (job_id, status) => {
     console.log(update.txn.transactionHash); // e.g., my_sdk_table_80001_311
     waitForTransaction(update)
 
-    if(status == "pending"){
+    // if (status == "pending") {
         computeJobResults(job_id)
-    }
+    // }
 
     return update.txn.transactionHash
 }
@@ -100,14 +97,19 @@ export const updateJobStatus = async (job_id, status) => {
 
 const insertResults = async (results, job_id) => {
 
-    const tableName = `results_test2_80001_7876`;
+    const tableName = `results_final_80001_7932`;
 
     const { meta: insert } = await db
         .prepare(`INSERT INTO ${tableName} (job_id,  results) VALUES (?, ?);`)
         .bind(job_id, results)
         .run();
-    console.log(insert.txn.transactionHash); // e.g., my_sdk_table_80001_311
+    console.log(insert.txn.transactionHash);
     waitForTransaction(insert)
+
+    const res = await updateJobStatus(job_id, "completed")
+
+    console.log(res.txn.transactionHash);
+
     return insert.txn.transactionHash
 
 }
@@ -127,7 +129,7 @@ export const insertAnnotator = async (annotator_address) => {
 
 
 async function updateReputations(updates, pending_jobs) {
-    const tableName = `reputations_80001_7880`;
+    const tableName = `annotators_80001_7704`;
     //construct a batched update query
 
     //add the delta to the old reputation
@@ -136,7 +138,8 @@ async function updateReputations(updates, pending_jobs) {
         const { annotator_address } = job;
         const delta = updates[index];
         console.log(`Updating ${annotator_address} by ${delta} points`);
-        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE annotator_address = '${annotator_address}';`)
+
+        return db.prepare(`UPDATE ${tableName} SET reputation = reputation + ${delta} WHERE address = '${annotator_address}';`)
     })
 
     const res = await db.batch(queries);
@@ -147,55 +150,48 @@ async function updateReputations(updates, pending_jobs) {
 
 export const computeJobResults = async (job_id) => {
 
+    const tableName = `answers_final_80001_7894`;
 
-    //TODO: Get the pending_jobs
+    let { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
 
-    //dummy responses
-    const pending_jobs = [
-        {
-            annotator_address: "0x123",
-            response: [1, 1, 2],
-        },
+    results = results.filter((result) => result.annotator_id !== "" && result.labels.length > 0)
+    // console.log(results[0].labels);
 
-        {
-            annotator_address: "0x123",
-            response: [2, 2, 1],
-        },
-
-        {
-            annotator_address: "0x123",
-            response: [3, 3, 1],
-        },
-
-        {
-            annotator_address: "0x123",
-            response: [4, 4, 2],
-        },
-
-        {
-            annotator_address: "0x123",
-            response: [5, 5, 3],
-        },
-    ]
-
-    const responses = pending_jobs.map((job) => job.response);
-
-
-    //for each index go trough each response and count the majority
-    //if there is a tie then we have to do something else
-    //if there is no majority then we have to do something else
-
-    const results = responses[0].map((_, colIndex) => responses.map(row => row[colIndex]));
-
-    const answers = results
-
-    //find the value that occurs the most in each row
-    const majority = answers.map((row) => {
-        return row.reduce((a, b, i, arr) =>
-            (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+    const pending_jobs = results.map((result) => {
+        return {
+            annotator_address: result.annotator_id,
+            response: result.labels,
+        }
     })
 
-    //update reputations for annotators whose answers is in the majority
+    // console.log(pending_jobs);
+
+    const responses = pending_jobs.map((job) => job.response);
+    console.log(responses);
+
+    //find the value occuring the most in each column
+    const majority = [];
+    for (let i = 0; i < responses[0].length; i++) {
+        const column = responses.map((row) => row[i]);
+        const counts = {};
+        column.forEach((value) => {
+            if (value in counts) {
+                counts[value] += 1;
+            } else {
+                counts[value] = 1;
+            }
+        });
+        let max = 0;
+        let max_value = null;
+        for (const [value, count] of Object.entries(counts)) {
+            if (count > max) {
+                max = count;
+                max_value = value;
+            }
+        }
+        majority.push(max_value);
+    }
+
     const updates = {};
 
     responses.map((row, index) => {
@@ -213,16 +209,16 @@ export const computeJobResults = async (job_id) => {
 
     //convert floats to ints
     Object.keys(updates).map((key) => {
-        updates[key] = Math.round(updates[key] * 100);
+        updates[key] = Math.round(updates[key] * 10);
     })
+
+    console.log(updates)
 
 
     updateReputations(updates, pending_jobs)
 
-
-    // const res = await insertResults( JSON.stringify(majority), job_id);
-    // return res;
-    return updates;
+    const res = await insertResults(JSON.stringify(majority), job_id);
+    return res;
 
 }
 

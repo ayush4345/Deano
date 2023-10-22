@@ -4,6 +4,18 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { getVendorJobs } from "@/tableland/db";
 import { updateJobStatus } from '../tableland/db';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { db } from "@/tableland/connect";
+
 
 export default function VendorJobs({ vendor_address }) {
 
@@ -11,13 +23,12 @@ export default function VendorJobs({ vendor_address }) {
     const [vendorJobs, setVendorJobs] = useState([])
     const updateJobs = async () => {
         setUpdatingJobs(true)
+
         const jobs = await getVendorJobs(vendor_address);
         setVendorJobs(jobs)
         setUpdatingJobs(false)
     }
 
-    console.log(vendorJobs)
-    console.log(vendor_address)
 
     useEffect(() => {
         updateJobs()
@@ -38,50 +49,69 @@ export default function VendorJobs({ vendor_address }) {
                 </Button>
 
             </div>
+            <div className="list mt-2">
+                <Table>
+                    <TableCaption>A list of your annotation jobs.</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Job ID</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Bounty (in DAN)</TableHead>
+                            <TableHead className="text-right">
+                                Actions
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    {vendorJobs ? vendorJobs.map((job, index) => (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell className="w-[100px]">{job.job_id}</TableCell>
+                                <TableCell>{job.name}</TableCell>
+                                <TableCell>
+                                    <Badge className={job.status === "completed" ? "bg-green-500" : "bg-yellow-500"}>
+                                        {job.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell className="text-right">{job.bounty}</TableCell>
+                                <TableCell className="text-right">
+                                    <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    )) : <div>No Jobs</div>}
 
-            <div className="list">
-                {vendorJobs ? vendorJobs.map((job, index) => (
-                    <div
-                        key={index}
-                        className="flex items-center flex-row justify-around bg-gray-200 rounded-lg">
-                        <div className="name">
-                            {job.job_id.slice(0, 6)}
-                        </div>
-                        <div className="status">
-                            {job.status}
-                        </div>
-
-                        <StopButton job_id={job.job_id} status={job.status} updateJobs={updateJobs} />
-                        <Link href={`/api/vendor/results/${job.job_id}`}
-                            className='underline text-blue-500'>
-                            View Results
-                        </Link>
+                </Table>
 
 
-                    </div>
-                )) : <div>No Jobs</div>}
+
             </div>
+
+            <Link href="/api/vendor/results">
+                <Button className="m-2">
+                    Get Results
+                </Button>
+            </Link>
         </div>
     )
 
 }
 
-export const StopButton = ({ job_id, status , updateJobs}) => {
+export const StopButton = ({ job_id, status, updateJobs }) => {
     const [stoppingJob, setStoppingJob] = useState(false)
-   
-   
+
     const stopJob = async () => {
         setStoppingJob(true)
-        const result = await updateJobStatus(job_id, "pending")
+        const result = await updateJobStatus(job_id, "active")
         console.log(result)
         updateJobs()
         setStoppingJob(false)
     }
-    
-    
+
     return (
         <Button
-            disabled={stoppingJob || status === "pending"}
+            // disabled={stoppingJob}
+            disabled={stoppingJob || status === "completed" || status === "pending"}
             onClick={stopJob}
             className="m-2">
 

@@ -56,6 +56,7 @@ export default function CardWithForm({ params }) {
     const getJobData = async () => {
       const tableName = `jobs_final2_80001_7898`;
       const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${params.slug}';`).all();
+      // const { results } = await db.prepare(`DELETE FROM jobs_final2_80001_7898 WHERE job_id = '7c50cc';`).all();
       console.log(results);
       setJobData(results)
     }
@@ -70,6 +71,7 @@ export default function CardWithForm({ params }) {
       console.log("fetching info")
       const response = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/filename.json`);
       const result = await response.json();
+      console.log(result)
       setFilename(result)
 
       const response2 = await fetch(`https://ipfs.io/ipfs/${jobData[0].cid}/labels.json`);
