@@ -39,7 +39,7 @@ export default function VendorJobs({ vendor_address }) {
 
             </div>
 
-            <div className="list">
+            <div className="list flex flex-col gap-3">
                 {vendorJobs ? vendorJobs.map((job, index) => (
                     <div
                         key={index}
