@@ -72,8 +72,7 @@ export const getJob = async (job_id) => {
 
 export const getJobResults = async () => {
 
-    const tableName = `results_final_80001_7932`;
-    const { results } = await db.prepare(`SELECT * FROM results_final_80001_7932;`).all();
+    const { results } = await db.prepare(`SELECT * FROM results_final_80001_7932 LIMIT 100;`).all();
     console.log(results);
     return results
 
