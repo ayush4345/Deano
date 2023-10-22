@@ -31,19 +31,19 @@ export default function AnnotationCard({ id, labels, slug, image }) {
 
     console.log(value)
 
-    const insertAnnotations = () => {
+    const insertAnnotations = (e) => {
         if ((value.filter((value) => value.imageId == id)).length > 0) {
             console.log("update")
-            dispatch(updateAnnotations({ imageId: id, label: label.toLowerCase() }))
+            dispatch(updateAnnotations({ imageId: id, label: e.toLowerCase() }))
         } else {
-            dispatch(setAnnotations({ imageId: id, label: label.toLowerCase() }))
+            dispatch(setAnnotations({ imageId: id, label: e.toLowerCase() }))
         }
     }
 
     return (
         <Card className="w-[250px]">
             <div>
-                <img className="rounded-lg" src={`https://ipfs.io/ipfs/${image}`}alt="logo" />
+                <img className="rounded-lg" src={`https://ipfs.io/ipfs/${image}`} alt="logo" />
             </div>
             <CardHeader>
                 <CardTitle>Image {id}</CardTitle>
@@ -54,7 +54,10 @@ export default function AnnotationCard({ id, labels, slug, image }) {
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="framework">Label</Label>
-                            <Select onValueChange={(e) => { setLabel(e) }}>
+                            <Select onValueChange={(e) => {
+                                setLabel(e)
+                                insertAnnotations(e)
+                            }}>
                                 <SelectTrigger id="framework">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -70,32 +73,6 @@ export default function AnnotationCard({ id, labels, slug, image }) {
                     </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button onClick={() => { insertAnnotations() }}>Submit</Button>
-            </CardFooter>
         </Card>
     )
 }
-
-export const data = [
-    {
-        id: 1,
-        labels: ["hii", "hello", "bye"]
-    },
-    {
-        id: 2,
-        labels: ["hii", "helo", "bye"]
-    },
-    {
-        id: 3,
-        labels: ["hii", "hello", "byeee"]
-    },
-    {
-        id: 4,
-        labels: ["hi", "hello", "bye"]
-    },
-    {
-        id: 5,
-        labels: ["hiiii", "hello", "bye"]
-    },
-]
