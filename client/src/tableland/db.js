@@ -154,7 +154,7 @@ export const computeJobResults = async (job_id) => {
     const tableName = `answers_final_80001_7894`;
 
     const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '${job_id}';`).all();
-    console.log(results);
+    console.log(results[0].lalb);
 
     const pending_jobs = results.map((result) => {
         return {
@@ -162,27 +162,27 @@ export const computeJobResults = async (job_id) => {
             response: JSON.parse(result.labels)
         }
     })
-
-    //dummy responses
-    // const pending_jobs = [
-    //     {
-    //         annotator_address: "0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb",
-    //         response: [1, 1, 2],
-    //     },
-
-    //     {
-    //         annotator_address: "0x7319EC9dFbE3f9e2fd42694156312DF3a525730f",
-    //         response: [2, 2, 1],
-    //     },
-
-    //     {
-    //         annotator_address: "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
-    //         response: [3, 3, 1],
-    //     }
-    // ]
     
     const responses = pending_jobs.map((job) => job.response);
     console.log(responses);
+    
+        //dummy responses
+        // const pending_jobs = [
+        //     {
+        //         annotator_address: "0x2D449c535E4B2e07Bc311fbe1c14bf17fEC16AAb",
+        //         response: [1, 1, 2],
+        //     },
+    
+        //     {
+        //         annotator_address: "0x7319EC9dFbE3f9e2fd42694156312DF3a525730f",
+        //         response: [2, 2, 1],
+        //     },
+    
+        //     {
+        //         annotator_address: "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
+        //         response: [3, 3, 1],
+        //     }
+        // ]
 
 
     //for each index go trough each response and count the majority

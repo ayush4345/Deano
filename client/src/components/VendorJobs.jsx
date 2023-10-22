@@ -14,6 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { db } from "@/tableland/connect";
 
 
 export default function VendorJobs({ vendor_address }) {
@@ -24,11 +25,42 @@ export default function VendorJobs({ vendor_address }) {
         setUpdatingJobs(true)
         const jobs = await getVendorJobs(vendor_address);
         setVendorJobs(jobs)
+        const tableName = `answers_final_80001_7894`;
+
+        let { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE job_id = '86de88';`).all();
+
+        results = results.filter((result) => result.annotator_id !== "" && result.labels.length > 0)
+        // console.log(results[0].labels);
+
+        const pending_jobs = results.map((result) => {
+            return {
+                annotator_address: result.annotator_id,
+                response: result.labels,
+            }
+        })
+
+        // console.log(pending_jobs);
+
+        const responses = pending_jobs.map((job) => job.response);
+        console.log(responses);
+
+        //find the value occuring the most in each column
+        const majority = responses.map((response) => {
+            const counts = response.reduce((a, c) => {
+                a[c] = (a[c] || 0) + 1;
+                return a;
+            }, {});
+            const maxCount = Math.max(...Object.values(counts));
+            return Object.keys(counts).filter(k => counts[k] === maxCount);
+        });
+
+        console.log(majority)
+
         setUpdatingJobs(false)
     }
 
-    console.log(vendorJobs)
-    console.log(vendor_address)
+    // console.log(vendorJobs)
+    // console.log(vendor_address)
 
     useEffect(() => {
         updateJobs()
