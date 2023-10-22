@@ -7,13 +7,7 @@ import { useEffect,useState } from "react";
 import {z} from "zod";
 import {taskSchema} from "./data/schema"
 import { db } from "@/tableland/connect";
-
-// export const metadata = {
-//   title: "Tasks",
-//   description: "A task and issue tracker build using Tanstack Table.",
-// }
-
-// Simulate a database read for tasks.
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function TaskPage() {
 
@@ -33,24 +27,12 @@ export default function TaskPage() {
 
   }, [])
 
-  // const response = await fetch("https://deano.vercel.app/api/data");
-  // const tasks = [
-  //   {
-  //     "job_id": "86de88",
-  //     "name": "Annotate 8 images of cat",
-  //     "vendor_address": "0xEF067A08596D98F480e6FF6eaA7DF650Cf738bFc",
-  //     "status": "active",
-  //     "bounty": 29,
-  //     "cid": "bafybeidykipmptpql33uzy4wv6eh5ych2lnnhvfk22hszlc2x7fyolnyme"
-  //   }
-  // ]
-  // const result = await response.json()
-
   console.log(jobData)
 
   return (
     <>
-      <div className="h-full flex-1 flex-col space-y-8 p-8 flex">
+    {jobData.length > 0
+      ?<div className="h-full flex-1 flex-col space-y-8 p-8 flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
@@ -64,6 +46,8 @@ export default function TaskPage() {
         </div>
         <DataTable data={jobData} columns={columns} />
       </div>
+      :<div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
+    }
     </>
   );
 }
