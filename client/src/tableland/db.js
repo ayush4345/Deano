@@ -23,7 +23,15 @@ export const getAnnotator = async (annotator_address) => {
     // const prefix = "my_sdk_table";
     // const tableName = `reputations_80001_7724`;
     const tableName = `annotators_80001_7704`;
-    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE address = ${annotator_address}`).all();
+    const { results } = await db.prepare(`SELECT * FROM ${tableName} WHERE address = '${annotator_address}';`).all();
+    console.log(results);
+    return results
+}
+export const getAnnotators = async () => {
+    // const prefix = "my_sdk_table";
+    // const tableName = `reputations_80001_7724`;
+    const tableName = `annotators_80001_7704`;
+    const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
     console.log(results);
     return results
 }
