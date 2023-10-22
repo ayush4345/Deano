@@ -19,7 +19,7 @@ export default function TaskPage() {
       const { results } = await db.prepare(`SELECT * FROM ${tableName} ;`).all();
       console.log(results);
       const response = z.array(taskSchema).parse(results)
-      response.filter((item) => item.cid !== "" && item.status === "active")
+      // response.filter((item) => item.cid !== "" && item.status === "active")
       setJobData(response)
     }
 
