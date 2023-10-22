@@ -68,8 +68,8 @@ export default function register() {
                 const tableName = "annotators_80001_7704";
 
                 const { meta: insert } = await db
-                    .prepare(`INSERT INTO ${tableName} (name,address) VALUES (?, ?);`)
-                    .bind(name, address)
+                    .prepare(`INSERT INTO ${tableName} (name,address, reputation , jobs) VALUES (?, ?, ?, ?);`)
+                    .bind(name, address, 10, 0)
                     .run();
 
                 console.log(insert)
