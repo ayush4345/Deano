@@ -103,7 +103,7 @@ const ChatBox = ({ client, messageHistory, conversation, setShowContactList, sel
       </div>
 
       {/* div for the Message List */}
-      <div className="">
+      <div className="w-full">
         <MessageList messages={messageHistory} />
       </div>
 
