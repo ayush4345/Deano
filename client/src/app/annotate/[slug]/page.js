@@ -19,6 +19,7 @@ export default function CardWithForm({ params }) {
   const [labels, setLabels] = useState({ "labels": [] })
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("Successfully Submitted the Annotation")
+  const [contactInfo, setContactInfo] = useState([])
 
   const { wallets } = useWallets();
 
@@ -111,7 +112,7 @@ export default function CardWithForm({ params }) {
             </div>
             <Button onClick={() => SubmitHandler()}>Finally Submit Annotations</Button>
           </div>
-          <XMTPChat peer="Vendor" peerAddress={jobData[0].vendor_address}></XMTPChat>
+          <XMTPChat peer="Vendor" peerAddress={jobData[0].vendor_address} contactList={contactInfo}></XMTPChat>
         </div>
         : <div className="h-screen w-screen flex items-center justify-center backdrop-blur-sm"><CircularProgress /></div>
       }

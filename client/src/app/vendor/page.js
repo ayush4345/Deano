@@ -14,11 +14,11 @@ import Token from "@/components/Token";
 import VendorJobs from "../../components/VendorJobs";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import XMTPChat from "@/components/XMTP/XMTPChat";
+import { db } from "../../tableland/connect";
 
 export default function VendorPage() {
   const [vendorDetails, setVendorDetails] = useState({ name: "Loading..." });
-  const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
-  const { wallets } = useWallets();
+  const [contactInfo, setContactInfo] = useState([])
 
   useEffect(() => {
     const getVendorDetails = async () => {
@@ -32,7 +32,32 @@ export default function VendorPage() {
     getVendorDetails();
   }, []);
 
-  // const { address } = useAccount();
+  const { address } = useAccount();
+  const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+  const { wallets } = useWallets();
+
+  useEffect(() => {
+
+    async function fetchContactInfo() {
+      const tableName = `jobs_final2_80001_7898`;
+      const response = await db.prepare(`SELECT job_id FROM ${tableName} where vendor_address='${wallets[0]?.address}';`).all();
+      console.log(response.results);
+
+      response.results.map(async (info) => {
+        const { results } = await db.prepare(`SELECT * FROM answers_final_80001_7894 where job_id ='${info.job_id}';`).all();
+        const response = results.filter((item) => item.labels.length > 0)
+        const newArray = [...contactInfo, response];
+        setContactInfo(newArray)
+      })
+    }
+
+    if (wallets.length > 0) {
+      fetchContactInfo()
+    }
+
+  }, [ready, wallets])
+
+  console.log(contactInfo)
 
   return (
     <>
@@ -57,12 +82,12 @@ export default function VendorPage() {
           <div className=" flex gap-5 ">
             {ready && wallets.length > 0 && (
               <VendorJobs vendor_address={wallets[0].address} />
-              )}
-              <XMTPChat
-                peer="Annotator"
-                peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`}
-              />
-
+            )}
+            <XMTPChat
+              peer="Annotator"
+              peerAddress={`0x994E0408180C98d81597bD271fF9f3FB0c9a6Dfe`}
+              contactList={contactInfo}
+            />
           </div>
         </main>
         : <div className="h-[75vh] w-screen flex flex-col items-center justify-center backdrop-blur-sm">

@@ -15,7 +15,7 @@ import Contacts from "./Contacts"
 
 const BOT_ADDRESS = "0x937C0d4a6294cdfa575de17382c7076b579DC176";
 
-export default function XMTPChat({peerAddress, peer}) {
+export default function XMTPChat({ peerAddress, peer, contactList }) {
   const [messages, setMessages] = useState(null);
   const convRef = useRef(null);
   const clientRef = useRef(null);
@@ -147,6 +147,7 @@ export default function XMTPChat({peerAddress, peer}) {
             selectedContact={selectedContact}
             setShowContactList={setShowContactList}
             peer={peer}
+            contactList={contactList}
           />
         </div>
       ) : isConnected && isOnNetwork && messages &&
