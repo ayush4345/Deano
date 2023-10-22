@@ -38,10 +38,10 @@ export default function Features() {
 
                         <div className="space-y-2">
                           <h5 className="text-xl font-semibold text-gray-700 dark:text-white transition group-hover:text-orange-700">
-                            Notification using Push protocol
+                            Notification using Push Protocol
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                            A vendor on creating a new job will directly notify the annotator in their inboxes.
+                          The Push Protocol serves the essential function of notifying annotators about newly added job listings by vendors. It plays a crucial role in keeping the entire ecosystem up-to-date by delivering notifications that are vital to annotators' work.
                           </p>
                         </div>
                         
@@ -63,7 +63,7 @@ export default function Features() {
                             XMTP Chat
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                            Stay connected with the Vendor for latest Job updates and related queries.
+                          Stay seamlessly connected with the Vendor for real-time updates on job listings and address any related queries. Annotators have the convenience of direct communication with vendors for additional job-related updates.
                           </p>
                         </div>
                         
@@ -85,7 +85,7 @@ export default function Features() {
                           Seemless Authentication using Privy
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          Privy brings web2-caliber UX — like sign in with email and social — to web3 products. Don't just increase conversion, increase the amount of potential users for your app.
+                        Deano leverages Privy for smooth user onboarding, allowing users to authenticate using their email address and social logins. This streamlined process simplifies their entry into the web3 world.
                           </p>
                         </div>
                         
@@ -107,7 +107,7 @@ export default function Features() {
                             Sismo
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          Sismo details
+                          Sismo plays a pivotal role in providing periodic salaries to our annotators based on their reputation metrics. It offers the capability to selectively distribute payouts exclusively within the Deano platform, ensuring financial transactions remain within our ecosystem.
                           </p>
                         </div>
                         
@@ -129,7 +129,7 @@ export default function Features() {
                             Tableland
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          Tableland details
+                          Within Deano, Tableland serves as a comprehensive solution for the streamlined management of vendor job listings. It simplifies the overall workflow within the web3 framework, enhancing efficiency and accessibility.
                           </p>
                         </div>
                         
@@ -148,10 +148,32 @@ export default function Features() {
 
                         <div className="space-y-2">
                           <h5 className="text-xl font-semibold text-gray-700 dark:text-white transition group-hover:text-orange-700">
-                            Graph
+                            The Graph
                           </h5>
                           <p className="text-gray-600 dark:text-gray-300">
-                          Graph details
+                          Our utilization of The Graph extends to the development of a dynamic leaderboard system. This system ranks the most distinguished annotators and vendors based on their reputation, providing a transparent and insightful view of their contributions to the Deano platform.
+                          </p>
+                        </div>
+                        
+                      </div>
+                    </div>
+          {/* web3.storage */}
+          <div className="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10">
+                      <div className="relative space-y-8 py-12 p-8">
+                        <img
+                          src="https://img.icons8.com/nolan/64/cloud-storage.png"
+                          className="w-12"
+                          width="512"
+                          height="512"
+                          alt="tableland icon"
+                        />
+
+                        <div className="space-y-2">
+                          <h5 className="text-xl font-semibold text-gray-700 dark:text-white transition group-hover:text-orange-700">
+                            web3.storage
+                          </h5>
+                          <p className="text-gray-600 dark:text-gray-300">
+                          In our infrastructure, web3.storage plays a pivotal role as it serves as the repository for all the images uploaded by vendors on the blockchain.
                           </p>
                         </div>
                         
