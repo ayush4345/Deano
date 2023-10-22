@@ -25,7 +25,7 @@ export default function VendorPage() {
   useEffect(() => {
     const getVendorDetails = async () => {
       const res = await fetch(
-        `https://deano.vercel.app/api/vendor/${wallets[0]}`
+        `https://deano.vercel.app/api/vendor/${wallets[0].address}`
       );
       const data = await res.json();
       console.log(data);

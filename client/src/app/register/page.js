@@ -2,9 +2,10 @@
 
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserType, setUserAddress, setUserName } from '../../utils/userSlice'
-import { useEffect, useState } from 'react'
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
+import { useEffect, useState, useCallback } from 'react'
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useRouter } from 'next/navigation'
+import SuccessSnackbar from '@/components/Snackbar'
 
 import { db } from '../../tableland/connect'
 
@@ -17,9 +18,14 @@ export default function register() {
     // const [type, setType] = useState("")
     const [address, setAddress] = useState("")
     const [userTypeSelected, setUserTypeSelected] = useState(false)
+    const [open, setOpen] = useState(false)
 
     let name = useSelector((state) => state.user.name)
     let userType = useSelector((state) => state.user.userType)
+
+    const openChangeHandler = useCallback(props => {
+        setOpen(props);
+    }, []);
 
     const { wallets } = useWallets();
     const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
@@ -58,10 +64,11 @@ export default function register() {
 
                 console.log(insert)
                 console.log(insert.txn.transactionHash);
+                openChangeHandler(true)
+                router.push("/vendor")
                 const res = await insert.txn.wait();
                 console.log(res);
 
-                router.push("/vendor")
             } else if (userType == "Annotator") {
                 console.log("inserting to tableland")
 
@@ -74,10 +81,11 @@ export default function register() {
 
                 console.log(insert)
                 console.log(insert.txn.transactionHash);
+                openChangeHandler(true)
+                router.push("/tasks")
                 const res = await insert.txn.wait();
                 console.log(res);
 
-                router.push("/tasks")
             }
 
         } catch (error) {
@@ -124,6 +132,9 @@ export default function register() {
                 )
                 }
             </div>
+            {open && (
+                <SuccessSnackbar message="Registered Successfully on Deano" open={open} openChangeHandler={openChangeHandler} />
+            )}
         </main>
     )
 }
