@@ -1,0 +1,33 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DeanoPayout
+    network: mumbai
+    source:
+      address: "0x6cD23FB64f122705AbeE7305Eef346Bb10175491"
+      abi: DeanoPayout
+      startBlock: 41339450
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - MoneyReceived
+        - MoneySent
+        - Transfer
+      abis:
+        - name: DeanoPayout
+          file: DeanoPayout\abis\DeanoPayout.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: MoneyReceived(indexed address,uint256)
+          handler: handleMoneyReceived
+        - event: MoneySent(indexed address,uint256)
+          handler: handleMoneySent
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: DeanoPayout\DeanoPayout.wasm
