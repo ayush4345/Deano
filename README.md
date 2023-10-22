@@ -22,13 +22,27 @@
 
 ## Table of Contents
 
-1. [Project Idea](#project-idea)
-2. [Our Approach](#our-approach)
-3. [Challenges We Faced](#challenges-we-faced)
-4. [Technologies We Used](#technologies-we-used)
-5. [Architecture](#architecture)
-6. [Installation and Setup Guide](#installation-and-setup-guide)
-7. [Team Members](#team-members)
+- [Table of Contents](#table-of-contents)
+- [Project Idea](#project-idea)
+- [Our Approach](#our-approach)
+  - [Actors](#actors)
+  - [Workflow](#workflow)
+  - [How Accuracy is maintained](#how-accuracy-is-maintained)
+  - [How Annotators are rewarded](#how-annotators-are-rewarded)
+  - [Summary](#summary)
+- [Challenges We Faced](#challenges-we-faced)
+- [Technologies We Used](#technologies-we-used)
+  - [Sismo](#sismo)
+  - [Push Protocol](#push-protocol)
+  - [Tableland](#tableland)
+  - [XMTP Chat](#xmtp-chat)
+  - [Privy](#privy)
+  - [web3.storage](#web3storage)
+  - [The Graph](#the-graph)
+- [Architecture](#architecture)
+- [Installation and Setup Guide](#installation-and-setup-guide)
+  - [Install the Next.js Frontend](#install-the-nextjs-frontend)
+- [Team Members](#team-members)
 
 <br/>
 
@@ -113,30 +127,42 @@ Payout = Reputation Score * Base Payout
 ### [Sismo](https://www.sismo.io/)
 * Sismo plays a pivotal role in providing periodic salaries to our annotators based on their reputation metrics.
 * It offers the capability to selectively distribute payouts exclusively within the Deano platform, ensuring financial transactions remain within our ecosystem.
+* Use of custom data group using REST data provider, vaultId, and on-chain zk-proof verification enabled us to build a robust reputation based periodic payout system.
+
 
 ### [Push Protocol](https://push.org/) 
 * The Push Protocol serves the essential function of notifying annotators about newly added job listings by vendors.
-* It plays a crucial role in keeping the entire ecosystem up-to-date by delivering notifications that are vital to annotators' work.
+* It plays a crucial role in keeping the entire ecosystem up-to-date by delivering notifications that are vital to annotators' work since the platform is decentralised and need of notification and updates is vital.
 
 ### [Tableland](https://tableland.xyz/)
+
+
 * Tableland is a crucial component of Deano's infrastructure, serving as a comprehensive solution for the streamlined management of vendor job listings. It acts as the backbone of all the datasets within Deano, streamlining the web3 layer on top of the storage.
 * By simplifying the overall workflow within the web3 framework, Tableland enhances efficiency and accessibility, making it easier for vendors and annotators to manage and access job listings and related data.
+* In particular the batch queries feature of tableland was really useful for doing a lot of queries in a single network call reducing onchain interactions and gas costs.
 
 ### [XMTP Chat](https://xmtp.org/)
+
 * Stay seamlessly connected with the Vendor for real-time updates on job listings and address any related queries.
 * Annotators have the convenience of direct communication with vendors for additional job-related updates.
 * In the future, our plans include implementing the [Connext Network](https://www.connext.network/) to facilitate a seamless token transfer bridge, enabling efficient transactions between vendors and annotators, as well as among annotators themselves.
 
 
 ### [Privy](https://www.privy.io/)
+
 * Privy enhances the user experience of web3 products to a level comparable to web2, offering features like seamless email and social media sign-ins. It not only boosts conversion rates but also broadens the potential user base for your app.
 * Deano leverages Privy for smooth user onboarding, allowing users to authenticate using their email address and social logins. This streamlined process simplifies their entry into the web3 world.
 
 ### [web3.storage](https://web3.storage/)
+
 * web3.storage occupies a central role in our infrastructure, serving as the repository for both images and their associated information uploaded by vendors on the blockchain. This crucial function ensures secure and reliable data storage within the Deano platform.
 
 ### [The Graph](https://thegraph.com/)
-* Our utilization of The Graph extends to the development of a dynamic leaderboard system. This system ranks the most distinguished annotators and vendors based on their reputation, providing a transparent and insightful view of their contributions to the Deano platform.
+
+* Our utilization of The Graph extends to the development of a dynamic leaderboard system. This system ranks the most distinguished annotators and vendors based on their reputation and frequency of usage respectively, providing a transparent and insightful view of their contributions to the Deano platform.
+
+Heres our graph studio link: https://thegraph.com/studio/subgraph/deano-ranking/playground/
+
 
 <br/>
 

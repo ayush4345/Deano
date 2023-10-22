@@ -41,7 +41,7 @@ export const statuses = [
     icon: StopwatchIcon,
   },
   {
-    value: "complete",
+    value: "completed",
     label: "Completed",
     icon: CheckCircledIcon,
   },

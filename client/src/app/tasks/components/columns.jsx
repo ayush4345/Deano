@@ -54,9 +54,15 @@ export const columns = [
         <div className="flex space-x-2">
           <Badge className="badge" variant="outline">{row.original.job_id}</Badge>
           <span className="max-w-[500px] truncate font-medium hover:underline">
-            <Link href={`/annotate/${row.original.job_id}`}>
-              {row.getValue("name")}
-            </Link>
+            {row.original.status === "active"
+              ? <Link href={`/annotate/${row.original.job_id}`}>
+                {row.getValue("name")}
+              </Link>
+              : <Link href="">
+                {row.getValue("name")}
+              </Link>
+            }
+
           </span>
         </div>
       )
