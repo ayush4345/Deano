@@ -10,6 +10,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ChatBox from "@/components/XMTP/ChatBox"
 import { useAccount } from 'wagmi'
 import { useSigner } from '../../hooks/useSigner';
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 
 import Contacts from "./Contacts"
 
@@ -25,6 +26,9 @@ export default function XMTPChat({ peerAddress, peer, contactList }) {
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [showContactsList, setShowContactList] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null)
+
+  const { ready, authenticated, user, login, logout, signMessage } = usePrivy();
+  const { wallets } = useWallets();
 
   // Function to load the existing messages in a conversation
   const newConversation = async function (xmtp_client, addressTo) {
@@ -125,9 +129,9 @@ export default function XMTPChat({ peerAddress, peer, contactList }) {
       {/* Display the ConnectWallet component if not connected */}
 
 
-      {!isConnected && (
+      {ready && wallets.length == 0 && (
         <div className='border-2 flex flex-col items-center justify-center w-fit mx-auto'>
-          <ConnectButton></ConnectButton>
+          <button className=" bg-orange-600 text-white p-3 px-3 rounded-xl font-semibold" onClick={login}>Login Privy</button>
         </div>
       )}
 
